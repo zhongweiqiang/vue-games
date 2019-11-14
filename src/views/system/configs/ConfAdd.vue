@@ -1,10 +1,10 @@
 <template>
-  <div :style="{display: 'inline'}">
+  <div>
     <a-button size="small" type="primary" @click="showDrawer" style="margin-top: 4px;">
-      <a-icon type="edit" />
+      <a-icon type="plus" />菜单
     </a-button>
     <a-drawer
-      title="菜单修改"
+      title="菜单添加"
       :width="400"
       @close="onClose"
       :visible="visible"
@@ -103,16 +103,11 @@
   </div>
 </template>
 <script>
-import { select, detail, edit } from "@/api/menu";
-import { resolve } from "q";
+import { add, select } from "@/api/menu";
 export default {
   name: "MenuAdd",
   props: {
-    id: {
-      type: Number,
-      default: null
-    },
-    onEdit: {
+    onAdd: {
       type: Function,
       default: null
     }
@@ -125,44 +120,21 @@ export default {
       menus: []
     };
   },
-  created() {},
-  mounted() {
-    // this.menuDetail(this.id)
+  created() {
+    this.getMenuList();
   },
   methods: {
     showDrawer() {
-      this.getMenuList();
+      this.visible = true;
     },
     onClose() {
       this.form.resetFields();
       this.visible = false;
     },
-    /**
-     * 1. 获取select选框数据
-     * 2. 显示drawer
-     * 3. 然后再给表单赋值
-     */
+    // 获取菜单列表
     getMenuList() {
       select().then(response => {
         this.menus = response.data;
-        this.menuDetail(this.id);
-      });
-    },
-
-    /**
-     * 为了放置在drawer渲染之前给表单赋值, 使用Promise对象控制异步
-     */
-    menuDetail(id) {
-      new Promise(resolve => {
-        detail({ id }).then(response => {
-          // antd给表单赋值前需要去除其他元素，不然会报错
-          delete response.data.id;
-          delete response.data.key;
-          this.visible = true;
-          resolve(response);
-        });
-      }).then(response => {
-        this.form.setFieldsValue(response.data);
       });
     },
 
@@ -175,10 +147,9 @@ export default {
             this.$message.error("排序不能大于255");
             return false;
           }
-          values.id = this.id;
-          edit(values).then(response => {
-            this.onEdit();
+          add(values).then(response => {
             this.$message.success(response.message);
+            this.onAdd();
             setTimeout(() => {
               this.onClose();
             }, 100);

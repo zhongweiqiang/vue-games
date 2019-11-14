@@ -9,12 +9,18 @@ import UserRouter from './modules/user'
 import RoleRouter from './modules/role'
 import MenuRouter from './modules/menu'
 import PermRouter from './modules/perm'
+import ConfigRouter from './modules/config'
+
+
+
 
 const moduleRouter = [
   UserRouter,
   RoleRouter,
   MenuRouter,
   PermRouter,
+  ConfigRouter,
+
   
   {
     path: '/login',

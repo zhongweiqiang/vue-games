@@ -11,4 +11,4 @@ const permRouter = {
     ]
 }
 
-export default  permRouter
+export default permRouter

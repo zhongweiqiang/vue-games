@@ -2,25 +2,16 @@
   <div>
     <a-row>
       <a-col :span="3" :xs="24" :sm="5" :md="4" :lg="3">
-        <!-- <a-button type="primary" size="small" style="margin-top: 4px;" @click="userAdd">
-          <a-icon type="plus" />用户
-        </a-button> -->
-        <user-add :on-add="onAdd" />
+        <conf-add :on-add="onAdd"  />
       </a-col>
       <a-col :span="8" :xs="24" :sm="10" :md="9" :lg="8">
         <a-input-search
           allowClear
-          v-model="name"
-          placeholder="请输入用户名"
+          v-model="title"
+          placeholder="请输入菜单名称"
           @search="onSearch"
           enterButton
         />
-      </a-col>
-      <a-col :span="2" :offset="7" style="margin-top: 5px;">
-        <a-tag color="#108ee9">总用户数: {{ total }}</a-tag>
-      </a-col>
-      <a-col :span="2" :offset="1" style="margin-top: 5px;">
-        <a-tag color="#2db7f5">启用用户: {{ start }}</a-tag>
       </a-col>
     </a-row>
     <a-row>
@@ -33,20 +24,11 @@
           :loading="loading"
           @change="handleTableChange"
         >
-          <span slot="role" slot-scope="text">{{text.name}}</span>
-          <span slot="status" slot-scope="text, record">
-            <a-switch
-              checkedChildren="启"
-              unCheckedChildren="禁"
-              :checked="text"
-              @click="status(record.id, record.status)"
-            />
-          </span>
-          <template slot="name" slot-scope="name">{{name.first}} {{name.last}}</template>
+          <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
+          <span slot="parent" v-else>无</span>
           <span slot="action" slot-scope="text">
-            <a-button size="small" type="primary" @click="edit(text.id)" icon="edit" />
+            <!-- <menu-edit :id="text.id" :on-edit="onEdit"></menu-edit> -->
             <a-button size="small" type="danger" @click="del(text.id)" icon="delete" />
-            <a-button type="danger" size="small" @click="reset_password(text.id)">重置密码</a-button>
           </span>
         </a-table>
       </a-col>
@@ -56,9 +38,9 @@
 </template>
 
 <script>
-// import reqwest from "reqwest";
-import { index, status, del, reset_password, tag_data } from "@/api/user";
-import UserAdd from './UserAdd'
+import { index, del } from "@/api/menu";
+import ConfAdd from './ConfAdd'
+// import MenuEdit from './MenuEdit'
 const columns = [
   {
     title: "id",
@@ -67,31 +49,34 @@ const columns = [
     align: "center"
   },
   {
-    title: "用户名",
-    dataIndex: "name",
+    title: "菜单名称",
+    dataIndex: "title",
     align: "center"
   },
   {
-    title: "角色",
-    dataIndex: "role",
-    scopedSlots: { customRender: "role" },
+    title: "视图路径",
+    dataIndex: "path",
     align: "center"
   },
   {
-    title: "上次登陆ip",
-    dataIndex: "last_login_ip",
+    title: "菜单排序",
+    dataIndex: "order",
     align: "center"
   },
   {
-    title: "上次登陆时间",
-    dataIndex: "last_login_time",
+    title: "父级菜单",
+    dataIndex: "parent",
+    align: "center",
+    scopedSlots: { customRender: "parent" }
+  },
+  {
+    title: "菜单标识",
+    dataIndex: "slug",
     align: "center"
   },
   {
-    title: "状态",
-    dataIndex: "status",
-    filters: [{ text: "禁用", value: "2" }, { text: "启用", value: "1" }],
-    scopedSlots: { customRender: "status" },
+    title: "资源类型",
+    dataIndex: "type",
     align: "center"
   },
   {
@@ -102,31 +87,28 @@ const columns = [
   }
 ];
 export default {
-  components: { UserAdd },
+  components: { ConfAdd },
   data() {
     return {
       data: [],
-      pagination: { pageSize: 15 },
+      pagination: { pageSize: 10 },
       loading: false,
       columns,
-      checked: false,
+      // checked: false,
 
       // 给监听器使用的
-      name,
-      filters: {},
-
-      // tag数据
-      total: "",
-      start: ""
+      title: "",
+      filters: {}
     };
   },
   mounted() {
     // 首次加载页面获取数据
     this.fetch({ pageSize: this.pagination.pageSize });
     // this.tag_data();
+    console.log(this.config);
   },
   watch: {
-    name: function(newVal, oldVal) {
+    title: function(newVal, oldVal) {
       if (newVal == "") {
         this.fetch({ pageSize: this.pagination.pageSize });
       }
@@ -135,13 +117,11 @@ export default {
   methods: {
     // 页面搜索
     onSearch(value) {
-      console.log(value);
-      if (!value.trim()) {
+      if (value.trim() == "") {
         return false;
       }
-      index({ name: value }).then(response => {
+      index({ title: value }).then(response => {
         console.log(response);
-        console.log(typeof response.data);
         this.data = response.data.data;
         const pager = { ...this.pagination };
         pager.total = response.data.total;
@@ -149,9 +129,15 @@ export default {
       });
     },
 
-    onAdd() {
+    onAdd(){
+      this.fetch({ pageSize: this.pagination.pageSize })
+    },
+
+    onEdit(){
       this.fetch(this.pagination)
     },
+
+
 
     // 表格参数改变时
     handleTableChange(pagination, filters, sorter) {
@@ -186,14 +172,7 @@ export default {
         this.loading = false;
       });
       // 每次加载数据都重新获取一遍数据
-      this.tag_data();
-    },
-
-    edit(id) {
-      this.$router.push({
-        name: "UserEdit",
-        query: { id }
-      });
+      // this.tag_data();
     },
 
     // 删除用户
@@ -205,8 +184,6 @@ export default {
         okText: "删除",
         onOk() {
           return new Promise((resolve, reject) => {
-            // setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
-
             del({ id }).then(response => {
               self.$message.success("删除成功");
               self.fetch({
@@ -229,54 +206,15 @@ export default {
 
     destroyAll() {
       this.$destroyAll();
-    },
-
-    // 用户启用禁用
-    status(id, state) {
-      status({ id, status: state }).then(response => {
-        // 获取数据按之前的排序和页码
-        this.fetch({
-          pageSize: this.pagination.pageSize,
-          page: this.pagination.current,
-          sortField: this.pagination.sortField,
-          sortOrder: this.pagination.sortOrder,
-          ...this.filters
-        });
-        setTimeout(() => {
-          this.$message.success(response.message);
-        }, 400);
-      });
-    },
-
-    // 重置密码
-    reset_password(id) {
-      const self = this;
-      this.$confirm({
-        content: "重置后不可回复, 确认重置？",
-        cancelText: "取消",
-        okText: "重置",
-        onOk() {
-          return new Promise((resolve, reject) => {
-            reset_password({ id }).then(response => {
-              self.$message.success(response.message);
-              self.destroyAll();
-            });
-          });
-        },
-        onCancel() {
-          self.destroyAll();
-          self.$message.info("取消重置", 2);
-        }
-      });
-    },
+    }
 
     // tag标签数据
-    tag_data() {
-      tag_data().then(response => {
-        this.total = response.data.total;
-        this.start = response.data.start;
-      });
-    }
+    // tag_data() {
+    //   tag_data().then(response => {
+    //     this.total = response.data.total;
+    //     this.start = response.data.start;
+    //   });
+    // }
   }
 };
 </script>
