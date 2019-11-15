@@ -1,11 +1,13 @@
-import { login, refreshToken } from '@/api/user'
+import { login, refreshToken, getElement } from '@/api/user'
 import { getToken, setToken, removeToken, setExpireTime, getExpireTime } from '@/utils/auth'
 import { Store } from 'vuex'
+import store from '..'
 
 
 const state = {
     token: getToken(),
-    expires_in: getExpireTime()
+    expires_in: getExpireTime(),
+    element: []
   }
 
   const mutations = {
@@ -15,6 +17,9 @@ const state = {
     SET_EXPIRE: (state, time) => {
       state.expires_in = time
     },
+    SET_ELEMENT:(state, element) =>{
+      state.element = element
+    }
   }
 
   const actions = {
@@ -56,6 +61,23 @@ const state = {
         })
         resolve()
       })
+    },
+    
+    getElement({commit}){
+      console.log('this is permission')
+      return new Promise((resolve, reject) => {
+        getElement().then(response => {
+          const { data } = response
+          this.dispatch('user/setElement', data)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
+    setElement({commit}, data){
+      commit('SET_ELEMENT', data)  // token存入vuex
     }
 
   }

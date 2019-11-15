@@ -147,7 +147,10 @@ export default {
             this.$message.error("排序不能大于255");
             return false;
           }
+          console.log(values)
+          // return
           add(values).then(response => {
+            
             this.$message.success(response.message);
             this.onAdd();
             setTimeout(() => {

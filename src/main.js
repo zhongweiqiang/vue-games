@@ -19,6 +19,19 @@ import 'ant-design-vue/dist/antd.css';
 
 Vue.use(Antd);
 
+Vue.prototype.hasPermission = function (val) {
+  // alert(store.getters.element)
+  const element = store.getters.element;
+  for (let s = 0; s < element.length; s++) {
+    let thisEntry = element[s].toString();
+    if (thisEntry == val) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
 
 
 Vue.config.productionTip = false

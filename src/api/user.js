@@ -78,3 +78,10 @@ export function refreshToken(){
     method: 'get',
   })
 }
+
+export function getElement(){
+  return request({
+    url: '/v1/menu/element',
+    method: 'get'
+  })
+}

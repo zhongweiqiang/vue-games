@@ -4,24 +4,20 @@ Vue.use(Router)
 import store from '@/store'
 import { route } from '@/utils/common'
 
-// 导入路由模型
-import UserRouter from './modules/user'
-import RoleRouter from './modules/role'
-import MenuRouter from './modules/menu'
-import PermRouter from './modules/perm'
-import ConfigRouter from './modules/config'
 
+// https://webpack.js.org/guides/dependency-management/#requirecontext
+const modulesFiles = require.context('./modules', true, /\.js$/)
+const modules = modulesFiles.keys().reduce((modules, modulePath) => {
+  const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1')
+  const value = modulesFiles(modulePath)
+  modules[moduleName] = value.default
+  return modules
+}, {})
 
-
+const {config, role, menu, perm, user, userinfo, son} = modules
 
 const moduleRouter = [
-  UserRouter,
-  RoleRouter,
-  MenuRouter,
-  PermRouter,
-  ConfigRouter,
-
-  
+  user, role, menu, perm, config, userinfo, son, 
   {
     path: '/login',
     component: () => import('@/views/login'),

@@ -67,6 +67,7 @@ export default {
   created() {
     console.log("this is in layout");
     this.getMenu();
+    this.getElement()
     // console.log(menus);
   },
   mounted() {},
@@ -80,7 +81,10 @@ export default {
         // console.log(response);
         this.menus = response.data;
       });
-    }
+    },
+    getElement(){
+      this.$store.dispatch('user/getElement')
+    },
   }
 };
 </script>

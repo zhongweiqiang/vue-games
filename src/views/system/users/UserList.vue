@@ -252,7 +252,7 @@ export default {
     reset_password(id) {
       const self = this;
       this.$confirm({
-        content: "重置后不可回复, 确认重置？",
+        content: "重置后不可恢复, 确认重置？",
         cancelText: "取消",
         okText: "重置",
         onOk() {

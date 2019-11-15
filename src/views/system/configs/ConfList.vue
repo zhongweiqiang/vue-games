@@ -2,13 +2,13 @@
   <div>
     <a-row>
       <a-col :span="3" :xs="24" :sm="5" :md="4" :lg="3">
-        <conf-add :on-add="onAdd"  />
+        <conf-add :on-add="onAdd" />
       </a-col>
       <a-col :span="8" :xs="24" :sm="10" :md="9" :lg="8">
         <a-input-search
           allowClear
-          v-model="title"
-          placeholder="请输入菜单名称"
+          v-model="key"
+          placeholder="请输入配置键名"
           @search="onSearch"
           enterButton
         />
@@ -24,11 +24,12 @@
           :loading="loading"
           @change="handleTableChange"
         >
-          <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
-          <span slot="parent" v-else>无</span>
+          <span slot="key" slot-scope="text">
+            <a-tag color="purple">{{text}}</a-tag>
+          </span>
           <span slot="action" slot-scope="text">
-            <!-- <menu-edit :id="text.id" :on-edit="onEdit"></menu-edit> -->
-            <a-button size="small" type="danger" @click="del(text.id)" icon="delete" />
+            <conf-edit :id="text.id" :on-edit="onEdit"></conf-edit>
+            <!-- <a-button size="small" type="danger" @click="del(text.id)" icon="delete" /> -->
           </span>
         </a-table>
       </a-col>
@@ -38,8 +39,9 @@
 </template>
 
 <script>
-import { index, del } from "@/api/menu";
-import ConfAdd from './ConfAdd'
+import { index } from "@/api/config";
+import ConfAdd from "./ConfAdd";
+import ConfEdit from "./ConfEdt";
 // import MenuEdit from './MenuEdit'
 const columns = [
   {
@@ -49,34 +51,19 @@ const columns = [
     align: "center"
   },
   {
-    title: "菜单名称",
-    dataIndex: "title",
-    align: "center"
-  },
-  {
-    title: "视图路径",
-    dataIndex: "path",
-    align: "center"
-  },
-  {
-    title: "菜单排序",
-    dataIndex: "order",
-    align: "center"
-  },
-  {
-    title: "父级菜单",
-    dataIndex: "parent",
+    title: "键名",
+    dataIndex: "key",
     align: "center",
-    scopedSlots: { customRender: "parent" }
+    scopedSlots: { customRender: "key" }
   },
   {
-    title: "菜单标识",
-    dataIndex: "slug",
+    title: "键值",
+    dataIndex: "value",
     align: "center"
   },
   {
-    title: "资源类型",
-    dataIndex: "type",
+    title: "描述",
+    dataIndex: "description",
     align: "center"
   },
   {
@@ -87,7 +74,7 @@ const columns = [
   }
 ];
 export default {
-  components: { ConfAdd },
+  components: { ConfAdd, ConfEdit },
   data() {
     return {
       data: [],
@@ -97,7 +84,7 @@ export default {
       // checked: false,
 
       // 给监听器使用的
-      title: "",
+      key: "",
       filters: {}
     };
   },
@@ -108,9 +95,9 @@ export default {
     console.log(this.config);
   },
   watch: {
-    title: function(newVal, oldVal) {
+    key: function(newVal, oldVal) {
       if (newVal == "") {
-        this.fetch({ pageSize: this.pagination.pageSize });
+        this.fetch(this.pagination);
       }
     }
   },
@@ -120,7 +107,7 @@ export default {
       if (value.trim() == "") {
         return false;
       }
-      index({ title: value }).then(response => {
+      index({ key: value }).then(response => {
         console.log(response);
         this.data = response.data.data;
         const pager = { ...this.pagination };
@@ -129,15 +116,13 @@ export default {
       });
     },
 
-    onAdd(){
-      this.fetch({ pageSize: this.pagination.pageSize })
+    onAdd() {
+      this.fetch({ pageSize: this.pagination.pageSize });
     },
 
-    onEdit(){
-      this.fetch(this.pagination)
+    onEdit() {
+      this.fetch(this.pagination);
     },
-
-
 
     // 表格参数改变时
     handleTableChange(pagination, filters, sorter) {
@@ -163,7 +148,7 @@ export default {
       // console.log("params:", params);
       this.loading = true;
       index(params).then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         const pagination = { ...this.pagination };
         let data = response.data;
         this.data = data.data;
