@@ -1,41 +1,40 @@
 <template>
-  <div>
+  <div :style="{ display: 'inline' }">
     <a-button size="small" type="primary" :style="{marginTop: '4px'}" @click="showModal">
       <slot>
         <a-icon type="edit" />
       </slot>
     </a-button>
     <a-modal
-      title="配置修改"
+      title="游戏修改"
       :visible="visible"
       :confirmLoading="confirmLoading"
       :footer="null"
       @cancel="handleCancel"
-      :width="400"
+      width="35%"
     >
       <a-form :form="form" @submit="handleSubmit">
-        <a-form-item label="键名" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+        <a-form-item label="游戏名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
           <a-input
-            v-decorator="['key', { rules: [{ required: true, message: '键名必须填写' }] }]"
-            placeholder="请输入键名"
-            :disabled="true"
+            v-decorator="['name', { rules: [{ required: true, message: '游戏名称必须填写' }] }]"
+            placeholder="请输入游戏名称"
           />
         </a-form-item>
-        <a-form-item label="键值" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+        <a-form-item label="游戏包名" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
           <a-input
-            v-decorator="['value', { rules: [{ required: true, message: '键值必须填写' }] }]"
-            placeholder="请输入键值"
+            v-decorator="['productIdentifier', { rules: [{ required: true, message: '游戏包名称必须填写' }] }]"
+            placeholder="请输入游戏包名"
           />
         </a-form-item>
-        <a-form-item label="配置描述" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+        <a-form-item label="游戏描述" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
           <a-textarea
-            v-decorator="['description', { rules: [{ required: true, message: '描述必须填写' }] }]"
-            placeholder="请输入键值描述"
+            v-decorator="['description', { rules: [{ required: true, message: '游戏描述称必须填写' }] }]"
+            placeholder="请输入游戏描述"
           />
         </a-form-item>
-        <a-form-item :wrapper-col="{ span: 8, offset: 15 }">
+        <a-form-item :wrapper-col="{ span: 8, offset: 18 }">
           <a-row>
-            <a-col :span="12" :style="{ textAlign: 'left' }">
+            <a-col :span="8" :style="{ textAlign: 'left' }">
               <a-button size="small" @click="handleCancel">返回</a-button>
             </a-col>
             <a-col :span="8" :style="{ textAlign: 'left' }">
@@ -48,10 +47,17 @@
   </div>
 </template>
 <script>
-import { edit, detail } from "@/api/config";
-import { resolve } from "q";
+import { detail, edit } from "@/api/game";
 export default {
   props: {
+    okText: {
+      type: String,
+      default: "提交"
+    },
+    cancelText: {
+      type: String,
+      default: "取消"
+    },
     onEdit: {
       type: Function,
       default: null
@@ -70,36 +76,35 @@ export default {
       roles: []
     };
   },
+  created() {},
   methods: {
     showModal() {
-      this.getDetailConfig();
+      this.getGameDetail()
     },
     handleCancel(e) {
-      console.log("Clicked cancel button");
       this.visible = false;
       this.form.resetFields();
     },
 
-    getDetailConfig() {
+    getGameDetail() {
       new Promise(resolve => {
         detail({ id: this.id }).then(response => {
-          delete response.data.id;
           this.visible = true;
-          resolve(response)
+          resolve(response);
         });
       }).then(response => {
-          this.form.setFieldsValue(response.data);
-        });
+        this.form.setFieldsValue(response.data);
+      });
     },
 
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
+          // console.log(values);
           this.confirmLoading = true;
-          values.id = this.id;
+          values.id = this.id
           edit(values).then(response => {
-            console.log(response);
             this.onEdit();
             this.$message.success(response.message);
             this.visible = false;

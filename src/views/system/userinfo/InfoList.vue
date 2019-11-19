@@ -136,12 +136,21 @@ export default {
     }
   },
   methods: {
+    getPagination(){
+      return {
+        pageSize: this.pagination.pageSize,
+        page: this.pagination.current,
+        sortField: this.pagination.sortField,
+        sortOrder: this.pagination.sortOrder,
+      }
+    },
+
     onAdd() {
       this.fetch({ pageSize: this.pagination.pageSize });
     },
 
     onEdit() {
-      this.fetch(this.pagination);
+      this.fetch(this.getPagination());
     },
     // 页面搜索
     onSearch(value) {

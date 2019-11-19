@@ -4,7 +4,7 @@
       <a-icon type="edit" />
     </a-button>
     <a-drawer
-      title="添加"
+      title="用户详情修改"
       :width="520"
       @close="onClose"
       :visible="visible"

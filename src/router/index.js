@@ -14,10 +14,10 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
   return modules
 }, {})
 
-const {config, role, menu, perm, user, userinfo, son} = modules
+const {config, role, menu, perm, user, userinfo, son, game, price} = modules
 
 const moduleRouter = [
-  user, role, menu, perm, config, userinfo, son, 
+  user, role, menu, perm, config, userinfo, son, game, price, 
   {
     path: '/login',
     component: () => import('@/views/login'),

@@ -4,7 +4,7 @@
       <a-icon type="edit" />
     </a-button>
     <a-drawer
-      title="添加"
+      title="权限修改"
       :width="720"
       @close="onClose"
       :visible="visible"

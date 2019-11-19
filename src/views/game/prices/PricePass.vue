@@ -1,56 +1,22 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="3" :xs="24" :sm="2" :md="2" :lg="2">
-        <son-add :on-add="onAdd" />
+    <!-- <a-row>
+      <a-col :span="3" :xs="24" :sm="3" :md="3" :lg="2">
+        <price-add :on-add="onAdd" />
       </a-col>
-      <a-col
-        v-if="hasPermission('son.user.search')"
-        :span="8"
-        :xs="24"
-        :sm="3"
-        :md="3"
-        :lg="3"
-        :style="{marginTop: '4px', marginLeft: '10px'}"
-      >
-        <a-input allowClear v-model="name" placeholder="请输入主账户名称" @search="search" size="small" />
+      <a-col :xs="24" :sm="10" :md="10" :lg="5">
+        <game-search @select="onSelect" />
       </a-col>
-      <a-col
-        :span="8"
-        :xs="24"
-        :sm="3"
-        :md="3"
-        :lg="3"
-        :style="{marginTop: '4px', marginLeft: '20px'}"
-      >
-        <a-input allowClear v-model="son" placeholder="请输入子账户名称" size="small" />
+      <a-col :span="8" :xs="24" :sm="8" :md="8" :lg="6">
+        <a-input-search
+          allowClear
+          v-model="gold"
+          placeholder="请输入面值"
+          @search="onSearch"
+          enterButton
+        />
       </a-col>
-
-      <a-col
-        :span="8"
-        :xs="24"
-        :sm="3"
-        :md="3"
-        :lg="3"
-        :style="{marginTop: '4px', marginLeft: '20px'}"
-      >
-        <a-select
-          showSearch
-          placeholder="Select a person"
-          optionFilterProp="children"
-          style="width: 140px"
-          size="small"
-          @change="handleChange"
-        >
-          <a-select-option value="0">全部</a-select-option>
-          <a-select-option value="1">启用</a-select-option>
-          <a-select-option value="2">禁用</a-select-option>
-        </a-select>
-      </a-col>
-      <a-col :xs="4" :sm="1" :md="1" :lg="1" :offset="1" :style="{marginTop: '4px'}">
-        <a-button @click="search" size="small" type="primary" icon="search"></a-button>
-      </a-col>
-    </a-row>
+    </a-row> -->
     <a-row>
       <a-col>
         <a-table
@@ -61,24 +27,15 @@
           :loading="loading"
           @change="handleTableChange"
         >
-          <span slot="parent" v-if="text" slot-scope="text">{{text.name}}</span>
-          <span slot="parent" v-else>无</span>
           <span slot="action" slot-scope="text">
-            <!-- <a-button size="small" type="primary" @click="edit(text.id)" icon="edit" /> -->
-            <son-edit :id="text.id" :on-edit="onEdit" />
+            <!-- <price-edit :id="text.id" :on-edit="onEdit" />
+            <a-button size="small" type="danger" @click="del(text.id)" icon="delete" />
             <a-button
-              v-if="hasPermission('son.delete')"
-              size="small"
-              type="danger"
-              @click="del(text.id)"
-              icon="delete"
-            />
-            <a-button
-              v-if="hasPermission('son.forbidden')"
               type="primary"
               size="small"
               @click="status(text.id)"
-            >{{text.status == '禁用' ? '启' : '禁'}}</a-button>
+            >{{text.status == '禁用' ? '启' : '禁'}}</a-button> -->
+            <a-button size="small" type="primary" @click="pass(text.id)">恢</a-button>
           </span>
         </a-table>
       </a-col>
@@ -88,10 +45,11 @@
 </template>
 
 <script>
-import { index, del, status } from "@/api/son";
-import SonAdd from "./SonAdd";
-import SonEdit from "./SonEdit";
-var columns = [
+import { index, del, detail, status, pass } from "@/api/price";
+import PriceAdd from "./PriceAdd";
+import PriceEdit from "./PriceEdit";
+import GameSearch from "./GameSearch";
+const columns = [
   {
     title: "id",
     dataIndex: "id",
@@ -99,28 +57,33 @@ var columns = [
     align: "center"
   },
   {
-    title: "子账户名称",
+    title: "游戏名称",
     dataIndex: "name",
     align: "center"
   },
   {
-    title: "主账户名称",
-    dataIndex: "user",
+    title: "面值名称",
+    dataIndex: "gold",
     align: "center"
   },
   {
-    title: "账户类型",
-    dataIndex: "type",
+    title: "面值标识",
+    dataIndex: "title",
     align: "center"
   },
   {
-    title: "状态",
-    dataIndex: "status",
+    title: "面值价格",
+    dataIndex: "money",
     align: "center"
   },
   {
     title: "创建时间",
     dataIndex: "created_at",
+    align: "center"
+  },
+  {
+    title: "状态",
+    dataIndex: "status",
     align: "center"
   },
   {
@@ -130,49 +93,55 @@ var columns = [
     align: "center"
   }
 ];
-
 export default {
-  components: { SonAdd, SonEdit },
+  components: { PriceAdd, PriceEdit, GameSearch },
   data() {
     return {
       data: [],
-      pagination: { pageSize: 10 },
+      pagination: { pageSize: 2 },
       loading: false,
       columns,
-      // checked: false,
 
       // 给监听器使用的
-      name: "",
-      son: "",
-      statusSearch: 0,
+      gold: "",
       filters: {}
     };
   },
-  created() {},
   mounted() {
     // 首次加载页面获取数据
     this.fetch({ pageSize: this.pagination.pageSize });
+    // this.tag_data();
+    console.log(this.config);
   },
   watch: {
-    name: function(newVal, oldVal) {
+    gold: function(newVal, oldVal) {
       if (newVal == "") {
-        this.search();
-      }
-    },
-    son: function(newVal, oldVal) {
-      if (newVal == "") {
-        this.search();
+        this.fetch({ pageSize: this.pagination.pageSize });
       }
     }
   },
   methods: {
-    getPagination(){
+    // 页面搜索
+    onSearch(value) {
+      if (value.trim() == "") {
+        return false;
+      }
+      index({ gold: value }).then(response => {
+        console.log(response);
+        this.data = response.data.data;
+        const pager = { ...this.pagination };
+        pager.total = response.data.total;
+        this.pagination = pager;
+      });
+    },
+
+    getPagination() {
       return {
         pageSize: this.pagination.pageSize,
         page: this.pagination.current,
         sortField: this.pagination.sortField,
-        sortOrder: this.pagination.sortOrder,
-      }
+        sortOrder: this.pagination.sortOrder
+      };
     },
 
     onAdd() {
@@ -183,35 +152,37 @@ export default {
       this.fetch(this.getPagination());
     },
 
-    search() {
-      index({ name: this.name, son: this.son, status: this.statusSearch }).then(
-        response => {
-          console.log(response);
-          this.data = response.data.data;
-          const pager = { ...this.pagination };
-          pager.total = response.data.total;
-          this.pagination = pager;
-        }
-      );
+    onSelect(game_id) {
+      this.fetch({ ...this.pagination, game_id });
     },
 
-    handleChange(value) {
-      console.log(`selected ${value}`);
-      this.statusSearch = value;
-      this.search();
-    },
-
-    // 页面搜索
-    onSearch(value, key) {
-      if (value.trim() == "") {
-        return false;
-      }
-    },
-
+    // 点击状态修改时
     status(id) {
       status({ id }).then(response => {
         console.log(response);
-        this.fetch(this.pagination);
+        this.fetch(this.getPagination());
+      });
+    },
+
+    // 入库跳过凭证验证
+    pass(id) {
+      const self = this;
+      this.$confirm({
+        content: "确认入库对该面值验证？",
+        cancelText: "取消",
+        okText: "确认",
+        onOk() {
+          return new Promise((resolve, reject) => {
+            pass({ id }).then(response => {
+              self.fetch(self.getPagination());
+              self.destroyAll();
+            });
+          });
+        },
+        onCancel() {
+          self.destroyAll();
+          self.$message.info("取消恢复", 2);
+        }
       });
     },
 
@@ -238,6 +209,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
+      params.pass = 'passed'
       index(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };
@@ -247,6 +219,8 @@ export default {
         this.pagination = pagination;
         this.loading = false;
       });
+      // 每次加载数据都重新获取一遍数据
+      // this.tag_data();
     },
 
     // 删除用户
@@ -281,6 +255,14 @@ export default {
     destroyAll() {
       this.$destroyAll();
     }
+
+    // tag标签数据
+    // tag_data() {
+    //   tag_data().then(response => {
+    //     this.total = response.data.total;
+    //     this.start = response.data.start;
+    //   });
+    // }
   }
 };
 </script>

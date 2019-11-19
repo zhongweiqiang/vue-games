@@ -129,12 +129,21 @@ export default {
       });
     },
 
+    getPagination(){
+      return {
+        pageSize: this.pagination.pageSize,
+        page: this.pagination.current,
+        sortField: this.pagination.sortField,
+        sortOrder: this.pagination.sortOrder,
+      }
+    },
+
     onAdd(){
       this.fetch({ pageSize: this.pagination.pageSize })
     },
 
     onEdit(){
-      this.fetch(this.pagination)
+      this.fetch(this.getPagination())
     },
 
 

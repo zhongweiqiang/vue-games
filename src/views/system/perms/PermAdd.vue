@@ -4,7 +4,7 @@
       <a-icon type="plus" />权限
     </a-button>
     <a-drawer
-      title="添加"
+      title="权限添加"
       :width="720"
       @close="onClose"
       :visible="visible"

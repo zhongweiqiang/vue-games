@@ -66,7 +66,7 @@ export default {
     go() {
       this.form.resetFields();
       this.$router.push({
-        name: "UserList"
+        name: "RoleList"
       });
     }
   }
