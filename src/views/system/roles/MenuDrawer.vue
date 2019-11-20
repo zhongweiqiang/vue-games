@@ -7,7 +7,7 @@
       :closable="true"
       @close="onClose"
       :visible="visible"
-      :width="300"
+      :width="400"
     >
       <!-- tree 控件 -->
       <div style="width: 200px; margin: 0 auto;">

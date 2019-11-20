@@ -69,7 +69,7 @@ const columns = [
   {
     title: "面值标识",
     dataIndex: "title",
-    align: "center"
+    align: "center",
   },
   {
     title: "面值价格",
@@ -90,7 +90,8 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    width: 150
   }
 ];
 export default {
@@ -98,7 +99,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 2 },
+      pagination: { pageSize: 15 },
       loading: false,
       columns,
 

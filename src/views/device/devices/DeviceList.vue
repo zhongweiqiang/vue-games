@@ -1,16 +1,20 @@
 <template>
   <div>
     <a-row>
-      <a-col :span="3" :xs="24" :sm="5" :md="4" :lg="3">
-        <game-add :on-add="onAdd" />
+      <a-col :xs="24" :sm="6" :md="4" :lg="4" :style="{marginLeft: '20px'}">
+        <son-select @select="onSelect" />
       </a-col>
-      <a-col :span="8" :xs="24" :sm="10" :md="9" :lg="8">
+      <a-col :xs="24" :sm="6" :md="4" :lg="4" :style="{marginLeft: '30px'}">
+        <status-search @sss="onStatusSelect" />
+      </a-col>
+      <a-col :xs="24" :sm="6" :md="4" :lg="4" :style="{marginLeft: '30px'}">
         <a-input-search
           allowClear
-          v-model="name"
-          placeholder="请输入游戏名称"
+          v-model="device"
+          placeholder="请输入设备编码"
           @search="onSearch"
           enterButton
+          size="small"
         />
       </a-col>
     </a-row>
@@ -27,13 +31,12 @@
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
           <span slot="action" slot-scope="text">
-            <game-edit :id="text.id" :on-edit="onEdit" />
             <a-button size="small" type="danger" @click="del(text.id)" icon="delete" />
             <a-button
               type="primary"
               size="small"
               @click="status(text.id)"
-            >{{text.status == '禁用' ? '启' : '禁'}}</a-button>
+            >{{text.status != '启用' ? '启' : '禁'}}</a-button>
           </span>
         </a-table>
       </a-col>
@@ -43,9 +46,9 @@
 </template>
 
 <script>
-import { index, del, detail, status } from "@/api/game";
-import GameAdd from "./GameAdd";
-import GameEdit from "./GameEdit";
+import { index, del, status } from "@/api/device";
+import SonSelect from "./SonSelect";
+import StatusSearch from './StatusSearch'
 const columns = [
   {
     title: "id",
@@ -54,23 +57,23 @@ const columns = [
     align: "center"
   },
   {
-    title: "游戏名称",
+    title: "账户名称",
     dataIndex: "name",
     align: "center"
   },
   {
-    title: "游戏包名",
-    dataIndex: "productIdentifier",
+    title: "设备信息",
+    dataIndex: "device",
     align: "center"
   },
   {
-    title: "游戏描述",
-    dataIndex: "description",
-    align: "center"
-  },
-  {
-    title: "状态",
+    title: "设备状态",
     dataIndex: "status",
+    align: "center"
+  },
+  {
+    title: "添加时间",
+    dataIndex: "created_at",
     align: "center"
   },
   {
@@ -81,7 +84,7 @@ const columns = [
   }
 ];
 export default {
-  components: { GameAdd, GameEdit },
+  components: { SonSelect, StatusSearch },
   data() {
     return {
       data: [],
@@ -91,7 +94,7 @@ export default {
       // checked: false,
 
       // 给监听器使用的
-      name: "",
+      device: "",
       filters: {}
     };
   },
@@ -102,7 +105,7 @@ export default {
     console.log(this.config);
   },
   watch: {
-    name: function(newVal, oldVal) {
+    device: function(newVal, oldVal) {
       if (newVal == "") {
         this.fetch({ pageSize: this.pagination.pageSize });
       }
@@ -114,7 +117,7 @@ export default {
       if (value.trim() == "") {
         return false;
       }
-      index({ name: value }).then(response => {
+      index({ device: value }).then(response => {
         console.log(response);
         this.data = response.data.data;
         const pager = { ...this.pagination };
@@ -123,21 +126,21 @@ export default {
       });
     },
 
-    getPagination(){
+    getPagination() {
       return {
         pageSize: this.pagination.pageSize,
         page: this.pagination.current,
         sortField: this.pagination.sortField,
-        sortOrder: this.pagination.sortOrder,
-      }
+        sortOrder: this.pagination.sortOrder
+      };
     },
 
-    onAdd() {
-      this.fetch({ pageSize: this.pagination.pageSize });
+    onStatusSelect(status){
+      this.fetch({ status })
     },
 
-    onEdit() {
-      this.fetch(this.getPagination());
+    onSelect(son_id) {
+      this.fetch({ son_id });
     },
 
     // 点击状态修改时
@@ -184,7 +187,7 @@ export default {
       // this.tag_data();
     },
 
-    // 删除用户
+        // 删除用户
     del(id) {
       const self = this;
       this.$confirm({
