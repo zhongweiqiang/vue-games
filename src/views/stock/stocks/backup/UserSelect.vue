@@ -1,33 +1,37 @@
 <template>
   <a-select
     showSearch
-    placeholder="选择游戏"
+    placeholder="选择用户"
     optionFilterProp="children"
-    style="width: 200px"
+    style="width: 160px"
     @focus="handleFocus"
     @blur="handleBlur"
     @change="handleChange"
     :filterOption="filterOption"
     allowClear
+    size="small"
+    :value="value"
   >
-    <a-select-option v-for="game in games" :value="game.id" :key="game.id">{{ game.name }}</a-select-option>
+    <a-select-option v-for="user in users"  :value="user.id" :key="user.id">{{ user.name }}</a-select-option>
   </a-select>
 </template>
 <script>
-import { select } from "@/api/game";
+import { select } from "@/api/user";
 export default {
   data() {
     return {
-      games: []
+      users: [],
+      value: ''
     };
   },
   mounted(){
-      this.getGameList()
+      
   },
   methods: {
     handleChange(value) {
       console.log(`selected ${value}`);
-      this.$emit('select', value)
+      this.value = value
+      this.$emit('change', value)
     },
     handleBlur() {
       console.log("blur");
@@ -43,9 +47,11 @@ export default {
       );
     },
 
-    getGameList() {
-      select().then(response => {
-        this.games = response.data;
+    getUserList(value) {
+        this.value = ''
+        console.log('hello world')
+      select({user_type: value}).then(response => {
+        this.users = response.data;
       });
     }
   }

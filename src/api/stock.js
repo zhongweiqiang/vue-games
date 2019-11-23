@@ -1,0 +1,25 @@
+import request from '@/utils/request'
+
+export function index(data){
+    return request({
+        url: '/v1/stock/index',
+        method: 'get',
+        params: data
+    })
+}
+
+export function detail(data){
+    return request({
+        url: '/v1/stock/detail',
+        method: 'get',
+        params: data
+    })
+}
+
+export function status(data){
+    return request({
+        url: '/v1/stock/status',
+        method: 'post',
+        data
+    })
+}

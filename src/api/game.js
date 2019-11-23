@@ -48,3 +48,19 @@ export function edit(data){
         data
     })
 }
+
+export function select(data){
+    return request({
+        url: '/v1/game/select',
+        method: 'get',
+        params: data
+    })
+}
+
+export function gameSelect(data){
+    return request({
+        url: '/v1/game/select',
+        method: 'get',
+        params: data
+    })
+}

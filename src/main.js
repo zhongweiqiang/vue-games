@@ -5,6 +5,10 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import moment from 'moment'; 
+import 'moment/locale/zh-cn'; 
+moment.locale('zh-cn');
+
 // import {Message} from 'element-ui'
 // Vue.prototype.$message = Message
 

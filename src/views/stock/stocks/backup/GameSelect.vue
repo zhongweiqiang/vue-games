@@ -3,12 +3,13 @@
     showSearch
     placeholder="选择游戏"
     optionFilterProp="children"
-    style="width: 200px"
+    style="width: 160px"
     @focus="handleFocus"
     @blur="handleBlur"
     @change="handleChange"
     :filterOption="filterOption"
     allowClear
+    size="small"
   >
     <a-select-option v-for="game in games" :value="game.id" :key="game.id">{{ game.name }}</a-select-option>
   </a-select>
@@ -27,7 +28,7 @@ export default {
   methods: {
     handleChange(value) {
       console.log(`selected ${value}`);
-      this.$emit('select', value)
+      this.$emit('change', value)
     },
     handleBlur() {
       console.log("blur");

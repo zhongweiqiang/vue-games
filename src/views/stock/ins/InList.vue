@@ -1,20 +1,12 @@
 <template>
   <div>
     <a-row>
-      <a-col :span="3" :xs="24" :sm="3" :md="3" :lg="2">
-        <price-add :on-add="onAdd" />
+      <a-col :span="22">
+        <on-search @search="onSearch" />
       </a-col>
-      <a-col :xs="24" :sm="10" :md="10" :lg="5">
-        <game-search @select="onSelect" />
-      </a-col>
-      <a-col :span="8" :xs="24" :sm="8" :md="8" :lg="6">
-        <a-input-search
-          allowClear
-          v-model="gold"
-          placeholder="请输入面值名称"
-          @search="onSearch"
-          enterButton
-        />
+
+      <a-col :span="2" :style="{float: 'right'}">
+        <a-tag color="#108ee9">总额: {{ totalMoney }}</a-tag>
       </a-col>
     </a-row>
     <a-row>
@@ -27,16 +19,11 @@
           :loading="loading"
           @change="handleTableChange"
         >
-          <span slot="action" slot-scope="text">
-            <price-edit :id="text.id" :on-edit="onEdit" />
-            <a-button size="small" type="danger" @click="del(text.id)" icon="delete" />
-            <a-button
-              type="primary"
-              size="small"
-              @click="status(text.id)"
-            >{{text.status == '禁用' ? '启' : '禁'}}</a-button>
-            <a-button size="small" type="primary" @click="pass(text.id)">跳</a-button>
-          </span>
+          <span slot="money" slot-scope="text">{{text.money}}元</span>
+          <span
+            slot="totalMoney"
+            slot-scope="text"
+          >{{parseInt(text.total) * parseFloat(text.money)}}</span>
         </a-table>
       </a-col>
     </a-row>
@@ -45,10 +32,8 @@
 </template>
 
 <script>
-import { index, del, detail, status, pass } from "@/api/price";
-import PriceAdd from "./PriceAdd";
-import PriceEdit from "./PriceEdit";
-import GameSearch from "./GameSearch";
+import { index } from "@/api/ins";
+import OnSearch from "./OnSearch";
 const columns = [
   {
     title: "id",
@@ -58,7 +43,7 @@ const columns = [
   },
   {
     title: "游戏名称",
-    dataIndex: "name",
+    dataIndex: "game_name",
     align: "center"
   },
   {
@@ -67,44 +52,41 @@ const columns = [
     align: "center"
   },
   {
-    title: "面值标识",
-    dataIndex: "title",
-    align: "center",
-  },
-  {
     title: "面值价格",
-    dataIndex: "money",
-    align: "center"
-  },
-  {
-    title: "创建时间",
-    dataIndex: "created_at",
-    align: "center"
-  },
-  {
-    title: "状态",
-    dataIndex: "status",
-    align: "center"
-  },
-  {
-    title: "操作",
-    key: "action",
-    scopedSlots: { customRender: "action" },
+    key: "money",
     align: "center",
-    width: 150
+    scopedSlots: { customRender: "money" }
+  },
+  {
+    title: "用户名称",
+    dataIndex: "son_name",
+    align: "center"
+  },
+  {
+    title: "总数",
+    dataIndex: "total",
+    align: "center"
+  },
+  {
+    title: "总额",
+    key: "totalMoney",
+    align: "center",
+    scopedSlots: { customRender: "totalMoney" }
   }
 ];
 export default {
-  components: { PriceAdd, PriceEdit, GameSearch },
+  components: { OnSearch },
   data() {
     return {
       data: [],
       pagination: { pageSize: 15 },
       loading: false,
       columns,
+      totalMoney: 0,
+      // checked: false,
 
       // 给监听器使用的
-      gold: "",
+      name: "",
       filters: {}
     };
   },
@@ -115,7 +97,7 @@ export default {
     console.log(this.config);
   },
   watch: {
-    gold: function(newVal, oldVal) {
+    name: function(newVal, oldVal) {
       if (newVal == "") {
         this.fetch({ pageSize: this.pagination.pageSize });
       }
@@ -124,16 +106,7 @@ export default {
   methods: {
     // 页面搜索
     onSearch(value) {
-      if (value.trim() == "") {
-        return false;
-      }
-      index({ gold: value }).then(response => {
-        console.log(response);
-        this.data = response.data.data;
-        const pager = { ...this.pagination };
-        pager.total = response.data.total;
-        this.pagination = pager;
-      });
+      this.fetch({...this.getPagination(), ...value})
     },
 
     getPagination() {
@@ -153,37 +126,11 @@ export default {
       this.fetch(this.getPagination());
     },
 
-    onSelect(game_id) {
-      this.fetch({ ...this.pagination, game_id });
-    },
-
     // 点击状态修改时
     status(id) {
       status({ id }).then(response => {
-        console.log(response);
+        // console.log(response);
         this.fetch(this.getPagination());
-      });
-    },
-
-    // 入库跳过凭证验证
-    pass(id) {
-      const self = this;
-      this.$confirm({
-        content: "确认入库跳过该面值验证？",
-        cancelText: "取消",
-        okText: "跳过",
-        onOk() {
-          return new Promise((resolve, reject) => {
-            pass({ id }).then(response => {
-              self.fetch(self.getPagination());
-              self.destroyAll();
-            });
-          });
-        },
-        onCancel() {
-          self.destroyAll();
-          self.$message.info("取消跳过", 2);
-        }
       });
     },
 
@@ -215,6 +162,7 @@ export default {
         const pagination = { ...this.pagination };
         let data = response.data;
         this.data = data.data;
+        this.totalMoney = data.totalMoney;
         pagination.total = data.total;
         this.pagination = pagination;
         this.loading = false;

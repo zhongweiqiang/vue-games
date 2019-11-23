@@ -47,7 +47,7 @@
       </div>
 
       <a-layout-content
-        :style="{ margin: '0px 16px 24px 16px', padding: '110px 10px 24px 24px', background: '#fff', minHeight: '280px' }"
+        :style="{ margin: '0px 16px 24px 16px', padding: '115px 10px 24px 24px', background: '#fff', minHeight: '280px' }"
       >
         <router-view />
       </a-layout-content>

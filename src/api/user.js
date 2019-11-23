@@ -85,3 +85,19 @@ export function getElement(){
     method: 'get'
   })
 }
+
+export function select(data){
+  return request({
+    url: '/v1/user/select',
+    method: 'get',
+    params: data
+  })
+}
+
+export function userSelect(data){
+  return request({
+    url: '/v1/user/select',
+    method: 'get',
+    params: data
+  })
+}

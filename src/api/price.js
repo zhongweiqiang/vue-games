@@ -25,13 +25,7 @@ export function del(data){
     })
 }
 
-export function select(data){
-    return request({
-        url: '/v1/price/select',
-        method: 'get',
-        params: data
-    })
-}
+
 
 export function status(data){
     return request({
@@ -62,5 +56,21 @@ export function pass(data){
         url: '/v1/price/pass',
         method: 'post',
         data
+    })
+}
+
+export function priceSelect(data){
+    return request({
+        url: '/v1/price/select',
+        method: 'get',
+        params: data
+    })
+}
+
+export function select(data){
+    return request({
+        url: '/v1/price/select',
+        method: 'get',
+        params: data
     })
 }

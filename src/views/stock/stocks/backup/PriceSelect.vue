@@ -1,33 +1,34 @@
 <template>
   <a-select
     showSearch
-    placeholder="选择游戏"
+    placeholder="选择面值"
     optionFilterProp="children"
-    style="width: 200px"
+    style="width: 160px"
     @focus="handleFocus"
     @blur="handleBlur"
     @change="handleChange"
     :filterOption="filterOption"
     allowClear
+    size="small"
   >
-    <a-select-option v-for="game in games" :value="game.id" :key="game.id">{{ game.name }}</a-select-option>
+    <a-select-option v-for="price in prices" :value="price.id" :key="price.id">{{ price.gold }}</a-select-option>
   </a-select>
 </template>
 <script>
-import { select } from "@/api/game";
+import { select } from "@/api/price";
 export default {
   data() {
     return {
-      games: []
+      prices: []
     };
   },
   mounted(){
-      this.getGameList()
+      
   },
   methods: {
     handleChange(value) {
       console.log(`selected ${value}`);
-      this.$emit('select', value)
+      this.$emit('change', value)
     },
     handleBlur() {
       console.log("blur");
@@ -43,9 +44,9 @@ export default {
       );
     },
 
-    getGameList() {
-      select().then(response => {
-        this.games = response.data;
+    getPriceList(value) {
+      select({game_id: value}).then(response => {
+        this.prices = response.data;
       });
     }
   }
