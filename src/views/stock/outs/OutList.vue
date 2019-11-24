@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { index } from "@/api/ins";
+import { index } from "@/api/out";
 import OnSearch from "./OnSearch";
 const columns = [
   {

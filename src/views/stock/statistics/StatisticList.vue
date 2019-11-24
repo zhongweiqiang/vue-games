@@ -18,6 +18,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 1200 }"
         >
           <span slot="money" slot-scope="text">{{text.money}}元</span>
           <span
@@ -32,46 +33,75 @@
 </template>
 
 <script>
-import { index } from "@/api/ins";
+import { index } from "@/api/statistic";
 import OnSearch from "./OnSearch";
 const columns = [
-  {
-    title: "id",
-    dataIndex: "id",
-    sorter: true,
-    align: "center"
-  },
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center"
+  // },
   {
     title: "游戏名称",
     dataIndex: "game_name",
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "面值名称",
     dataIndex: "gold",
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "面值价格",
     key: "money",
     align: "center",
-    scopedSlots: { customRender: "money" }
+    scopedSlots: { customRender: "money" },
+    fixed: "left"
   },
   {
-    title: "用户名称",
-    dataIndex: "son_name",
+    title: "正常有效",
+    dataIndex: "s1",
     align: "center"
   },
+  {
+    title: "已使用",
+    dataIndex: "s2",
+    align: "center"
+  },
+  {
+    title: "使用失败",
+    dataIndex: "s4",
+    align: "center"
+  },
+  {
+    title: "后台恢复",
+    dataIndex: "s5",
+    align: "center"
+  },
+  {
+    title: "手机端已获取",
+    dataIndex: "s6",
+    align: "center"
+  },
+  {
+    title: "凭证上架",
+    dataIndex: "s8",
+    align: "center"
+  },
+  {
+    title: "禁止使用",
+    dataIndex: "s7",
+    align: "center"
+  },
+
   {
     title: "总数",
     dataIndex: "total",
-    align: "center"
-  },
-  {
-    title: "总额",
-    key: "totalMoney",
     align: "center",
-    scopedSlots: { customRender: "totalMoney" }
+    fixed: "right"
   }
 ];
 export default {
@@ -106,7 +136,7 @@ export default {
   methods: {
     // 页面搜索
     onSearch(value) {
-      this.fetch({ pageSize: this.pagination.pageSize, ...value})
+      this.fetch({ pageSize: this.pagination.pageSize, ...value });
     },
 
     getPagination() {

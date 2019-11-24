@@ -4,7 +4,7 @@
       <a-row style="height: 60px; margin-left: 10px;">
         <a-col :span="24">
           <a-row>
-            <a-col :span="5">
+            <a-col :span="5"  :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
               <a-form-item>
                 <a-select
                   showSearch
@@ -25,37 +25,27 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :span="5">
+            <a-col :span="5"   :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
               <a-form-item>
                 <a-select
                   showSearch
-                  placeholder="选择用户"
+                  placeholder="选择面值"
                   optionFilterProp="children"
                   style="width: 160px"
                   :filterOption="filterOption"
                   allowClear
                   size="small"
-                  v-decorator="['user_id']"
+                  v-decorator="['price_id']"
                 >
                   <a-select-option
-                    v-for="user in users"
-                    :value="user.id"
-                    :key="user.id"
-                  >{{ user.name }}</a-select-option>
+                    v-for="price in prices"
+                    :value="price.id"
+                    :key="price.id"
+                  >{{ price.gold }}</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :span="6">
-              <a-form-item>
-                <start-time v-decorator="['start_time']" />
-              </a-form-item>
-            </a-col>
-            <a-col :span="6">
-              <a-form-item>
-                <end-time v-decorator="['end_time']" />
-              </a-form-item>
-            </a-col>
-            <a-col :span="2">
+            <a-col :span="2"   :xs="20" :sm="6" :md="6" :lg="2" :xl="2">
               <a-form-item>
                 <a-button size="small" type="primary" html-type="submit">搜索</a-button>
               </a-form-item>
@@ -71,13 +61,8 @@
 import { gameSelect } from "@/api/game";
 import { priceSelect } from "@/api/price";
 import { userSelect } from "@/api/user";
-import StartTime from "./StartTime";
-import EndTime from "./EndTime";
 export default {
-  components: {
-    StartTime,
-    EndTime
-  },
+  components: {},
   data() {
     return {
       formLayout: "horizontal",
@@ -89,7 +74,7 @@ export default {
   },
   created() {
     this.getGameList();
-    this.getUserList('son')
+    this.getUserList("son");
   },
   methods: {
     handleSubmit(e) {
@@ -104,6 +89,10 @@ export default {
 
     handleGameChange(value) {
       console.log(`selected ${value}`);
+      if(!value){
+        this.form.setFieldsValue({price_id: undefined})
+      }
+      this.getPriceList(value);
     },
 
     filterOption(input, option) {
@@ -119,14 +108,19 @@ export default {
         this.games = response.data;
       });
     },
+    getPriceList(value) {
+      priceSelect({ game_id: value }).then(response => {
+        this.prices = response.data;
+      });
+    },
     getUserList(value) {
       userSelect({ user_type: value }).then(response => {
         this.users = response.data;
       });
     },
-    reset(){
-      this.form.resetFields()
-    },
+    reset() {
+      this.form.resetFields();
+    }
   }
 };
 </script>

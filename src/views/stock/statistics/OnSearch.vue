@@ -29,19 +29,19 @@
               <a-form-item>
                 <a-select
                   showSearch
-                  placeholder="选择用户"
+                  placeholder="选择面值"
                   optionFilterProp="children"
                   style="width: 160px"
                   :filterOption="filterOption"
                   allowClear
                   size="small"
-                  v-decorator="['user_id']"
+                  v-decorator="['price_id']"
                 >
                   <a-select-option
-                    v-for="user in users"
-                    :value="user.id"
-                    :key="user.id"
-                  >{{ user.name }}</a-select-option>
+                    v-for="price in prices"
+                    :value="price.id"
+                    :key="price.id"
+                  >{{ price.gold }}</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -89,7 +89,7 @@ export default {
   },
   created() {
     this.getGameList();
-    this.getUserList('son')
+    this.getUserList("son");
   },
   methods: {
     handleSubmit(e) {
@@ -104,6 +104,10 @@ export default {
 
     handleGameChange(value) {
       console.log(`selected ${value}`);
+      if(!value){
+        this.form.setFieldsValue({price_id: undefined})
+      }
+      this.getPriceList(value);
     },
 
     filterOption(input, option) {
@@ -119,14 +123,19 @@ export default {
         this.games = response.data;
       });
     },
+    getPriceList(value) {
+      priceSelect({ game_id: value }).then(response => {
+        this.prices = response.data;
+      });
+    },
     getUserList(value) {
       userSelect({ user_type: value }).then(response => {
         this.users = response.data;
       });
     },
-    reset(){
-      this.form.resetFields()
-    },
+    reset() {
+      this.form.resetFields();
+    }
   }
 };
 </script>

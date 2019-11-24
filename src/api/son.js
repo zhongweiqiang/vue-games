@@ -47,3 +47,11 @@ export function status(data){
     data
   })
 }
+
+export function son_statistic(data){
+  return request({
+    url: '/v1/stock/son_statistic',
+    method: 'get',
+    params: data
+  })
+}

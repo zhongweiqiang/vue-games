@@ -18,12 +18,11 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          width="500"
         >
-          <span slot="money" slot-scope="text">{{text.money}}元</span>
-          <span
-            slot="totalMoney"
-            slot-scope="text"
-          >{{parseInt(text.total) * parseFloat(text.money)}}</span>
+          <span slot="action" slot-scope="text">
+            <dist :text="text" @dist="onDist" />
+          </span>
         </a-table>
       </a-col>
     </a-row>
@@ -32,15 +31,16 @@
 </template>
 
 <script>
-import { index } from "@/api/ins";
+import { index } from "@/api/dist";
 import OnSearch from "./OnSearch";
+import Dist from './DistComponent'
 const columns = [
-  {
-    title: "id",
-    dataIndex: "id",
-    sorter: true,
-    align: "center"
-  },
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center"
+  // },
   {
     title: "游戏名称",
     dataIndex: "game_name",
@@ -53,29 +53,24 @@ const columns = [
   },
   {
     title: "面值价格",
-    key: "money",
-    align: "center",
-    scopedSlots: { customRender: "money" }
-  },
-  {
-    title: "用户名称",
-    dataIndex: "son_name",
+    dataIndex: "money",
     align: "center"
   },
+
   {
     title: "总数",
     dataIndex: "total",
     align: "center"
   },
   {
-    title: "总额",
-    key: "totalMoney",
+    title: "操作",
+    key: "action",
+    scopedSlots: { customRender: "action" },
     align: "center",
-    scopedSlots: { customRender: "totalMoney" }
   }
 ];
 export default {
-  components: { OnSearch },
+  components: { OnSearch, Dist },
   data() {
     return {
       data: [],
@@ -86,7 +81,7 @@ export default {
       // checked: false,
 
       // 给监听器使用的
-      name: "",
+      search: {},
       filters: {}
     };
   },
@@ -96,17 +91,12 @@ export default {
     // this.tag_data();
     console.log(this.config);
   },
-  watch: {
-    name: function(newVal, oldVal) {
-      if (newVal == "") {
-        this.fetch({ pageSize: this.pagination.pageSize });
-      }
-    }
-  },
+
   methods: {
     // 页面搜索
     onSearch(value) {
-      this.fetch({ pageSize: this.pagination.pageSize, ...value})
+      this.search = value
+      this.fetch({ pageSize: this.pagination.pageSize, ...value });
     },
 
     getPagination() {
@@ -118,21 +108,10 @@ export default {
       };
     },
 
-    onAdd() {
-      this.fetch({ pageSize: this.pagination.pageSize });
+    onDist(){
+      this.fetch({...this.getPagination(), ...this.search})
     },
 
-    onEdit() {
-      this.fetch(this.getPagination());
-    },
-
-    // 点击状态修改时
-    status(id) {
-      status({ id }).then(response => {
-        // console.log(response);
-        this.fetch(this.getPagination());
-      });
-    },
 
     // 表格参数改变时
     handleTableChange(pagination, filters, sorter) {
@@ -169,48 +148,7 @@ export default {
       });
       // 每次加载数据都重新获取一遍数据
       // this.tag_data();
-    },
-
-    // 删除用户
-    del(id) {
-      const self = this;
-      this.$confirm({
-        content: "确认删除？",
-        cancelText: "取消",
-        okText: "删除",
-        onOk() {
-          return new Promise((resolve, reject) => {
-            del({ id }).then(response => {
-              self.$message.success("删除成功");
-              self.fetch({
-                pageSize: self.pagination.pageSize,
-                page: self.pagination.current,
-                sortField: self.pagination.sortField,
-                sortOrder: self.pagination.sortOrder,
-                ...self.filters
-              });
-              self.destroyAll();
-            });
-          });
-        },
-        onCancel() {
-          self.destroyAll();
-          self.$message.info("取消删除", 2);
-        }
-      });
-    },
-
-    destroyAll() {
-      this.$destroyAll();
     }
-
-    // tag标签数据
-    // tag_data() {
-    //   tag_data().then(response => {
-    //     this.total = response.data.total;
-    //     this.start = response.data.start;
-    //   });
-    // }
   }
 };
 </script>

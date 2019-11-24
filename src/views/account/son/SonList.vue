@@ -79,6 +79,8 @@
               size="small"
               @click="status(text.id)"
             >{{text.status == '禁用' ? '启' : '禁'}}</a-button>
+            <stock-list :id="text.id" />
+            <transfer />
           </span>
         </a-table>
       </a-col>
@@ -91,6 +93,8 @@
 import { index, del, status } from "@/api/son";
 import SonAdd from "./SonAdd";
 import SonEdit from "./SonEdit";
+import Transfer from './Transfer'
+import StockList from './StockList'
 var columns = [
   {
     title: "id",
@@ -132,7 +136,7 @@ var columns = [
 ];
 
 export default {
-  components: { SonAdd, SonEdit },
+  components: { SonAdd, SonEdit, Transfer, StockList },
   data() {
     return {
       data: [],

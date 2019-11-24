@@ -1,15 +1,6 @@
 <template>
   <div>
     <a-row>
-      <a-col :span="18">
-        <on-search @search="onSearch" />
-      </a-col>
-
-      <a-col :span="2" :style="{float: 'right', marginRight: '20px', marginTop: '10px'}">
-        <a-tag color="#108ee9">总额: {{ totalMoney }}</a-tag>
-      </a-col>
-    </a-row>
-    <a-row>
       <a-col>
         <a-table
           :columns="columns"
@@ -32,54 +23,84 @@
 </template>
 
 <script>
-import { index } from "@/api/ins";
-import OnSearch from "./OnSearch";
+import { son_statistic } from "@/api/son";
 const columns = [
-  {
-    title: "id",
-    dataIndex: "id",
-    sorter: true,
-    align: "center"
-  },
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center"
+  // },
   {
     title: "游戏名称",
     dataIndex: "game_name",
-    align: "center"
+    align: "center",
   },
   {
     title: "面值名称",
     dataIndex: "gold",
-    align: "center"
+    align: "center",
   },
   {
     title: "面值价格",
     key: "money",
     align: "center",
-    scopedSlots: { customRender: "money" }
+    scopedSlots: { customRender: "money" },
   },
   {
-    title: "用户名称",
-    dataIndex: "son_name",
+    title: "正常有效",
+    dataIndex: "s1",
     align: "center"
   },
+  {
+    title: "已使用",
+    dataIndex: "s2",
+    align: "center"
+  },
+//   {
+//     title: "使用失败",
+//     dataIndex: "s4",
+//     align: "center"
+//   },
+  {
+    title: "后台恢复",
+    dataIndex: "s5",
+    align: "center"
+  },
+//   {
+//     title: "手机端已获取",
+//     dataIndex: "s6",
+//     align: "center"
+//   },
+//   {
+//     title: "凭证上架",
+//     dataIndex: "s8",
+//     align: "center"
+//   },
+//   {
+//     title: "禁止使用",
+//     dataIndex: "s7",
+//     align: "center"
+//   },
+
   {
     title: "总数",
     dataIndex: "total",
-    align: "center"
-  },
-  {
-    title: "总额",
-    key: "totalMoney",
     align: "center",
-    scopedSlots: { customRender: "totalMoney" }
   }
 ];
 export default {
-  components: { OnSearch },
+  components: {  },
+  props: {
+      id: {
+          type: Number,
+          default: null
+      }
+  },
   data() {
     return {
       data: [],
-      pagination: { pageSize: 15 },
+      pagination: { pageSize: 10 },
       loading: false,
       columns,
       totalMoney: 0,
@@ -92,22 +113,12 @@ export default {
   },
   mounted() {
     // 首次加载页面获取数据
-    this.fetch({ pageSize: this.pagination.pageSize });
+    this.fetch({ pageSize: this.pagination.pageSize, son_id: this.id });
     // this.tag_data();
     console.log(this.config);
   },
-  watch: {
-    name: function(newVal, oldVal) {
-      if (newVal == "") {
-        this.fetch({ pageSize: this.pagination.pageSize });
-      }
-    }
-  },
   methods: {
-    // 页面搜索
-    onSearch(value) {
-      this.fetch({ pageSize: this.pagination.pageSize, ...value})
-    },
+
 
     getPagination() {
       return {
@@ -116,22 +127,6 @@ export default {
         sortField: this.pagination.sortField,
         sortOrder: this.pagination.sortOrder
       };
-    },
-
-    onAdd() {
-      this.fetch({ pageSize: this.pagination.pageSize });
-    },
-
-    onEdit() {
-      this.fetch(this.getPagination());
-    },
-
-    // 点击状态修改时
-    status(id) {
-      status({ id }).then(response => {
-        // console.log(response);
-        this.fetch(this.getPagination());
-      });
     },
 
     // 表格参数改变时
@@ -149,6 +144,7 @@ export default {
         page: pagination.current,
         sortField: sorter.field,
         sortOrder: sorter.order,
+         son_id: this.id,
         ...filters // 此处放搜索字段
       });
     },
@@ -157,7 +153,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
-      index(params).then(response => {
+      son_statistic(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };
         let data = response.data;

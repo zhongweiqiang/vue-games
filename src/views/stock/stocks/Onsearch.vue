@@ -4,7 +4,7 @@
       <a-row style="height: 60px; margin-left: 10px;">
         <a-col :span="18">
           <a-row>
-            <a-col :span="5">
+            <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
               <a-form-item>
                 <a-select
                   showSearch
@@ -25,7 +25,7 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :span="5">
+            <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
               <a-form-item>
                 <a-select
                   showSearch
@@ -41,7 +41,7 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :span="5">
+            <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
               <a-form-item>
                 <a-input
                   placeholder="请输入库存单号"
@@ -51,14 +51,14 @@
                 ></a-input>
               </a-form-item>
             </a-col>
-            <a-col :span="6">
+            <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">
               <a-form-item>
                 <start-time v-decorator="['start_time']" />
               </a-form-item>
             </a-col>
           </a-row>
           <a-row :style="{marginTop: '10px'}">
-            <a-col :span="5">
+            <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
               <a-form-item>
                 <a-select
                   showSearch
@@ -78,7 +78,7 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :span="5">
+            <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
               <a-form-item>
                 <a-select
                   showSearch
@@ -98,7 +98,7 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :span="5">
+            <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
               <a-form-item>
                 <a-select
                   showSearch
@@ -119,7 +119,7 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :span="6">
+            <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">
               <a-form-item>
                 <end-time v-decorator="['end_time']" />
               </a-form-item>
