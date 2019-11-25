@@ -52,11 +52,11 @@ const columns = [
     dataIndex: "s1",
     align: "center"
   },
-  {
-    title: "已使用",
-    dataIndex: "s2",
-    align: "center"
-  },
+  // {
+  //   title: "已使用",
+  //   dataIndex: "s2",
+  //   align: "center"
+  // },
 //   {
 //     title: "使用失败",
 //     dataIndex: "s4",

@@ -15,3 +15,11 @@ export function dist(data){
         data
     })
 }
+
+export function son_to_user(data){
+    return request({
+        url: '/v1/stock/son_to_user',
+        method: 'post',
+        data
+    })
+}

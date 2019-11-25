@@ -1,6 +1,6 @@
 <template>
   <div style="display: inline;">
-    <a-button type="primary" size="small" @click="showModal">库存</a-button>
+    <a-button type="primary" size="small" :disabled="disabled" @click="showModal">库存</a-button>
     <a-modal
       title="子账户库存"
       :visible="visible"
@@ -8,6 +8,7 @@
       @cancel="handleCancel"
       :footer="null"
       width="70%"
+
     >
       <table-list :id="id" />
     </a-modal>
@@ -21,6 +22,10 @@ export default {
       id: {
           type: Number,
           default: null
+      },
+      disabled: {
+          type: Boolean,
+          default: false
       }
   },
   data() {

@@ -92,7 +92,10 @@ export default {
           dist(values).then(response => {
               console.log(response)
               this.$emit('dist')
-              this.$message.success(response.message)
+              setTimeout(() => {
+                this.$message.success(response.message)
+              }, 1000);
+              
           })
         }
       });

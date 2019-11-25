@@ -1,18 +1,27 @@
 <template>
-  <div>
-    <a-button type="primary" @click="showModal">Open Modal</a-button>
-    <a-modal title="Basic Modal" v-model="visible" @ok="handleOk">
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
+  <div style="display: inline">
+    <!-- <a-button type="primary" @click="showModal">Open Modal</a-button> -->
+    <a-modal title="Basic Modal" v-model="visible" @ok="visible = false">
+      <!-- <p>Some contents...</p> -->
+    <confirm-form />
     </a-modal>
   </div>
 </template>
 <script>
+import ConfirmForm from './ConfirmForm'
   export default {
+    components:{
+      ConfirmForm
+    },
+    props: {
+      visible: {
+        type: Boolean,
+        default: true
+      }
+    },
     data() {
       return {
-        visible: false,
+        // visible: false
       };
     },
     methods: {

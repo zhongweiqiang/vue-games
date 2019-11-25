@@ -79,8 +79,8 @@
               size="small"
               @click="status(text.id)"
             >{{text.status == '禁用' ? '启' : '禁'}}</a-button>
-            <stock-list :id="text.id" />
-            <transfer />
+            <stock-list :disabled="text.store_count==0" :id="text.id" />
+            <transfer :disabled="text.store_count==0" v-if="hasPermission('son.son_to_user')" @dist="onDist" :id="text.id" />
           </span>
         </a-table>
       </a-col>
@@ -284,7 +284,10 @@ export default {
 
     destroyAll() {
       this.$destroyAll();
-    }
+    },
+    onDist(){
+      this.fetch(this.getPagination())
+    },
   }
 };
 </script>
