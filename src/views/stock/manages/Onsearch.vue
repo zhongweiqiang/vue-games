@@ -2,7 +2,7 @@
   <div style="z-index:999;">
     <a-form :form="form" @submit="handleSubmit" layout="inline">
       <a-row style="height: 60px; margin-left: 10px;">
-        <a-col :span="22">
+        <a-col :span="21">
           <a-row>
             <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">
               <a-form-item>
@@ -126,7 +126,7 @@
             </a-col>
           </a-row>
         </a-col>
-        <a-col :span="2" :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', height: '58px'}">
+        <a-col :span="2" :offset="1" :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', height: '58px'}">
           <a-form-item>
             <a-button size="small" type="primary" html-type="submit">搜索</a-button>
           </a-form-item>

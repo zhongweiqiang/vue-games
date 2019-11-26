@@ -26,11 +26,25 @@
         style="background: #eee; position: fixed; z-index: 999; width: 100%; height: 100px;box-shadow:0 0 20px #bbb inset"
       >
         <a-layout-header style="background: #fff; padding: 0;">
-          <a-icon
-            class="trigger"
-            :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-            @click="()=> collapsed = !collapsed"
-          />
+          <a-row>
+            <a-col :span="2">
+              <a-icon
+                class="trigger"
+                :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+                @click="()=> collapsed = !collapsed"
+              />
+            </a-col>
+            <a-col :span="22">
+              <a-row>
+                <a-col :span="19">
+                  fdsf
+                </a-col>
+                <a-col :span="4">
+                  <user-info />
+                </a-col>
+              </a-row>
+            </a-col>
+          </a-row>
         </a-layout-header>
 
         <div style="padding: 6px 0px 6px 24px; background: #eee;">
@@ -56,8 +70,12 @@
 </template>
 <script>
 // import menus from "./menu";
+import UserInfo from '@/components/layout/UserInfo'
 import { userMenu } from "@/api/menu";
 export default {
+  components:{
+    UserInfo
+  },
   data() {
     return {
       collapsed: false,
@@ -67,7 +85,7 @@ export default {
   created() {
     console.log("this is in layout");
     this.getMenu();
-    this.getElement()
+    this.getElement();
     // console.log(menus);
   },
   mounted() {},
@@ -82,9 +100,9 @@ export default {
         this.menus = response.data;
       });
     },
-    getElement(){
-      this.$store.dispatch('user/getElement')
-    },
+    getElement() {
+      this.$store.dispatch("user/getElement");
+    }
   }
 };
 </script>

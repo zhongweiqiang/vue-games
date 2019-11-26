@@ -1,11 +1,19 @@
 <template>
   <div>
     <a-row style="height: 58px;">
-      <a-col :span="20">
+      <a-col :span="19">
         <on-search @search="onSearch" />
       </a-col>
-      <a-col :span="2" style="margin-top: 17px;">
-        <a-button v-if="hasPermission('stock.delete')" type="danger" size="small" @click="del">删除</a-button>
+      <a-col :span="5">
+        <!-- <a-button type="danger" size="small" @click="del">删除</a-button> -->
+        <a-row>
+          <a-col :span="20">
+            <migration @dist="onDist" ref="migration" :id="selectedRowKeys" />
+          </a-col>
+          <a-col :span="4" style="display: flex; align-items:center; height: 58px;">
+            <a-button type="primary" size="small" @click="dist">分配</a-button>
+          </a-col>
+        </a-row>
       </a-col>
     </a-row>
     <a-row>
@@ -47,7 +55,7 @@
 import { index, del } from "@/api/stock";
 import DropDown from "./DropDown";
 import Detail from "./Detail";
-
+import Migration from "./Migration";
 import OnSearch from "./Onsearch";
 const columns = [
   {
@@ -122,7 +130,8 @@ export default {
   components: {
     DropDown,
     Detail,
-    OnSearch
+    OnSearch,
+    Migration
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
@@ -219,47 +228,22 @@ export default {
       this.$destroyAll();
     },
 
-    // tag标签数据
-    // tag_data() {
-    //   tag_data().then(response => {
-    //     this.total = response.data.total;
-    //     this.start = response.data.start;
-    //   });
-    // }
     onSelectChange(selectedRowKeys) {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
-    
-    del(id) {
-      const self = this;
-      this.$confirm({
-        content: "确认删除？",
-        cancelText: "取消",
-        okText: "删除",
-        onOk() {
-          return new Promise((resolve, reject) => {
-            // setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
-
-            del({ id: self.selectedRowKeys }).then(response => {
-              self.$message.success(response.message);
-              self.fetch({
-                pageSize: self.pagination.pageSize,
-                page: self.pagination.current,
-                sortField: self.pagination.sortField,
-                sortOrder: self.pagination.sortOrder,
-                ...self.filters
-              });
-              self.destroyAll();
-            });
-          });
-        },
-        onCancel() {
-          self.destroyAll();
-          self.$message.info("取消删除", 2);
-        }
-      });
+    dist() {
+      console.log(this.selectedRowKeys);
+      this.$refs.migration.handleSubmit();
     },
+
+    onDist() {
+      this.fetch({
+        ...this.getPagination(),
+        ...this.search
+      });
+      this.selectedRowKeys = []
+    }
   }
 };
 </script>

@@ -23,3 +23,11 @@ export function status(data){
         data
     })
 }
+
+export function del(data){
+    return request({
+        url: '/v1/stock/delete',
+        method: 'delete',
+        data
+    })
+}

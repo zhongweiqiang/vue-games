@@ -61,11 +61,7 @@
         <a-form-item label="菜单排序" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
           <a-input
             allowClear
-            v-decorator="['order', { rules: [{ required: true, type: 'number',                    transform(value) {
-                      if(value){
-                        return Number(value);
-                      }
-                    }, message: '必须为0-255数字' }] }]"
+            v-decorator="['order', { rules: [{ required: true, type: 'number',                    transform(value) { return parseInt(value) }, message: '必须为0-255数字' }] }]"
             placeholder="请输入菜单排序"
           />
         </a-form-item>
