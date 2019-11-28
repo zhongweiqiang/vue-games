@@ -23,3 +23,19 @@ export function son_to_user(data){
         data
     })
 }
+
+export function migration_dist(data){
+    return request({
+        url: '/v1/stock/migration_dist',
+        method: 'post',
+        data
+    })
+}
+
+export function getCount(data){
+    return request({
+        url: '/v1/stock/get_count',
+        method: 'post',
+        data
+    })
+}

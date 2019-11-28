@@ -1,61 +1,40 @@
 <template>
   <div>
-    <!-- <a-list
-      :dataSource="[
-        {
-          name: 'Lily',
-        },
-        {
-          name: 'Lily',
-        },
-      ]"
-      bordered
-    >
-      <a-list-item slot="renderItem" slot-scope="item, index">
-        <a slot="actions" @click="showDrawer">View Profile</a>
-        <a-list-item-meta description="Progresser AFX">
-          <a slot="title" href="https://vue.ant.design/">{{item.name}}</a>
-          <a-avatar
-            slot="avatar"
-            src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
-          />
-        </a-list-item-meta>
-      </a-list-item>
-    </a-list> -->
     <a-drawer width="340" placement="right" :closable="false" @close="onClose" :visible="visible">
       <p :style="[pStyle, pStyle2]">用户详情</p>
       <a-row>
-        <a-col >
-          <description-item title="Full Name" content="Lily" />
-        </a-col>
-        <a-col >
-          <description-item title="Account" content="AntDesign@example.com" />
-        </a-col>
-      </a-row>
-      <a-row>
-        <a-col >
-          <description-item title="City" content="HangZhou" />
+        <a-col>
+          <description-item title="用户名" :content="info.name" />
         </a-col>
         <a-col>
-          <description-item title="Country" content="China🇨🇳" />
+          <description-item title="用户昵称" v-if="info.userinfo" :content="info.userinfo.nickname" />
         </a-col>
       </a-row>
       <a-row>
         <a-col>
-          <description-item title="Birthday" content="February 2,1900" />
+          <description-item title="角色" :content="info.role.name" />
         </a-col>
         <a-col>
-          <description-item title="Website" content="-" />
+          <description-item title="登陆时间" :content="info.last_login_time" />
         </a-col>
       </a-row>
       <a-row>
         <a-col>
-          <description-item
-            title="Message"
-            content="Make things as simple as possible but no simpler."
-          />
+          <description-item title="登陆ip" :content="info.last_login_ip" />
+        </a-col>
+        <a-col>
+          <description-item title="收费模式" v-if="info.userinfo" :content="info.userinfo.charge_status" />
         </a-col>
       </a-row>
+      <a-row>
+        <a-col>
+          <description-item title="账户余额" v-if="info.userinfo" :content="info.userinfo.money" />
+        </a-col>
+        <a-col>
+          <description-item title="冻结金额" v-if="info.userinfo" :content="info.userinfo.fro_money" />
+        </a-col>
+      </a-row>
+
       <a-divider />
       <!-- <p :style="pStyle">Company</p>
       <a-row>
@@ -102,46 +81,56 @@
             </a>
           </description-item>
         </a-col>
-      </a-row> -->
+      </a-row>-->
     </a-drawer>
   </div>
 </template>
 <script>
-  import descriptionItem from '@/components/descriptionItem';
+import descriptionItem from "@/components/descriptionItem";
+import { info } from '@/api/user'
+export default {
+  components: {
+    descriptionItem
+  },
+  data() {
+    return {
+      visible: false,
+      pStyle: {
+        fontSize: "16px",
+        color: "rgba(0,0,0,0.85)",
+        lineHeight: "24px",
+        display: "block",
+        marginBottom: "16px",
+        textAlign: "center"
+      },
+      pStyle2: {
+        marginBottom: "24px"
+      },
+      info: {
+          userinfo:{},
+          role: {}
+      },
 
-  export default {
-      props: {
-        //   visible: {
-        //       type: Boolean,
-        //       default: false
-        //   }
-      },
-    data() {
-      return {
-        visible: false,
-        pStyle: {
-          fontSize: '16px',
-          color: 'rgba(0,0,0,0.85)',
-          lineHeight: '24px',
-          display: 'block',
-          marginBottom: '16px',
-          textAlign: 'center'
-        },
-        pStyle2: {
-          marginBottom: '24px',
-        },
-      };
+    };
+  },
+
+  created(){
+      this.userinfo()
+  },
+
+  methods: {
+    showDrawer() {
+      this.visible = true;
     },
-    components: {
-      descriptionItem,
+    onClose() {
+      this.visible = false;
     },
-    methods: {
-      showDrawer() {
-        this.visible = true;
-      },
-      onClose() {
-        this.visible = false;
-      },
-    },
-  };
+    userinfo(){
+        info().then(response => {
+            console.log(response)
+            this.info = response.data
+        })
+    }
+  }
+};
 </script>

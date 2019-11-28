@@ -71,10 +71,11 @@
 <script>
 // import menus from "./menu";
 import UserInfo from '@/components/layout/UserInfo'
+
 import { userMenu } from "@/api/menu";
 export default {
   components:{
-    UserInfo
+    UserInfo,
   },
   data() {
     return {
@@ -126,5 +127,8 @@ export default {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
   margin: 16px;
+}
+.ant-menu-inline .ant-menu-item:not(:last-child){
+  margin: 0px;
 }
 </style>

@@ -95,7 +95,7 @@ export default {
     detail() {
       new Promise(resolve => {
         detail({ id: this.text.id }).then(response => {
-          // console.log(response)
+          console.log(response)
           // return
           this.apple = response.data;
           this.visible = true;

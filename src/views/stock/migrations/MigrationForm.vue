@@ -25,8 +25,8 @@
       </a-select>
     </a-form-item>
     <a-form-item :wrapper-col="{ span: 12, offset: 9 }">
-      <a-button type="primary" html-type="submit" size="small">分配</a-button>
-      <a-button :style="{marginLeft: '10px'}" @click="handleCancel" size="small">取消</a-button>
+      <a-button @click="handleCancel" size="small">取消</a-button>
+      <a-button :style="{marginLeft: '10px'}" type="primary" html-type="submit" size="small">迁移</a-button>
     </a-form-item>
   </a-form>
 </template>

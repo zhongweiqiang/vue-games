@@ -38,7 +38,6 @@ service.interceptors.request.use(
 
     // }
 
-
     if (store.getters.token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
@@ -46,6 +45,8 @@ service.interceptors.request.use(
       // config.headers['X-Token'] = getToken()
       // config.headers['authorization'] = getToken()
       config.headers['authorization'] = store.getters.token
+    } else{
+      store.dispatch('user/resetToken')
     }
     return config
   },
@@ -100,7 +101,18 @@ service.interceptors.response.use(
     /**
      * the error code from server handled by me is 400, , so it is can't pass to component
      */
+    if(error.response.data.code === 401){
+      location.href = '/#/401'
+    }
+    if(error.response.data.code === 403){
+      store.dispatch('user/resetToken')
+      location.reload()
+      console.log('reset token')
+
+    }
+
     message.error(error.response.data.message ? error.response.data.message : error.message)
+    console.log(error.message)
     // handle unauthenticated requesst
     if (error.response.status === 401 || error.response.status === 429) {
       store.dispatch('user/resetToken').then(() => {
@@ -114,9 +126,7 @@ service.interceptors.response.use(
         }, 2000);
       })
     }
-    if(error.response.data.code === 401){
-      location.href = '/#/401'
-    }
+
     return Promise.reject(error)
   }
 )

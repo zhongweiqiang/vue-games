@@ -23,3 +23,11 @@ export function edit(data){
         data
     })
 }
+
+export function pay_reset_password(data){
+    return request({
+      url: '/v1/info/pay_reset_password',
+      method: 'post',
+      data
+    })
+  }

@@ -40,6 +40,7 @@
           <span slot="action" slot-scope="text">
             <!-- <a-button size="small" type="primary" @click="edit(text.id)" icon="edit" /> -->
             <info-edit :info="text" :on-edit="onEdit" />
+            <a-button type="primary" @click="pay_reset_password(text.id)" size="small">支重</a-button>
           </span>
         </a-table>
       </a-col>
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-import { index } from "@/api/userinfo";
+import { index, pay_reset_password } from "@/api/userinfo";
 import InfoEdit from "./InfoEdit";
 const columns = [
   {
@@ -136,13 +137,13 @@ export default {
     }
   },
   methods: {
-    getPagination(){
+    getPagination() {
       return {
         pageSize: this.pagination.pageSize,
         page: this.pagination.current,
         sortField: this.pagination.sortField,
-        sortOrder: this.pagination.sortOrder,
-      }
+        sortOrder: this.pagination.sortOrder
+      };
     },
 
     onAdd() {
@@ -212,6 +213,26 @@ export default {
       this.$router.push({
         name: "MenuEdit",
         query: { id }
+      });
+    },
+    pay_reset_password(id) {
+      const self = this;
+      this.$confirm({
+        content: "支付重置后不可恢复, 确认重置？",
+        cancelText: "取消",
+        okText: "重置",
+        onOk() {
+          return new Promise((resolve, reject) => {
+            pay_reset_password({ id }).then(response => {
+              self.$message.success(response.message);
+              self.destroyAll();
+            });
+          });
+        },
+        onCancel() {
+          self.destroyAll();
+          self.$message.info("取消重置", 2);
+        }
       });
     },
 

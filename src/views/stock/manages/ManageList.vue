@@ -25,7 +25,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1300 }"
           :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         >
           <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
@@ -40,10 +39,10 @@
 
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
-          <span slot="action" slot-scope="text">
+          <!-- <span slot="action" slot-scope="text">
             <drop-down :id="text.id" @update="onUpdate" />
             <detail :text="text" />
-          </span>
+          </span> -->
         </a-table>
       </a-col>
     </a-row>
@@ -63,21 +62,21 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "游戏名称",
     key: "game",
     align: "center",
     scopedSlots: { customRender: "game" },
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "面值名称",
     key: "price",
     align: "center",
     scopedSlots: { customRender: "price" },
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "面值价格",
@@ -118,13 +117,13 @@ const columns = [
     dataIndex: "currency",
     align: "center"
   },
-  {
-    title: "操作",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-    align: "center",
-    fixed: "right"
-  }
+  // {
+  //   title: "操作",
+  //   key: "action",
+  //   scopedSlots: { customRender: "action" },
+  //   align: "center",
+  //   fixed: "right"
+  // }
 ];
 export default {
   components: {

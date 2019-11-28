@@ -46,7 +46,7 @@
           <span slot="action" slot-scope="text">
             <a-button size="small" type="primary" @click="edit(text.id)" icon="edit" />
             <a-button size="small" type="danger" @click="del(text.id)" icon="delete" />
-            <a-button type="danger" size="small" @click="reset_password(text.id)">重置密码</a-button>
+            <a-button type="primary" size="small" @click="reset_password(text.id)">密重</a-button>
           </span>
         </a-table>
       </a-col>
@@ -252,7 +252,7 @@ export default {
     reset_password(id) {
       const self = this;
       this.$confirm({
-        content: "重置后不可恢复, 确认重置？",
+        content: "登录密码重置后不可恢复, 确认重置？",
         cancelText: "取消",
         okText: "重置",
         onOk() {

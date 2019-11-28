@@ -14,10 +14,10 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
   return modules
 }, {})
 
-const {config, role, menu, perm, user, userinfo, son, game, price, device, stock, ins, out, statistic, dist, migration, manage } = modules
+const {config, role, menu, perm, user, userinfo, son, game, price, device, stock, ins, out, statistic, dist, migration, manage, log } = modules
 
 const moduleRouter = [
-  user, role, menu, perm, config, userinfo, son, game, price, device, stock, ins, out, statistic, dist, migration, manage, 
+  user, role, menu, perm, config, userinfo, son, game, price, device, stock, ins, out, statistic, dist, migration, manage, log, 
   {
     path: '/login',
     component: () => import('@/views/login'),
@@ -69,9 +69,10 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   // 如果需要权限
   if (to.meta.requireAuth) {
-    if (store.getters.token) {
+    if (store.getters.token && store.getters.token != 'undefined') {
       next();
     } else {
+      store.dispatch('user/resetToken')
       next({
         path: '/login', // 将跳转的路由path作为参数，登录成功后跳转到该路由
         query: { redirect: to.fullPath }

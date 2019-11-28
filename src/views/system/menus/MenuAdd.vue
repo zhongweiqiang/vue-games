@@ -56,7 +56,7 @@
           />
         </a-form-item>
         <a-form-item label="图标名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
-          <a-input allowClear v-decorator="['icon']" placeholder="请输入视图路径" />
+          <a-input allowClear v-decorator="['icon']" placeholder="请输入图标名称" />
         </a-form-item>
         <a-form-item label="菜单排序" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
           <a-input

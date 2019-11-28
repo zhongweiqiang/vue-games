@@ -101,3 +101,36 @@ export function userSelect(data){
     params: data
   })
 }
+
+export function info(data){
+  return request({
+    url: '/v1/user/info',
+    method: 'get',
+    params: data
+  })
+}
+
+export function logout(data){
+  return request({
+    url: '/v1/auth/logout',
+    method: 'post',
+    data
+  })
+}
+
+export function user_reset_password(data){
+  return request({
+    url: '/v1/user/user_reset_password',
+    method: 'post',
+    data
+  })
+}
+
+export function pay_update_password(data){
+  return request({
+    url: '/v1/user/pay_update_password',
+    method: 'post',
+    data
+  })
+}
+
