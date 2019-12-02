@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function index(data){
+export function index(data) {
     return request({
         url: '/v1/info/index',
         method: 'get',
@@ -8,7 +8,7 @@ export function index(data){
     })
 }
 
-export function detail(data){
+export function detail(data) {
     return request({
         url: '/v1/info/detail',
         method: 'get',
@@ -16,7 +16,7 @@ export function detail(data){
     })
 }
 
-export function edit(data){
+export function edit(data) {
     return request({
         url: '/v1/info/update',
         method: 'post',
@@ -24,10 +24,18 @@ export function edit(data){
     })
 }
 
-export function pay_reset_password(data){
+export function pay_reset_password(data) {
     return request({
-      url: '/v1/info/pay_reset_password',
-      method: 'post',
-      data
+        url: '/v1/info/pay_reset_password',
+        method: 'post',
+        data
     })
-  }
+}
+
+export function select(data){
+    return request({
+        url: '/v1/info/select',
+        method: 'get',
+        params: data
+    })
+}

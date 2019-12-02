@@ -8,7 +8,8 @@ import store from '..'
 const state = {
   token: getToken(),
   expires_in: getExpireTime(),
-  element: []
+  element: [],
+  info: {}
 }
 
 const mutations = {
@@ -20,7 +21,10 @@ const mutations = {
   },
   SET_ELEMENT: (state, element) => {
     state.element = element
-  }
+  },
+  SET_INFO: (state, info) => {
+    state.info = info
+  },
 }
 
 const actions = {
@@ -88,6 +92,10 @@ const actions = {
         reject(error)
       })
     })
+  },
+
+  info({ commit }, data){
+    commit('SET_INFO', data)
   },
 
   setElement({ commit }, data) {
