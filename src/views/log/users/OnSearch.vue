@@ -11,12 +11,13 @@
                   placeholder="选择账户类型"
                   optionFilterProp="children"
                   style="width: 160px"
+                  @change="handleTypeChange"
                   allowClear
                   size="small"
-                  v-decorator="['type']"
+                  v-decorator="['user_type']"
                 >
-                  <a-select-option value="1">入库</a-select-option>
-                  <a-select-option value="2">出库</a-select-option>
+                  <a-select-option value="user">主账户</a-select-option>
+                  <a-select-option value="son">子账户</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -76,12 +77,11 @@ export default {
     return {
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
-      prices: [],
       users: []
     };
   },
   created() {
-    this.getUserList('son');
+    // this.getUserList("son");
   },
   methods: {
     handleSubmit(e) {
@@ -94,7 +94,10 @@ export default {
       });
     },
 
-
+    handleTypeChange(value) {
+      this.form.setFieldsValue({ user_id: undefined });
+      this.getUserList(value);
+    },
 
     filterOption(input, option) {
       return (

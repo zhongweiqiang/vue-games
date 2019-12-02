@@ -1,7 +1,7 @@
 <template>
   <div style="z-index:999;">
     <a-form :form="form" @submit="handleSubmit" layout="inline">
-      <a-row style="height: 60px; margin-left: 10px;">
+      <a-row style="height: 30px; margin-left: 10px;">
         <a-col :span="22">
           <a-row>
             <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">

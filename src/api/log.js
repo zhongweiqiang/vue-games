@@ -7,3 +7,11 @@ export function index(data){
         params: data
     })
 }
+
+export function user(data){
+    return request({
+        url: '/v1/log/user',
+        method: 'get',
+        params: data
+    })
+}
