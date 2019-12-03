@@ -1,6 +1,13 @@
 <template>
   <div>
-
+    <a-row style="height: 58px;">
+      <a-col :span="22">
+        <on-search @search="onSearch" :on-add="onUpdate" />
+      </a-col>
+      <a-col :span="2" style="margin-top: 17px;">
+        <!-- <a-button v-if="hasPermission('stock.delete')" type="danger" size="small" @click="del">删除</a-button> -->
+      </a-col>
+    </a-row>
     <a-row>
       <a-col style="margin-top: 20px;">
         <a-table
@@ -19,9 +26,9 @@
             <div v-if="text.son">{{ text.son.name }}</div>
             <div v-else>{{ text.user.name }}</div>
           </span>
-          <!-- <span slot="action" slot-scope="text">
+          <span slot="action" slot-scope="text">
             <drop-down :id="text.id" :info="text" :on-buy="buy" @update="onUpdate" :status="text.status" />
-          </span> -->
+          </span>
         </a-table>
       </a-col>
     </a-row>
@@ -30,7 +37,7 @@
 </template>
 
 <script>
-import { mySale } from "@/api/sale";
+import { index } from "@/api/buy";
 import OnSearch from "./OnSearch";
 import DropDown from './DropDown'
 
@@ -61,11 +68,6 @@ const columns = [
   },
   {
     title: "发布数量",
-    dataIndex: "default_unit",
-    align: "center"
-  },
-    {
-    title: "剩余数量",
     dataIndex: "unit",
     align: "center"
   },
@@ -80,6 +82,11 @@ const columns = [
     align: "center",
     scopedSlots: { customRender: "total_money" }
   },
+    {
+    title: "订单号",
+    dataIndex: "order_num",
+    align: "center"
+  },
   {
     title: "状态",
     dataIndex: "status",
@@ -90,12 +97,12 @@ const columns = [
     dataIndex: "created_at",
     align: "center"
   },
-//   {
-//     title: "操作",
-//     key: "action",
-//     scopedSlots: { customRender: "action" },
-//     align: "center"
-//   }
+  {
+    title: "操作",
+    key: "action",
+    scopedSlots: { customRender: "action" },
+    align: "center"
+  }
 ];
 export default {
   components: {
@@ -184,7 +191,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
-      mySale(params).then(response => {
+      index(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };
         let data = response.data;

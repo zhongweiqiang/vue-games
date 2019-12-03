@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <a-row>
       <a-col style="margin-top: 20px;">
         <a-table
@@ -12,16 +11,16 @@
           @change="handleTableChange"
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
-          <span slot="game" slot-scope="text">{{text.game.name}}</span>
+          <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
           <span slot="price" slot-scope="text">{{text.price.gold}}</span>
           <span slot="total_money" slot-scope="text">{{text.unit * text.unit_price}}</span>
           <span slot="owner_user_id" slot-scope="text">
             <div v-if="text.son">{{ text.son.name }}</div>
             <div v-else>{{ text.user.name }}</div>
           </span>
-          <!-- <span slot="action" slot-scope="text">
-            <drop-down :id="text.id" :info="text" :on-buy="buy" @update="onUpdate" :status="text.status" />
-          </span> -->
+          <span slot="action" slot-scope="text">
+            <a-button type="primary" size="small" :disabled="text.unit == 0" @click="finish(text.id)">供货</a-button>
+          </span>
         </a-table>
       </a-col>
     </a-row>
@@ -30,9 +29,7 @@
 </template>
 
 <script>
-import { mySale } from "@/api/sale";
-import OnSearch from "./OnSearch";
-import DropDown from './DropDown'
+import { index, finish, done } from "@/api/afford";
 
 const columns = [
   {
@@ -42,7 +39,7 @@ const columns = [
     align: "center"
   },
   {
-    title: "用户账户",
+    title: "供货账户",
     key: "user",
     align: "center",
     scopedSlots: { customRender: "user" }
@@ -60,12 +57,7 @@ const columns = [
     scopedSlots: { customRender: "price" }
   },
   {
-    title: "发布数量",
-    dataIndex: "default_unit",
-    align: "center"
-  },
-    {
-    title: "剩余数量",
+    title: "供货数量",
     dataIndex: "unit",
     align: "center"
   },
@@ -90,17 +82,17 @@ const columns = [
     dataIndex: "created_at",
     align: "center"
   },
-//   {
-//     title: "操作",
-//     key: "action",
-//     scopedSlots: { customRender: "action" },
-//     align: "center"
-//   }
+  {
+    title: "操作",
+    key: "action",
+    scopedSlots: { customRender: "action" },
+    align: "center"
+  }
 ];
 export default {
   components: {
-    OnSearch,
-    DropDown
+    // OnSearch,
+    // DropDown
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
@@ -139,8 +131,8 @@ export default {
       });
     },
 
-    buy(){
-        this.onUpdate()
+    buy() {
+      this.onUpdate();
     },
 
     getPagination() {
@@ -152,12 +144,30 @@ export default {
       };
     },
 
-    // 点击状态修改时
-    status(id) {
-      status({ id }).then(response => {
-        // console.log(response);
-        this.fetch(this.getPagination());
+    finish(id) {
+      console.log(id);
+      finish({ id }).then(response => {
+        console.log(response);
+        const self = this;
+        this.$confirm({
+          title: "确认供货?",
+          content: response.message,
+          onOk() {
+            self.done(id)
+          },
+          onCancel() {},
+          okText: '确认',
+          cancelText: '取消'
+        });
       });
+    },
+
+    done(id){
+        done({id}).then(response => {
+            console.log(response)
+            this.$message.success(response.message)
+            this.onUpdate()
+        })
     },
 
     // 表格参数改变时
@@ -184,7 +194,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
-      mySale(params).then(response => {
+      index(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };
         let data = response.data;
@@ -201,47 +211,10 @@ export default {
       this.$destroyAll();
     },
 
-    // tag标签数据
-    // tag_data() {
-    //   tag_data().then(response => {
-    //     this.total = response.data.total;
-    //     this.start = response.data.start;
-    //   });
-    // }
     onSelectChange(selectedRowKeys) {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     }
-
-    // del(id) {
-    //   const self = this;
-    //   this.$confirm({
-    //     content: "确认删除？",
-    //     cancelText: "取消",
-    //     okText: "删除",
-    //     onOk() {
-    //       return new Promise((resolve, reject) => {
-    //         // setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
-
-    //         del({ id: self.selectedRowKeys }).then(response => {
-    //           self.$message.success(response.message);
-    //           self.fetch({
-    //             pageSize: self.pagination.pageSize,
-    //             page: self.pagination.current,
-    //             sortField: self.pagination.sortField,
-    //             sortOrder: self.pagination.sortOrder,
-    //             ...self.filters
-    //           });
-    //           self.destroyAll();
-    //         });
-    //       });
-    //     },
-    //     onCancel() {
-    //       self.destroyAll();
-    //       self.$message.info("取消删除", 2);
-    //     }
-    //   });
-    // },
   }
 };
 </script>

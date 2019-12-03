@@ -82,6 +82,11 @@ const columns = [
     align: "center",
     scopedSlots: { customRender: "total_money" }
   },
+    {
+    title: "订单号",
+    dataIndex: "order_num",
+    align: "center"
+  },
   {
     title: "状态",
     dataIndex: "status",
