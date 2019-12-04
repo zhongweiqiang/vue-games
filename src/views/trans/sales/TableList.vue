@@ -31,8 +31,8 @@
 
 <script>
 import { mySale } from "@/api/sale";
-import OnSearch from "./OnSearch";
-import DropDown from './DropDown'
+// import OnSearch from "./OnSearch";
+// import DropDown from './DropDown'
 
 const columns = [
   {
@@ -99,8 +99,8 @@ const columns = [
 ];
 export default {
   components: {
-    OnSearch,
-    DropDown
+    // OnSearch,
+    // DropDown
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
@@ -201,47 +201,10 @@ export default {
       this.$destroyAll();
     },
 
-    // tag标签数据
-    // tag_data() {
-    //   tag_data().then(response => {
-    //     this.total = response.data.total;
-    //     this.start = response.data.start;
-    //   });
-    // }
     onSelectChange(selectedRowKeys) {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     }
-
-    // del(id) {
-    //   const self = this;
-    //   this.$confirm({
-    //     content: "确认删除？",
-    //     cancelText: "取消",
-    //     okText: "删除",
-    //     onOk() {
-    //       return new Promise((resolve, reject) => {
-    //         // setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
-
-    //         del({ id: self.selectedRowKeys }).then(response => {
-    //           self.$message.success(response.message);
-    //           self.fetch({
-    //             pageSize: self.pagination.pageSize,
-    //             page: self.pagination.current,
-    //             sortField: self.pagination.sortField,
-    //             sortOrder: self.pagination.sortOrder,
-    //             ...self.filters
-    //           });
-    //           self.destroyAll();
-    //         });
-    //       });
-    //     },
-    //     onCancel() {
-    //       self.destroyAll();
-    //       self.$message.info("取消删除", 2);
-    //     }
-    //   });
-    // },
   }
 };
 </script>

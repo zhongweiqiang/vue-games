@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <a-row>
       <a-col style="margin-top: 20px;">
         <a-table
@@ -11,16 +12,16 @@
           @change="handleTableChange"
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
-          <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
-          <span slot="price" slot-scope="text">{{text.price.gold}}</span>
-          <span slot="total_money" slot-scope="text">{{text.default_unit * text.unit_price}}</span>
+          <!-- <span slot="game" slot-scope="text">{{text.game.name}}</span>
+          <span slot="price" slot-scope="text">{{text.price.gold}}</span> -->
+          <span slot="total_money" slot-scope="text">{{text.unit * text.price}}</span>
           <span slot="owner_user_id" slot-scope="text">
             <div v-if="text.son">{{ text.son.name }}</div>
             <div v-else>{{ text.user.name }}</div>
           </span>
-          <span slot="action" slot-scope="text">
-            <a-button type="primary" size="small" :disabled="text.unit == 0" @click="finish(text.id)">供货</a-button>
-          </span>
+          <!-- <span slot="action" slot-scope="text">
+            <drop-down :id="text.id" :info="text" :on-buy="buy" @update="onUpdate" :status="text.status" />
+          </span> -->
         </a-table>
       </a-col>
     </a-row>
@@ -29,46 +30,48 @@
 </template>
 
 <script>
-import { index, finish, done } from "@/api/afford";
+import { buyUser } from "@/api/sale";
+// import OnSearch from "./OnSearch";
+// import DropDown from './DropDown'
 
 const columns = [
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center"
+  // },
   {
-    title: "id",
-    dataIndex: "id",
-    sorter: true,
-    align: "center"
-  },
-  {
-    title: "供货账户",
+    title: "用户昵称",
     key: "user",
     align: "center",
     scopedSlots: { customRender: "user" }
   },
+  // {
+  //   title: "游戏名称",
+  //   key: "game",
+  //   align: "center",
+  //   scopedSlots: { customRender: "game" }
+  // },
+  // {
+  //   title: "面值名称",
+  //   key: "price",
+  //   align: "center",
+  //   scopedSlots: { customRender: "price" }
+  // },
   {
-    title: "游戏名称",
-    key: "game",
-    align: "center",
-    scopedSlots: { customRender: "game" }
-  },
-  {
-    title: "面值名称",
-    key: "price",
-    align: "center",
-    scopedSlots: { customRender: "price" }
-  },
-  {
-    title: "供货总量",
-    dataIndex: "default_unit",
-    align: "center"
-  },
-    {
-    title: "供货数量",
+    title: "购买数量",
     dataIndex: "unit",
     align: "center"
   },
+  //   {
+  //   title: "剩余数量",
+  //   dataIndex: "unit",
+  //   align: "center"
+  // },
   {
     title: "订单单价",
-    dataIndex: "unit_price",
+    dataIndex: "price",
     align: "center"
   },
   {
@@ -77,27 +80,33 @@ const columns = [
     align: "center",
     scopedSlots: { customRender: "total_money" }
   },
+  // {
+  //   title: "状态",
+  //   dataIndex: "status",
+  //   align: "center"
+  // },
   {
-    title: "状态",
-    dataIndex: "status",
-    align: "center"
-  },
-  {
-    title: "发布时间",
+    title: "购买时间",
     dataIndex: "created_at",
     align: "center"
   },
-  {
-    title: "操作",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-    align: "center"
-  }
+//   {
+//     title: "操作",
+//     key: "action",
+//     scopedSlots: { customRender: "action" },
+//     align: "center"
+//   }
 ];
 export default {
   components: {
     // OnSearch,
     // DropDown
+  },
+  props: {
+    id: {
+      type: Number,
+      default: null
+    }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
@@ -118,7 +127,7 @@ export default {
   },
   mounted() {
     // 首次加载页面获取数据
-    this.fetch({ pageSize: this.pagination.pageSize });
+    this.fetch({ pageSize: this.pagination.pageSize, id: this.id });
     // this.tag_data();
     console.log(this.config);
   },
@@ -136,8 +145,8 @@ export default {
       });
     },
 
-    buy() {
-      this.onUpdate();
+    buy(){
+        this.onUpdate()
     },
 
     getPagination() {
@@ -149,30 +158,12 @@ export default {
       };
     },
 
-    finish(id) {
-      console.log(id);
-      finish({ id }).then(response => {
-        console.log(response);
-        const self = this;
-        this.$confirm({
-          title: "确认供货?",
-          content: response.message,
-          onOk() {
-            self.done(id)
-          },
-          onCancel() {},
-          okText: '确认',
-          cancelText: '取消'
-        });
+    // 点击状态修改时
+    status(id) {
+      status({ id }).then(response => {
+        // console.log(response);
+        this.fetch(this.getPagination());
       });
-    },
-
-    done(id){
-        done({id}).then(response => {
-            console.log(response)
-            this.$message.success(response.message)
-            this.onUpdate()
-        })
     },
 
     // 表格参数改变时
@@ -199,7 +190,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
-      index(params).then(response => {
+      buyUser(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };
         let data = response.data;

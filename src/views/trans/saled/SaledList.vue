@@ -1,5 +1,8 @@
 <template>
   <div>
+    <a-row style="height: 58px;">
+      <on-search @search="onSearch" />
+    </a-row>
     <a-row>
       <a-col style="margin-top: 20px;">
         <a-table
@@ -11,15 +14,15 @@
           @change="handleTableChange"
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
-          <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
+          <span slot="game" slot-scope="text">{{text.game.name}}</span>
           <span slot="price" slot-scope="text">{{text.price.gold}}</span>
-          <span slot="total_money" slot-scope="text">{{text.default_unit * text.unit_price}}</span>
+          <!-- <span slot="total_money" slot-scope="text">{{text.unit * text.unit_price}}</span> -->
           <span slot="owner_user_id" slot-scope="text">
             <div v-if="text.son">{{ text.son.name }}</div>
             <div v-else>{{ text.user.name }}</div>
           </span>
           <span slot="action" slot-scope="text">
-            <a-button type="primary" size="small" :disabled="text.unit == 0" @click="finish(text.id)">供货</a-button>
+            <buy-user-modal :id="text.id" />
           </span>
         </a-table>
       </a-col>
@@ -29,7 +32,10 @@
 </template>
 
 <script>
-import { index, finish, done } from "@/api/afford";
+import { mySale } from "@/api/sale";
+import BuyUserModal from "./BuyUserModal";
+import OnSearch from "./OnSearch";
+// import DropDown from './DropDown'
 
 const columns = [
   {
@@ -39,7 +45,7 @@ const columns = [
     align: "center"
   },
   {
-    title: "供货账户",
+    title: "买家昵称",
     key: "user",
     align: "center",
     scopedSlots: { customRender: "user" }
@@ -57,12 +63,12 @@ const columns = [
     scopedSlots: { customRender: "price" }
   },
   {
-    title: "供货总量",
+    title: "发布数量",
     dataIndex: "default_unit",
     align: "center"
   },
-    {
-    title: "供货数量",
+  {
+    title: "剩余数量",
     dataIndex: "unit",
     align: "center"
   },
@@ -71,11 +77,16 @@ const columns = [
     dataIndex: "unit_price",
     align: "center"
   },
+  // {
+  //   title: "订单总价",
+  //   key: "total_money",
+  //   align: "center",
+  //   scopedSlots: { customRender: "total_money" }
+  // },
   {
-    title: "订单总价",
-    key: "total_money",
-    align: "center",
-    scopedSlots: { customRender: "total_money" }
+    title: "订单号",
+    dataIndex: "order_num",
+    align: "center"
   },
   {
     title: "状态",
@@ -96,7 +107,8 @@ const columns = [
 ];
 export default {
   components: {
-    // OnSearch,
+    BuyUserModal,
+    OnSearch,
     // DropDown
   },
   beforeCreate() {
@@ -118,7 +130,7 @@ export default {
   },
   mounted() {
     // 首次加载页面获取数据
-    this.fetch({ pageSize: this.pagination.pageSize });
+    this.fetch({ pageSize: this.pagination.pageSize, type: "all" });
     // this.tag_data();
     console.log(this.config);
   },
@@ -126,7 +138,7 @@ export default {
   methods: {
     onSearch(value) {
       this.search = value;
-      this.fetch({ ...value, pageSize: this.pagination.pageSize });
+      this.fetch({ ...value, pageSize: this.pagination.pageSize, type: 'all' });
     },
 
     onUpdate() {
@@ -147,32 +159,6 @@ export default {
         sortField: this.pagination.sortField,
         sortOrder: this.pagination.sortOrder
       };
-    },
-
-    finish(id) {
-      console.log(id);
-      finish({ id }).then(response => {
-        console.log(response);
-        const self = this;
-        this.$confirm({
-          title: "确认供货?",
-          content: response.message,
-          onOk() {
-            self.done(id)
-          },
-          onCancel() {},
-          okText: '确认',
-          cancelText: '取消'
-        });
-      });
-    },
-
-    done(id){
-        done({id}).then(response => {
-            console.log(response)
-            this.$message.success(response.message)
-            this.onUpdate()
-        })
     },
 
     // 表格参数改变时
@@ -199,7 +185,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
-      index(params).then(response => {
+      mySale(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };
         let data = response.data;

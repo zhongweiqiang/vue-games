@@ -55,3 +55,19 @@ export function mySale(data){
         params: data
     })
 }
+
+export function buyUser(data){
+    return request({
+        url: '/v1/sale/buy_user',
+        method: 'get',
+        params: data
+    })
+}
+
+export function buyMe(data){
+    return request({
+        url: '/v1/sale/buy_me',
+        method: 'get',
+        params: data
+    })
+}

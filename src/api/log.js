@@ -15,3 +15,11 @@ export function user(data){
         params: data
     })
 }
+
+export function fee(data){
+    return request({
+        url: '/v1/log/fee',
+        method: 'get',
+        params: data
+    })
+}

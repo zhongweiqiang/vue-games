@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mySale } from "@/api/sale";
+import { qiugou_me } from "@/api/buy";
 import OnSearch from "./OnSearch";
 import DropDown from './DropDown'
 
@@ -184,7 +184,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
-      mySale(params).then(response => {
+      qiugou_me(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };
         let data = response.data;

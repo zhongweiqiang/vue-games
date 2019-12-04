@@ -56,3 +56,43 @@ export function mySale(data){
         params: data
     })
 }
+
+export function qiugou_me(data){
+    return request({
+        url: 'v1/buy/qiugou_me',
+        method: 'get',
+        params: data
+    })
+}
+
+export function me_pre(data){
+    return request({
+        url: '/v1/buy/me_pre',
+        method: 'get',
+        params: data
+    })
+}
+
+export function affordUser(data){
+    return request({
+        url: '/v1/buy/afford_user',
+        method: 'get',
+        params: data
+    })
+}
+
+export function punish(data){
+    return request({
+        url: '/v1/buy/punish',
+        method: 'post',
+        data
+    })
+}
+
+export function affordUserPrompt(data){
+    return request({
+        url: '/v1/buy/afford_user_prompt',
+        method: 'get',
+        params: data
+    })
+}

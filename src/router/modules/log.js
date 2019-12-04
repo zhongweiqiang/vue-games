@@ -10,6 +10,7 @@ const logRouter = {
         route('/log/stock', '/log/stocks/StockList', 'StockLog', '凭证日志'),
         route('/log/user', '/log/users/UserList', 'UserLog', '用户日志'),
         route('/log/trans', '/log/stocks/TransList', 'TransLog', '交易日志'),
+        route('/log/fee', '/log/fee/FeeList', 'FeeLog', '手续费日志'),
     ]
 }
 export default logRouter
