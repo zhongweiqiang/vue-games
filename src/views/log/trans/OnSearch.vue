@@ -4,7 +4,7 @@
       <a-row style="height: 60px; margin-left: 10px;">
         <a-col :span="24">
           <a-row>
-            <a-col :span="5">
+            <!-- <a-col :span="5">
               <a-form-item>
                 <a-select
                   showSearch
@@ -20,8 +20,9 @@
                   <a-select-option value="son">子账户</a-select-option>
                 </a-select>
               </a-form-item>
-            </a-col>
-            <a-col :span="5">
+            </a-col>-->
+
+            <a-col :span="5" v-if="hasPermission('trans.user')">
               <a-form-item>
                 <a-select
                   showSearch
@@ -38,6 +39,23 @@
                     :value="user.id"
                     :key="user.id"
                   >{{ user.name }}</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+
+            <a-col :span="5">
+              <a-form-item>
+                <a-select
+                  showSearch
+                  placeholder="选择交易类型"
+                  style="width: 160px"
+                  allowClear
+                  size="small"
+                  v-decorator="['status']"
+                >
+                  <a-select-option value="1">出售</a-select-option>
+                  <a-select-option value="2">求购</a-select-option>
+                  <a-select-option value="3">供货</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -81,10 +99,7 @@ export default {
     };
   },
   created() {
-    // this.getUserList("son");
-  },
-  mounted(){
-    this.form.setFieldsValue({user_type: 'son'})
+    this.getUserList("user");
   },
   methods: {
     handleSubmit(e) {

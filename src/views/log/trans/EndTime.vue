@@ -8,7 +8,7 @@
       @change="onChange"
       width="140px"
       size="small"
-      placeholder="选择开始时间"
+      placeholder="选择截止时间"
     />
     <br />
   </div>
@@ -19,8 +19,7 @@ export default {
     return {
       mode1: "time",
       mode2: ["month", "month"],
-      value: [],
-
+      value: []
     };
   },
   methods: {
@@ -31,23 +30,20 @@ export default {
     },
     handleChange(value) {
       this.value = value;
-      console.log("hello world");
     },
     handlePanelChange1(value, mode) {
       this.mode1 = mode;
     },
     handlePanelChange2(value, mode) {
-    //   console.log(value);
       this.value = value;
       this.mode2 = [
         mode[0] === "date" ? "month" : mode[0],
         mode[1] === "date" ? "month" : mode[1]
       ];
     },
-
     onChange(date, dateString) {
     //   console.log(date, dateString);
-      this.$emit('change', dateString)
+      this.$emit("change", dateString);
     }
   }
 };

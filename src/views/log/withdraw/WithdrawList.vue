@@ -4,12 +4,8 @@
       <a-col :span="18">
         <on-search @search="onSearch" />
       </a-col>
-
-      <a-col :span="2" :style="{float: 'right', marginRight: '20px', marginTop: '10px'}">
-        <a-tag color="#108ee9">总额: {{ totalMoney }}</a-tag>
-      </a-col>
     </a-row>
-    <a-row>
+    <!-- <a-row> -->
       <a-col>
         <a-table
           :columns="columns"
@@ -18,60 +14,59 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          width="500"
         >
-          <span slot="action" slot-scope="text">
-            <dist v-if="hasPermission('dist.dist')" :text="text" @dist="onDist" />
-            <div v-else>无</div>
-          </span>
+          <span slot="user" v-if="text.user" slot-scope="text">{{text.user.name}}</span>
+          <span slot="user" v-else-if="text.son" slot-scope="text">{{text.son.name}}</span>
+          <span slot="user" v-else>身份验证失败</span>
+
+
         </a-table>
       </a-col>
-    </a-row>
+    <!-- </a-row> -->
     <a-divider></a-divider>
   </div>
 </template>
 
 <script>
-import { index } from "@/api/dist";
+import { withdraw_fee } from "@/api/log";
 import OnSearch from "./OnSearch";
-import Dist from './DistComponent'
 const columns = [
-  // {
-  //   title: "id",
-  //   dataIndex: "id",
-  //   sorter: true,
-  //   align: "center"
-  // },
   {
-    title: "游戏名称",
-    dataIndex: "game_name",
+    title: "id",
+    dataIndex: "id",
+    sorter: true,
     align: "center"
   },
-  {
-    title: "面值名称",
-    dataIndex: "gold",
-    align: "center"
+    {
+    title: "所属用户",
+    key: "user",
+    align: "center",
+    scopedSlots: { customRender: "user" }
   },
   {
-    title: "面值价格",
+    title: "手续费金额",
     dataIndex: "money",
+    align: "center",
+  },
+    {
+    title: "提现id",
+    dataIndex: "money_id",
+    align: "center",
+  },
+  {
+    title: "描述",
+    dataIndex: "description",
+    align: "center",
+  },
+  {
+    title: "处理时间",
+    dataIndex: "created_at",
     align: "center"
   },
 
-  {
-    title: "总数",
-    dataIndex: "total",
-    align: "center"
-  },
-  {
-    title: "操作",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-    align: "center",
-  }
 ];
 export default {
-  components: { OnSearch, Dist },
+  components: { OnSearch },
   data() {
     return {
       data: [],
@@ -82,8 +77,9 @@ export default {
       // checked: false,
 
       // 给监听器使用的
-      search: {},
-      filters: {}
+      name: "",
+      filters: {},
+            search: {}
     };
   },
   mounted() {
@@ -92,7 +88,13 @@ export default {
     // this.tag_data();
     console.log(this.config);
   },
-
+  watch: {
+    name: function(newVal, oldVal) {
+      if (newVal == "") {
+        this.fetch({ pageSize: this.pagination.pageSize });
+      }
+    }
+  },
   methods: {
     // 页面搜索
     onSearch(value) {
@@ -109,9 +111,7 @@ export default {
       };
     },
 
-    onDist(){
-      this.fetch({...this.getPagination(), ...this.search})
-    },
+
 
 
     // 表格参数改变时
@@ -124,7 +124,6 @@ export default {
       pager.sortOrder = sorter.order;
       this.pagination = pager;
       this.filters = filters;
-
       this.fetch({
         pageSize: pagination.pageSize,
         page: pagination.current,
@@ -139,7 +138,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
-      index(params).then(response => {
+      withdraw_fee(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };
         let data = response.data;
@@ -151,6 +150,10 @@ export default {
       });
       // 每次加载数据都重新获取一遍数据
       // this.tag_data();
+    },
+
+    destroyAll() {
+      this.$destroyAll();
     }
   }
 };

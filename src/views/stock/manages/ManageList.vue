@@ -255,9 +255,9 @@ export default {
 .search {
   margin-top: 10px;
 }
-.ant-row {
+/* .ant-row {
   height: 24px;
-}
+} */
 .ant-form-item-control {
   line-height: 24px;
 }

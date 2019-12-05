@@ -23,3 +23,19 @@ export function fee(data){
         params: data
     })
 }
+
+export function withdraw_fee(data){
+    return request({
+        url: '/v1/log/withdraw_fee',
+        method: 'get',
+        params: data
+    })
+}
+
+export function trans_fee(data){
+    return request({
+        url: '/v1/log/trans_fee',
+        method: 'get',
+        params: data
+    })
+}

@@ -105,7 +105,9 @@ export default {
 
       // 给监听器使用的
       gold: "",
-      filters: {}
+      filters: {},
+      search: {},
+      game_id: ''
     };
   },
   mounted() {
@@ -117,17 +119,17 @@ export default {
   watch: {
     gold: function(newVal, oldVal) {
       if (newVal == "") {
-        this.fetch({ pageSize: this.pagination.pageSize });
+        this.fetch({ pageSize: this.pagination.pageSize, game_id: this.game_id });
       }
     }
   },
   methods: {
     // 页面搜索
     onSearch(value) {
-      if (value.trim() == "") {
-        return false;
-      }
-      index({ gold: value }).then(response => {
+      // if (value.trim() == "") {
+      //   return false;
+      // }
+      index({ gold: value, game_id: this.game_id }).then(response => {
         console.log(response);
         this.data = response.data.data;
         const pager = { ...this.pagination };
@@ -154,6 +156,7 @@ export default {
     },
 
     onSelect(game_id) {
+      this.game_id = game_id
       this.fetch({ ...this.pagination, game_id });
     },
 
@@ -202,7 +205,9 @@ export default {
         page: pagination.current,
         sortField: sorter.field,
         sortOrder: sorter.order,
-        ...filters // 此处放搜索字段
+        ...filters, // 此处放搜索字段
+        gold: this.gold,
+        game_id: this.game_id
       });
     },
 

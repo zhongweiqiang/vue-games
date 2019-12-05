@@ -39,3 +39,19 @@ export function select(data){
         params: data
     })
 }
+
+export function judge_status(data){
+    return request({
+        url: '/v1/info/judge_status',
+        method: 'post',
+        data
+    })
+}
+
+export function reset_nickname(data){
+    return request({
+        url: '/v1/info/reset_nickname',
+        method: 'post',
+        data
+    })
+}

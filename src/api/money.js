@@ -39,3 +39,11 @@ export function status(data){
         data
     })
 }
+
+export function picList(data){
+    return request({
+        url: '/v1/money/pic_list',
+        method: 'get',
+        params: data
+    })
+}

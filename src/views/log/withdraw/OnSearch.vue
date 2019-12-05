@@ -4,7 +4,7 @@
       <a-row style="height: 60px; margin-left: 10px;">
         <a-col :span="24">
           <a-row>
-            <a-col :span="5">
+            <!-- <a-col :span="5">
               <a-form-item>
                 <a-select
                   showSearch
@@ -20,7 +20,7 @@
                   <a-select-option value="son">子账户</a-select-option>
                 </a-select>
               </a-form-item>
-            </a-col>
+            </a-col> -->
             <a-col :span="5">
               <a-form-item>
                 <a-select
@@ -81,10 +81,7 @@ export default {
     };
   },
   created() {
-    // this.getUserList("son");
-  },
-  mounted(){
-    this.form.setFieldsValue({user_type: 'son'})
+    this.getUserList("user");
   },
   methods: {
     handleSubmit(e) {

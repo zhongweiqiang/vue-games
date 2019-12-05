@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-row>
-      <a-col :span="3" :xs="24" :sm="2" :md="2" :lg="2">
+      <a-col v-if="hasPermission('son.add')" :span="3" :xs="24" :sm="2" :md="2" :lg="2">
         <son-add :on-add="onAdd" />
       </a-col>
       <a-col
@@ -65,7 +65,7 @@
           <span slot="parent" v-else>无</span>
           <span slot="action" slot-scope="text">
             <!-- <a-button size="small" type="primary" @click="edit(text.id)" icon="edit" /> -->
-            <son-edit :id="text.id" :on-edit="onEdit" />
+            <son-edit v-if="hasPermission('son.edit')" :id="text.id" :on-edit="onEdit" />
             <a-button
               v-if="hasPermission('son.delete')"
               size="small"

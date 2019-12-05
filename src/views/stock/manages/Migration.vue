@@ -1,6 +1,6 @@
 <template>
   <a-form :form="form" @submit="handleSubmit">
-    <a-row>
+    <a-row style="height: 24px;">
       <a-form-item>
         <a-select
           showSearch
@@ -16,7 +16,7 @@
         </a-select>
       </a-form-item>
     </a-row>
-    <a-row style="margin-top: 10px;">
+    <a-row style="margin-top: 10px; height: 24px;">
       <a-form-item>
         <a-select
           showSearch

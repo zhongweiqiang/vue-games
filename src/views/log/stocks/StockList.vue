@@ -78,7 +78,8 @@ export default {
 
       // 给监听器使用的
       name: "",
-      filters: {}
+      filters: {},
+      search: {}
     };
   },
   mounted() {
@@ -97,6 +98,7 @@ export default {
   methods: {
     // 页面搜索
     onSearch(value) {
+      this.search = value
       this.fetch({ pageSize: this.pagination.pageSize, ...value });
     },
 
@@ -140,7 +142,8 @@ export default {
         page: pagination.current,
         sortField: sorter.field,
         sortOrder: sorter.order,
-        ...filters // 此处放搜索字段
+        ...filters, // 此处放搜索字段
+        ...this.search
       });
     },
 

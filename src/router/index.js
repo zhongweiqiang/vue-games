@@ -39,7 +39,7 @@ const moduleRouter = [
     component: () => import('@/views/layout'),
     redirect: "/dashboard",
     children: [
-      route('/dashboard', '/Dashboard', 'Dashboard')
+      route('/dashboard', '/dashboard/Dashboard', 'Dashboard')
 
     ]
   },
