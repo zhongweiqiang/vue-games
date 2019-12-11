@@ -229,7 +229,7 @@ export default {
       getCount(values).then(response => {
         console.log(response);
         let count = response.data;
-        this.max = count;
+        this.max = Number(count);
         this.form.setFieldsValue({ total: count });
       });
     }

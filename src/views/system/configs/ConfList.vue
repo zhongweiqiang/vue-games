@@ -23,6 +23,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 700 }"
         >
           <span slot="key" slot-scope="text">
             <a-tag color="purple">{{text}}</a-tag>
@@ -48,7 +49,8 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "键名",
@@ -70,7 +72,8 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 export default {

@@ -4,7 +4,7 @@
       <a-col :span="3" :xs="24" :sm="5" :md="4" :lg="3">
         <!-- <a-button type="primary" size="small" style="margin-top: 4px;" @click="userAdd">
           <a-icon type="plus" />用户
-        </a-button> -->
+        </a-button>-->
         <user-add :on-add="onAdd" />
       </a-col>
       <a-col :span="8" :xs="24" :sm="10" :md="9" :lg="8">
@@ -16,11 +16,14 @@
           enterButton
         />
       </a-col>
-      <a-col :span="2" :offset="7" style="margin-top: 5px;">
+      <a-col :span="2" :offset="4" style="margin-top: 5px;">
         <a-tag color="#108ee9">总用户数: {{ total }}</a-tag>
       </a-col>
       <a-col :span="2" :offset="1" style="margin-top: 5px;">
         <a-tag color="#2db7f5">启用用户: {{ start }}</a-tag>
+      </a-col>
+      <a-col :span="2" :offset="1" style="margin-top: 5px;">
+        <a-tag color="#f50">禁用用户: {{ total - start }}</a-tag>
       </a-col>
     </a-row>
     <a-row>
@@ -32,6 +35,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 1000 }"
         >
           <span slot="role" slot-scope="text">{{text.name}}</span>
           <span slot="status" slot-scope="text, record">
@@ -58,13 +62,14 @@
 <script>
 // import reqwest from "reqwest";
 import { index, status, del, reset_password, tag_data } from "@/api/user";
-import UserAdd from './UserAdd'
+import UserAdd from "./UserAdd";
 const columns = [
   {
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "用户名",
@@ -98,7 +103,8 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 export default {
@@ -150,7 +156,7 @@ export default {
     },
 
     onAdd() {
-      this.fetch(this.pagination)
+      this.fetch(this.pagination);
     },
 
     // 表格参数改变时

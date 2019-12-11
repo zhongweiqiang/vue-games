@@ -23,6 +23,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 900 }"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
@@ -46,7 +47,8 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "菜单名称",
@@ -83,7 +85,8 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 export default {

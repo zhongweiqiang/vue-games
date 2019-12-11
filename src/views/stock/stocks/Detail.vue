@@ -25,7 +25,7 @@
           <description-item title="面值价格：" :content="text.price.money" />
         </a-col>
         <a-col :span="12">
-          <description-item title="库存单号：" :content="text.identifier" />
+          <description-item title="库存单号：" :content="apple.identifier" />
         </a-col>
       </a-row>
       <a-row>

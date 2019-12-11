@@ -67,6 +67,7 @@
               >
                 <a-select-option value="1">月租收费</a-select-option>
                 <a-select-option value="2">出库收费</a-select-option>
+                <a-select-option value="3">免费用户</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>

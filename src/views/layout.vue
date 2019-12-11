@@ -1,6 +1,6 @@
 <template>
-  <a-layout id="components-layout-demo-custom-trigger">
-    <a-layout-sider :trigger="null" collapsible v-model="collapsed" style="overflow: auto;">
+  <a-layout id="components-layout-demo-custom-trigger" style="z-index: 999;">
+    <a-layout-sider :trigger="null" collapsible v-model="collapsed" style="overflow: auto; z-index: 999;">
       <div class="logo" />
       <!-- 这里是sidebar的log部分 -->
       <a-menu mode="inline" theme="dark" :inlineCollapsed="collapsed">
@@ -25,7 +25,7 @@
       <div
         style="background: #eee; position: fixed; z-index: 999; width: 100%; height: 100px;box-shadow:0 0 20px #bbb inset"
       >
-        <a-layout-header style="background: #fff; padding: 0;">
+        <a-layout-header style="background: #fff; padding: 0;z-index: 999;">
           <a-row>
             <a-col :span="2">
               <a-icon

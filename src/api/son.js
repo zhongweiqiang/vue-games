@@ -55,3 +55,11 @@ export function son_statistic(data){
     params: data
   })
 }
+
+export function tag_data(data){
+  return request({
+    url: '/v1/son/tag_data',
+    method: 'get',
+    params: data
+  })
+}

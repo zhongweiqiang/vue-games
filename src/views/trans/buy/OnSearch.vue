@@ -2,25 +2,29 @@
   <div>
     <a-row>
       <a-col
-        :span="3"
-         v-if="hasPermission('sale.add')"
+        :xs="20"
+        :sm="16"
+        :md="10"
+        :lg="3"
+        :xl="3"
+        v-if="hasPermission('sale.add')"
+        style="height: 58px; margin-left: 10px; margin-top: 10px;"
       >
-      <a-row>
-        <a-col>
-          <buy-add :on-add="onAdd" />
-        </a-col>
-        <a-col>
-          <my-modal />
-        </a-col>
-      </a-row>
-        
+        <a-row>
+          <a-col>
+            <buy-add :on-add="onAdd" />
+          </a-col>
+          <a-col>
+            <my-modal />
+          </a-col>
+        </a-row>
       </a-col>
       <a-col :span="20">
         <a-form :form="form" @submit="handleSubmit" layout="inline">
           <a-row style="height: 30px; margin-left: 10px;">
             <a-col :span="22">
               <a-row>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">
+                <a-col :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
@@ -41,7 +45,7 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">
+                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
@@ -58,7 +62,7 @@
                 </a-col>
               </a-row>
               <a-row :style="{marginTop: '10px'}">
-                <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">
+                <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
@@ -78,7 +82,7 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
+                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="5" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
@@ -101,9 +105,9 @@
               </a-row>
             </a-col>
             <a-col
-              :span="1"
+               :xs="20" :sm="16" :md="10" :lg="1" :xl="1"
               :offset="1"
-              :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', height: '58px'}"
+              :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', marginTop: '10px'}"
             >
               <a-form-item>
                 <a-button size="small" type="primary" html-type="submit">搜索</a-button>
@@ -122,7 +126,7 @@ import { priceSelect } from "@/api/price";
 import { select } from "@/api/userinfo";
 import StartTime from "./StartTime";
 import EndTime from "./EndTime";
-import MyModal from './MyModal'
+import MyModal from "./MyModal";
 
 import BuyAdd from "./BuyAdd";
 export default {
@@ -205,5 +209,18 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.ant-table-tbody > tr > td {
+  padding: 4px 8px;
+  text-align: center;
+}
+.search {
+  margin-top: 10px;
+}
+.ant-row {
+  height: 24px;
+}
+.ant-form-item-control {
+  line-height: 24px;
+}
 </style>

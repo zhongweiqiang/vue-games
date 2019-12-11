@@ -14,6 +14,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 600 }"
         >
           <span slot="son" slot-scope="text">{{text.son.name}}</span>
           <span slot="game" slot-scope="text">{{text.store.price.game.name}}</span>
@@ -34,7 +35,8 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
     {
     title: "所属用户",
@@ -62,7 +64,8 @@ const columns = [
   {
     title: "操作时间",
     dataIndex: "created_at",
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 export default {

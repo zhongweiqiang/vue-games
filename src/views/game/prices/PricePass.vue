@@ -1,22 +1,11 @@
 <template>
   <div>
-    <!-- <a-row>
-      <a-col :span="3" :xs="24" :sm="3" :md="3" :lg="2">
-        <price-add :on-add="onAdd" />
+    <a-row>
+      <a-col :span="18">
+        <pass-search @search="onSearch" />
       </a-col>
-      <a-col :xs="24" :sm="10" :md="10" :lg="5">
-        <game-search @select="onSelect" />
-      </a-col>
-      <a-col :span="8" :xs="24" :sm="8" :md="8" :lg="6">
-        <a-input-search
-          allowClear
-          v-model="gold"
-          placeholder="请输入面值"
-          @search="onSearch"
-          enterButton
-        />
-      </a-col>
-    </a-row> -->
+      
+    </a-row>
     <a-row>
       <a-col>
         <a-table
@@ -26,15 +15,9 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 1000 }"
         >
           <span slot="action" slot-scope="text">
-            <!-- <price-edit :id="text.id" :on-edit="onEdit" />
-            <a-button size="small" type="danger" @click="del(text.id)" icon="delete" />
-            <a-button
-              type="primary"
-              size="small"
-              @click="status(text.id)"
-            >{{text.status == '禁用' ? '启' : '禁'}}</a-button> -->
             <a-button size="small" type="primary" @click="pass(text.id)">恢</a-button>
           </span>
         </a-table>
@@ -48,13 +31,14 @@
 import { index, del, detail, status, pass } from "@/api/price";
 import PriceAdd from "./PriceAdd";
 import PriceEdit from "./PriceEdit";
-import GameSearch from "./GameSearch";
+import PassSearch from "./PassSearch";
 const columns = [
   {
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "游戏名称",
@@ -90,11 +74,12 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 export default {
-  components: { PriceAdd, PriceEdit, GameSearch },
+  components: { PriceAdd, PriceEdit, PassSearch },
   data() {
     return {
       data: [],
@@ -123,16 +108,17 @@ export default {
   methods: {
     // 页面搜索
     onSearch(value) {
-      if (value.trim() == "") {
-        return false;
-      }
-      index({ gold: value }).then(response => {
-        console.log(response);
-        this.data = response.data.data;
-        const pager = { ...this.pagination };
-        pager.total = response.data.total;
-        this.pagination = pager;
-      });
+      // if (value.trim() == "") {
+      //   return false;
+      // }
+      // index({ gold: value }).then(response => {
+      //   console.log(response);
+      //   this.data = response.data.data;
+      //   const pager = { ...this.pagination };
+      //   pager.total = response.data.total;
+      //   this.pagination = pager;
+      // });
+      this.fetch(value)
     },
 
     getPagination() {
@@ -209,7 +195,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
-      params.pass = 'passed'
+      params.pass = "passed";
       index(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };

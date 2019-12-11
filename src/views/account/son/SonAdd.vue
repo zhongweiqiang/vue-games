@@ -34,8 +34,8 @@
             placeholder="请选择账户类型"
           >
             <a-select-option value="1">入库</a-select-option>
-            <a-select-option value="2">出库</a-select-option>
-            <a-select-option value="3">入库出库</a-select-option>
+            <a-select-option v-if="seen" value="2">出库</a-select-option>
+            <a-select-option v-if="seen" value="3">入库出库</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 8, offset: 16 }">
@@ -53,7 +53,6 @@
   </div>
 </template>
 <script>
-
 import { add } from "@/api/son";
 export default {
   props: {
@@ -76,11 +75,17 @@ export default {
       confirmLoading: false,
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
-      roles: []
+      roles: [],
+      seen: true
     };
   },
   created() {
     // this.getRoleList();
+  },
+  mounted() {
+    if (this.$store.getters.info.userinfo.charge_status == "免费用户") {
+      this.seen = false;
+    }
   },
   methods: {
     showModal() {
@@ -96,10 +101,10 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-            console.log('values',  values)
+          console.log("values", values);
           this.confirmLoading = true;
           add(values).then(response => {
-              console.log(response)
+            console.log(response);
             this.onAdd();
             this.$message.success(response.message);
             this.visible = false;

@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #ECECEC; padding: 30px; padding-bottom: 100px;">
+  <div style="background: #ECECEC; padding: 30px; padding-bottom: 100px; min-width=500px">
     <a-table
       :columns="columns"
       :rowKey="record => record.id"

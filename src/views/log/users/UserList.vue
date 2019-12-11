@@ -14,6 +14,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 600 }"
         >
           <span slot="user" v-if="text.user" slot-scope="text">{{text.user.name}}</span>
           <span slot="user" v-else-if="text.son" slot-scope="text">{{text.son.name}}</span>
@@ -35,7 +36,8 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
     {
     title: "所属用户",
@@ -56,7 +58,8 @@ const columns = [
   {
     title: "登录时间",
     dataIndex: "created_at",
-    align: "center"
+    align: "center",
+    fixed: "right"
   },
 
 ];

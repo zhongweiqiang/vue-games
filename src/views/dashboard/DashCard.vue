@@ -1,7 +1,7 @@
 <template>
-  <div style="background: #ECECEC; padding: 30px">
+  <div style="background: #ECECEC; padding: 30px; padding-top: 0px;">
     <a-row :gutter="16">
-      <a-col :span="6">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
           <router-link to="/stock/list">
         <a-card>
           <a-statistic
@@ -19,7 +19,7 @@
         </a-card>
           </router-link>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
         <a-card>
           <a-statistic
             title="正常有效"
@@ -35,7 +35,7 @@
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
           <router-link to="/out/list">
 
         <a-card>
@@ -55,7 +55,7 @@
           </router-link>
       </a-col>
 
-      <a-col :span="6">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
           <router-link to="/buy/list">
         <a-card>
           <a-statistic
@@ -74,7 +74,7 @@
           </router-link>
       </a-col>
 
-      <a-col :span="6" class="top">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
         <a-card>
           <a-statistic
             title="有效金额"
@@ -90,7 +90,7 @@
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6" class="top">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
           <router-link to="/saled/list">
         <a-card>
           <a-statistic
@@ -108,7 +108,7 @@
         </a-card>
           </router-link>
       </a-col>
-      <a-col :span="6" class="top">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
           <router-link to="/pre_buy_me/list">
         <a-card>
           <a-statistic
@@ -126,7 +126,7 @@
         </a-card>
           </router-link>
       </a-col>
-      <a-col :span="6" class="top">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
         <a-card>
           <a-statistic
             title="冻结总额"
@@ -142,7 +142,7 @@
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6" class="top">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
           <router-link to="/log/withdraw">
         <a-card>
           <a-statistic
@@ -160,7 +160,7 @@
         </a-card>
           </router-link>
       </a-col>
-      <a-col :span="6" class="top">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
         <a-card>
           <a-statistic
             title="出库手续费"
@@ -176,7 +176,7 @@
           </a-statistic>
         </a-card>
       </a-col>
-      <a-col :span="6" class="top">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
           <router-link to="/log/trans">
         <a-card>
           <a-statistic
@@ -194,7 +194,7 @@
         </a-card>
           </router-link>
       </a-col>
-      <a-col :span="6" class="top">
+      <a-col :xs="24" :sm="24" :md="12" :lg="6" :xl="6" class="top">
           <router-link to="/log/trans">
         <a-card>
           <a-statistic

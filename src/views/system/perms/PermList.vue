@@ -4,12 +4,23 @@
       <a-col :span="3" :xs="24" :sm="5" :md="4" :lg="3">
         <perm-add :on-add="onAdd" />
       </a-col>
-      <a-col :span="8" :xs="24" :sm="10" :md="9" :lg="8">
+      <a-col :span="8" :xs="24" :sm="10" :md="6" :lg="6">
         <a-input-search
           allowClear
           v-model="name"
           placeholder="请输入权限名称"
+          width="200"
           @search="onSearch"
+          enterButton
+        />
+      </a-col>
+      <a-col :span="8" :xs="24" :sm="10" :md="6" :lg="6" :offset="1">
+        <a-input-search
+          allowClear
+          v-model="description"
+          placeholder="请输入权限描述"
+          width="200"
+          @search="onDescriptionSearch"
           enterButton
         />
       </a-col>
@@ -23,6 +34,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 900 }"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.name}}</span>
           <span slot="parent" v-else>无</span>
@@ -47,7 +59,8 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "权限名称",
@@ -79,7 +92,8 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 export default {
@@ -94,7 +108,8 @@ export default {
 
       // 给监听器使用的
       name: "",
-      filters: {}
+      filters: {},
+      description: '',
     };
   },
   mounted() {
@@ -106,7 +121,12 @@ export default {
       if (newVal == "") {
         this.fetch({ pageSize: this.pagination.pageSize });
       }
-    }
+    },
+    description: function(newVal, oldVal) {
+      if (newVal == "") {
+        this.fetch({ pageSize: this.pagination.pageSize });
+      }
+    },
   },
   methods: {
     getPagination(){
@@ -131,6 +151,20 @@ export default {
         return false;
       }
       index({ name: value }).then(response => {
+        console.log(response);
+        this.data = response.data.data;
+        const pager = { ...this.pagination };
+        pager.total = response.data.total;
+        this.pagination = pager;
+      });
+    },
+
+        // 页面搜索
+    onDescriptionSearch(value) {
+      if (value.trim() == "") {
+        return false;
+      }
+      index({ description: value }).then(response => {
         console.log(response);
         this.data = response.data.data;
         const pager = { ...this.pagination };

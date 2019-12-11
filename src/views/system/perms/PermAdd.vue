@@ -5,7 +5,7 @@
     </a-button>
     <a-drawer
       title="权限添加"
-      :width="720"
+      width="60%"
       @close="onClose"
       :visible="visible"
       :wrapStyle="{height: 'calc(100% - 108px)',overflow: 'auto',paddingBottom: '108px'}"

@@ -1,5 +1,5 @@
 <template>
-  <a-form :form="form" @submit="handleSubmit">
+  <a-form :form="form" @submit="handleSubmit" style="min-width: 500px;">
     <a-form-item label="用户名" :label-col="{ span: 5 }" :wrapper-col="{ span: 8 }">
       <a-input
         v-decorator="['name', { rules: [{ required: true, message: '用户名必须填写' }] }]"

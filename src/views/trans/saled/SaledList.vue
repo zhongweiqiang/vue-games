@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="height: 58px;">
+    <a-row style="z-index: 2;">
       <on-search @search="onSearch" />
     </a-row>
     <a-row>
@@ -12,6 +12,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 1100 }"
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
           <span slot="game" slot-scope="text">{{text.game.name}}</span>
@@ -42,13 +43,14 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "买家昵称",
     key: "user",
     align: "center",
-    scopedSlots: { customRender: "user" }
+    scopedSlots: { customRender: "user" },
   },
   {
     title: "游戏名称",
@@ -102,7 +104,8 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 export default {

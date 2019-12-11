@@ -1,6 +1,6 @@
 <template>
   <a-row style="margin-top: 50px;">
-    <a-col :span="10" :offset="2">
+    <a-col :xs="20" :sm="20" :md="20" :lg="10" :xl="10" :offset="2">
       <a-card hoverable style="width: 350px">
         <img
           alt="example"
@@ -12,7 +12,7 @@
         </a-card-meta>
       </a-card>
     </a-col>
-    <a-col :span="10">
+    <a-col :xs="20" :sm="20" :md="20" :lg="10" :xl="10" :offset="2">
       <a-card hoverable style="width: 350px">
         <img
           alt="example"

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="18">
+    <a-row style="z-index: 2;">
+      <a-col :span="20">
         <on-search @search="onSearch" />
       </a-col>
 
@@ -18,6 +18,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 1000 }"
         >
           <span slot="money" slot-scope="text">{{text.money}}元</span>
           <span
@@ -39,7 +40,8 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "游戏名称",
@@ -71,7 +73,8 @@ const columns = [
     title: "总额",
     key: "totalMoney",
     align: "center",
-    scopedSlots: { customRender: "totalMoney" }
+    scopedSlots: { customRender: "totalMoney" },
+    fixed: "right"
   }
 ];
 export default {
@@ -207,13 +210,6 @@ export default {
       this.$destroyAll();
     }
 
-    // tag标签数据
-    // tag_data() {
-    //   tag_data().then(response => {
-    //     this.total = response.data.total;
-    //     this.start = response.data.start;
-    //   });
-    // }
   }
 };
 </script>

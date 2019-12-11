@@ -1,15 +1,15 @@
 <template>
   <div>
-    <a-row style="height: 58px;">
+    <a-row style="z-index: 2;">
       <a-col :span="20">
         <on-search @search="onSearch" />
       </a-col>
       <a-col :span="2" style="margin-top: 17px;">
-        <a-button v-if="hasPermission('stock.delete')" type="danger" size="small" @click="del">删除</a-button>
+        <a-button v-if="hasPermission('stock.delete')" type="danger" size="small" :disabled="selectedRowKeys.length<1" @click="del">删除凭证</a-button>
       </a-col>
     </a-row>
     <a-row>
-      <a-col style="margin-top: 20px;">
+      <a-col style="margin-top: 25px;">
         <a-table
           :columns="columns"
           :rowKey="record => record.id"
@@ -62,14 +62,12 @@ const columns = [
     key: "game",
     align: "center",
     scopedSlots: { customRender: "game" },
-    fixed: "left"
   },
   {
     title: "面值名称",
     key: "price",
     align: "center",
     scopedSlots: { customRender: "price" },
-    fixed: "left"
   },
   {
     title: "面值价格",
@@ -264,7 +262,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .ant-table-tbody > tr > td {
   padding: 4px 8px;
   text-align: center;

@@ -1,8 +1,16 @@
 <template>
   <a-row>
-    <a-col :span="3" v-if="hasPermission('sale.add')">
+    <a-col
+      :xs="20"
+      :sm="16"
+      :md="10"
+      :lg="3"
+      :xl="3"
+      v-if="hasPermission('sale.add')"
+      style="height: 58px; margin-left: 10px;"
+    >
       <a-row>
-        <a-col>
+        <a-col style="margin-top: 10px;">
           <sale-add :on-add="onAdd" />
         </a-col>
         <a-col>
@@ -15,7 +23,7 @@
         <a-row style="height: 30px; margin-left: 10px;">
           <a-col :span="22">
             <a-row>
-              <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">
+              <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
                 <a-form-item>
                   <a-select
                     showSearch
@@ -36,7 +44,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">
+              <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
                 <a-form-item>
                   <a-select
                     showSearch
@@ -53,7 +61,7 @@
               </a-col>
             </a-row>
             <a-row :style="{marginTop: '10px'}">
-              <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="6">
+              <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
                 <a-form-item>
                   <a-select
                     showSearch
@@ -73,7 +81,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="5">
+              <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="5" style="margin-top: 10px;">
                 <a-form-item>
                   <a-select
                     showSearch
@@ -96,7 +104,13 @@
             </a-row>
           </a-col>
           <a-col
-            :span="1"
+            :span="6"
+            :xs="20"
+            :sm="16"
+            :md="10"
+            :lg="1"
+            :xl="1"
+            style="margin-top: 10px;"
             :offset="1"
             :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', height: '58px'}"
           >
@@ -199,5 +213,18 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.ant-table-tbody > tr > td {
+  padding: 4px 8px;
+  text-align: center;
+}
+.search {
+  margin-top: 10px;
+}
+.ant-row {
+  height: 24px;
+}
+.ant-form-item-control {
+  line-height: 24px;
+}
 </style>

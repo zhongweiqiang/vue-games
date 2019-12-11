@@ -6,7 +6,7 @@
           <a-row style="height: 30px; margin-left: 10px;">
             <a-col :span="14">
               <a-row>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8">
+                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
@@ -27,7 +27,7 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8">
+                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
@@ -44,14 +44,14 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8">
+                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <start-time v-decorator="['start_time']" />
                   </a-form-item>
                 </a-col>
               </a-row>
               <a-row :style="{marginTop: '10px'}">
-                <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="8" :xl="8">
+                <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
@@ -71,7 +71,7 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8">
+                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <a-input
                       placeholder="请输入定单号"
@@ -82,7 +82,7 @@
                     ></a-input>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8">
+                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <end-time v-decorator="['end_time']" />
                   </a-form-item>
@@ -90,9 +90,9 @@
               </a-row>
             </a-col>
             <a-col
-              :span="1"
+               :xs="20" :sm="16" :md="10" :lg="1" :xl="1"
               :offset="1"
-              :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', height: '58px'}"
+              :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', marginTop: '10px'}"
             >
               <a-form-item>
                 <a-button size="small" type="primary" html-type="submit">搜索</a-button>
@@ -195,5 +195,18 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.ant-table-tbody > tr > td {
+  padding: 4px 8px;
+  text-align: center;
+}
+.search {
+  margin-top: 10px;
+}
+.ant-row {
+  height: 24px;
+}
+.ant-form-item-control {
+  line-height: 24px;
+}
 </style>

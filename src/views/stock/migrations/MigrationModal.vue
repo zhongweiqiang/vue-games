@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-button type="primary" @click="showModal">迁移</a-button>
-    <a-modal title="一键迁移" v-model="visible" @ok="handleOk" width="32%" :footer="null" :maskClosable="false" :closable="false">
+    <a-modal title="一键迁移" v-model="visible" @ok="handleOk" width="32%" :footer="null" :maskClosable="false" :closable="false" style="min-width: 420px;">
       <migration-form @cancel="handleCancel" />
     </a-modal>
   </div>

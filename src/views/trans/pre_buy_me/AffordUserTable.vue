@@ -9,6 +9,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 800 }"
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
           <!-- <span slot="game" slot-scope="text">{{text.game.name}}</span>
@@ -52,7 +53,8 @@ const columns = [
     title: "用户昵称",
     key: "user",
     align: "center",
-    scopedSlots: { customRender: "user" }
+    scopedSlots: { customRender: "user" },
+    fixed: "left"
   },
   // {
   //   title: "游戏名称",

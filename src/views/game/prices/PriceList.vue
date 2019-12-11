@@ -1,20 +1,33 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="3" :xs="24" :sm="3" :md="3" :lg="2">
+    <a-row style="z-index:2">
+      <a-col :xs="16" :sm="16" :md="16" :lg="12" :xl="3" style="margin-top: 10px;">
         <price-add :on-add="onAdd" />
       </a-col>
-      <a-col :xs="24" :sm="10" :md="10" :lg="5">
+      <a-col :xs="16" :sm="16" :md="16" :lg="5" :xl="5" style="margin-top: 10px;">
         <game-search @select="onSelect" />
       </a-col>
-      <a-col :span="8" :xs="24" :sm="8" :md="8" :lg="6">
+      <a-col :xs="16" :sm="16" :md="16" :lg="5" :xl="5" style="margin-top: 10px;">
         <a-input-search
           allowClear
           v-model="gold"
           placeholder="请输入面值名称"
-          @search="onSearch"
+          @search="onPriceSearch"
           enterButton
         />
+      </a-col>
+
+      <a-col :xs="16" :sm="16" :md="16" :lg="5" :xl="5" :offset="1" style="margin-top: 10px;">
+        <a-select
+          allowClear
+          placeholder="面值状态"
+          optionFilterProp="children"
+          style="width: 140px"
+          @change="handleTypeChange"
+        >
+          <a-select-option value="1">启用</a-select-option>
+          <a-select-option value="2">禁用</a-select-option>
+        </a-select>
       </a-col>
     </a-row>
     <a-row>
@@ -26,6 +39,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 1000 }"
         >
           <span slot="action" slot-scope="text">
             <price-edit :id="text.id" :on-edit="onEdit" />
@@ -54,7 +68,8 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "游戏名称",
@@ -69,7 +84,7 @@ const columns = [
   {
     title: "面值标识",
     dataIndex: "title",
-    align: "center",
+    align: "center"
   },
   {
     title: "面值价格",
@@ -91,7 +106,8 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    width: 150
+    width: 150,
+    fixed: "right"
   }
 ];
 export default {
@@ -107,7 +123,8 @@ export default {
       gold: "",
       filters: {},
       search: {},
-      game_id: ''
+      game_id: "",
+      type: "", // 面值状态
     };
   },
   mounted() {
@@ -119,17 +136,28 @@ export default {
   watch: {
     gold: function(newVal, oldVal) {
       if (newVal == "") {
-        this.fetch({ pageSize: this.pagination.pageSize, game_id: this.game_id });
+        this.fetch({
+          pageSize: this.pagination.pageSize,
+          game_id: this.game_id
+        });
       }
     }
   },
   methods: {
+
+    onPriceSearch(value){
+      if (value.trim() == "") {
+        return false;
+      }
+      this.gold = value
+      this.onSearch()
+    },
     // 页面搜索
-    onSearch(value) {
+    onSearch() {
       // if (value.trim() == "") {
       //   return false;
       // }
-      index({ gold: value, game_id: this.game_id }).then(response => {
+      index({ gold: this.gold, game_id: this.game_id, status: this.type }).then(response => {
         console.log(response);
         this.data = response.data.data;
         const pager = { ...this.pagination };
@@ -156,8 +184,14 @@ export default {
     },
 
     onSelect(game_id) {
-      this.game_id = game_id
+      this.game_id = game_id;
       this.fetch({ ...this.pagination, game_id });
+    },
+
+    handleTypeChange(value) {
+      this.type = value
+      // this.
+      this.onSearch()
     },
 
     // 点击状态修改时

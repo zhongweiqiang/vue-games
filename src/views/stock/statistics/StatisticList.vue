@@ -1,11 +1,11 @@
 <template>
   <div>
-    <a-row>
-      <a-col :span="18">
+    <a-row style="z-index: 2;">
+      <a-col :xs="16" :sm="16" :md="16" :lg="18" :xl="18">
         <on-search @search="onSearch" />
       </a-col>
 
-      <a-col :span="2" :style="{float: 'right', marginRight: '20px', marginTop: '10px'}">
+      <a-col :xs="5" :sm="5" :md="5" :lg="4" :xl="4" :style="{float: 'right', marginRight: '20px', marginTop: '10px'}">
         <a-tag color="#108ee9">总额: {{ totalMoney }}</a-tag>
       </a-col>
     </a-row>
@@ -18,7 +18,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1200 }"
+          :scroll="{ x: 900 }"
         >
           <span slot="money" slot-scope="text">{{text.money}}元</span>
           <span
@@ -52,14 +52,12 @@ const columns = [
     title: "面值名称",
     dataIndex: "gold",
     align: "center",
-    fixed: "left"
   },
   {
     title: "面值价格",
     key: "money",
     align: "center",
     scopedSlots: { customRender: "money" },
-    fixed: "left"
   },
   {
     title: "正常有效",

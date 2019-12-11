@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="height: 58px;">
+    <a-row style="z-index: 2">
       <a-col :span="22">
         <on-search @search="onSearch" :on-add="onUpdate" />
       </a-col>
@@ -17,6 +17,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 800 }"
         >
           <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
           <span slot="price" slot-scope="text">{{text.price.gold}}</span>
@@ -49,6 +50,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
+    fixed: "left"
   },
   {
     title: "用户账户",
@@ -96,6 +98,7 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
+    fixed: "right"
   }
 ];
 export default {

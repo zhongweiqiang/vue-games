@@ -1,42 +1,50 @@
 <template>
   <div>
-    <a-row>
-      <a-col v-if="hasPermission('son.add')" :span="3" :xs="24" :sm="2" :md="2" :lg="2">
+    <a-row style="z-index: 2;">
+      <a-col
+        v-if="hasPermission('son.add')"
+        :xs="24"
+        :sm="24"
+        :md="12"
+        :lg="6"
+        :xl="2"
+        style="margin-top: 6px; margin-left: 20px;"
+      >
         <son-add :on-add="onAdd" />
       </a-col>
       <a-col
         v-if="hasPermission('son.user.search')"
-        :span="8"
-        :xs="24"
-        :sm="3"
-        :md="3"
-        :lg="3"
-        :style="{marginTop: '4px', marginLeft: '10px'}"
+        :xs="16"
+        :sm="16"
+        :md="16"
+        :lg="12"
+        :xl="3"
+        :style="{marginTop: '10px', marginLeft: '20px'}"
       >
         <a-input allowClear v-model="name" placeholder="请输入主账户名称" @search="search" size="small" />
       </a-col>
       <a-col
-        :span="8"
-        :xs="24"
-        :sm="3"
-        :md="3"
-        :lg="3"
-        :style="{marginTop: '4px', marginLeft: '20px'}"
+        :xs="16"
+        :sm="16"
+        :md="16"
+        :lg="12"
+        :xl="3"
+        :style="{marginTop: '10px', marginLeft: '20px'}"
       >
         <a-input allowClear v-model="son" placeholder="请输入子账户名称" size="small" />
       </a-col>
 
       <a-col
-        :span="8"
-        :xs="24"
-        :sm="3"
-        :md="3"
+        :xs="16"
+        :sm="16"
+        :md="16"
         :lg="3"
-        :style="{marginTop: '4px', marginLeft: '20px'}"
+        :xl="3"
+        :style="{marginTop: '10px', marginLeft: '20px'}"
       >
         <a-select
-          showSearch
-          placeholder="Select a person"
+          allowClear
+          placeholder="账户状态"
           optionFilterProp="children"
           style="width: 140px"
           size="small"
@@ -47,8 +55,41 @@
           <a-select-option value="2">禁用</a-select-option>
         </a-select>
       </a-col>
-      <a-col :xs="4" :sm="1" :md="1" :lg="1" :offset="1" :style="{marginTop: '4px'}">
+      <a-col
+        :xs="16"
+        :sm="16"
+        :md="16"
+        :lg="3"
+        :xl="3"
+        :style="{marginTop: '10px', marginLeft: '20px'}"
+      >
+        <a-select
+          allowClear
+          placeholder="账户类型"
+          optionFilterProp="children"
+          style="width: 140px"
+          size="small"
+          @change="handleTypeChange"
+        >
+          <a-select-option value="1">入库</a-select-option>
+          <a-select-option value="2">出库</a-select-option>
+          <a-select-option value="3">入库出库</a-select-option>
+        </a-select>
+      </a-col>
+      <a-col :span="1" :style="{marginTop: '10px'}" :offset="1">
         <a-button @click="search" size="small" type="primary" icon="search"></a-button>
+      </a-col>
+
+      <a-col :xs="16" :sm="16" :md="16" :lg="8" :xl="8" :offset="1" :style="{marginTop: '10px'}">
+        <a-col :span="6">
+          <a-tag color="#108ee9">总用户数: {{ total }}</a-tag>
+        </a-col>
+        <a-col :span="6" :offset="1">
+          <a-tag color="#2db7f5">启用用户: {{ start }}</a-tag>
+        </a-col>
+        <a-col :span="6" :offset="1">
+          <a-tag color="#f50">禁用用户: {{ total - start }}</a-tag>
+        </a-col>
       </a-col>
     </a-row>
     <a-row>
@@ -60,6 +101,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 600 }"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.name}}</span>
           <span slot="parent" v-else>无</span>
@@ -80,7 +122,12 @@
               @click="status(text.id)"
             >{{text.status == '禁用' ? '启' : '禁'}}</a-button>
             <stock-list :disabled="text.store_count==0" :id="text.id" />
-            <transfer :disabled="text.store_count==0" v-if="hasPermission('son.son_to_user')" @dist="onDist" :id="text.id" />
+            <transfer
+              :disabled="text.store_count==0"
+              v-if="hasPermission('son.son_to_user')"
+              @dist="onDist"
+              :id="text.id"
+            />
           </span>
         </a-table>
       </a-col>
@@ -90,22 +137,24 @@
 </template>
 
 <script>
-import { index, del, status } from "@/api/son";
+import { index, del, status, tag_data } from "@/api/son";
 import SonAdd from "./SonAdd";
 import SonEdit from "./SonEdit";
-import Transfer from './Transfer'
-import StockList from './StockList'
+import Transfer from "./Transfer";
+import StockList from "./StockList";
 var columns = [
   {
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "子账户名称",
     dataIndex: "name",
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "主账户名称",
@@ -131,7 +180,8 @@ var columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 
@@ -149,7 +199,10 @@ export default {
       name: "",
       son: "",
       statusSearch: 0,
-      filters: {}
+      filters: {},
+      total: 0,
+      start: 0,
+      type: ""
     };
   },
   created() {},
@@ -170,13 +223,13 @@ export default {
     }
   },
   methods: {
-    getPagination(){
+    getPagination() {
       return {
         pageSize: this.pagination.pageSize,
         page: this.pagination.current,
         sortField: this.pagination.sortField,
-        sortOrder: this.pagination.sortOrder,
-      }
+        sortOrder: this.pagination.sortOrder
+      };
     },
 
     onAdd() {
@@ -188,20 +241,29 @@ export default {
     },
 
     search() {
-      index({ name: this.name, son: this.son, status: this.statusSearch }).then(
-        response => {
-          console.log(response);
-          this.data = response.data.data;
-          const pager = { ...this.pagination };
-          pager.total = response.data.total;
-          this.pagination = pager;
-        }
-      );
+      index({
+        name: this.name,
+        son: this.son,
+        status: this.statusSearch,
+        type: this.type
+      }).then(response => {
+        console.log(response);
+        this.data = response.data.data;
+        const pager = { ...this.pagination };
+        pager.total = response.data.total;
+        this.pagination = pager;
+      });
     },
 
     handleChange(value) {
       console.log(`selected ${value}`);
       this.statusSearch = value;
+      this.search();
+    },
+
+    handleTypeChange(value) {
+      console.log(`selected ${value}`);
+      this.type = value;
       this.search();
     },
 
@@ -251,6 +313,7 @@ export default {
         this.pagination = pagination;
         this.loading = false;
       });
+      this.tag_data();
     },
 
     // 删除用户
@@ -282,12 +345,19 @@ export default {
       });
     },
 
+    tag_data() {
+      tag_data().then(response => {
+        this.total = response.data.total;
+        this.start = response.data.start;
+      });
+    },
+
     destroyAll() {
       this.$destroyAll();
     },
-    onDist(){
-      this.fetch(this.getPagination())
-    },
+    onDist() {
+      this.fetch(this.getPagination());
+    }
   }
 };
 </script>

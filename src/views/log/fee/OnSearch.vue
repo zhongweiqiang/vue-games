@@ -118,3 +118,19 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.ant-table-tbody > tr > td {
+  padding: 4px 8px;
+  text-align: center;
+}
+.search {
+  margin-top: 10px;
+}
+.ant-row {
+  height: 24px;
+}
+.ant-form-item-control {
+  line-height: 24px;
+}
+</style>

@@ -4,14 +4,39 @@
       <a-col :span="3" :xs="24" :sm="5" :md="4" :lg="3">
         <game-add :on-add="onAdd" />
       </a-col>
-      <a-col :span="8" :xs="24" :sm="10" :md="9" :lg="8">
+      <a-col :span="8" :xs="24" :sm="10" :md="4" :lg="4">
         <a-input-search
           allowClear
           v-model="name"
           placeholder="请输入游戏名称"
-          @search="onSearch"
+          size="small"
+          @search="onGameSearch"
           enterButton
         />
+      </a-col>
+      <a-col :span="8" :xs="24" :sm="10" :md="5" :lg="5" :offset="1">
+        <a-input-search
+          allowClear
+          v-model="productIdentifier"
+          placeholder="请输入游戏包名"
+          size="small"
+          @search="onProductSearch"
+          enterButton
+        />
+      </a-col>
+
+      <a-col :span="8" :xs="24" :sm="10" :md="5" :lg="5" :offset="1">
+        <a-select
+          allowClear
+          placeholder="账户类型"
+          optionFilterProp="children"
+          style="width: 140px"
+          size="small"
+          @change="handleTypeChange"
+        >
+          <a-select-option value="1">启用</a-select-option>
+          <a-select-option value="2">禁用</a-select-option>
+        </a-select>
       </a-col>
     </a-row>
     <a-row>
@@ -23,6 +48,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 900 }"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
@@ -51,12 +77,14 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "游戏名称",
     dataIndex: "name",
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "游戏包名",
@@ -74,10 +102,21 @@ const columns = [
     align: "center"
   },
   {
+    title: "添加时间",
+    dataIndex: "created_at",
+    align: "center"
+  },
+  {
+    title: "修改时间",
+    dataIndex: "updated_at",
+    align: "center"
+  },
+  {
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 export default {
@@ -92,7 +131,8 @@ export default {
 
       // 给监听器使用的
       name: "",
-      filters: {}
+      filters: {},
+      productIdentifier: ""
     };
   },
   mounted() {
@@ -106,15 +146,35 @@ export default {
       if (newVal == "") {
         this.fetch({ pageSize: this.pagination.pageSize });
       }
-    }
+    },
+    productIdentifier: function(newVal, oldVal) {
+      if (newVal == "") {
+        this.fetch({ pageSize: this.pagination.pageSize });
+      }
+    },
   },
   methods: {
-    // 页面搜索
-    onSearch(value) {
-      if (value.trim() == "") {
+    onGameSearch(value) {
+      if (value == "") {
         return false;
       }
-      index({ name: value }).then(response => {
+      this.onSearch({ name: value });
+    },
+
+    onProductSearch(value) {
+      if (value == "") {
+        return false;
+      }
+      this.onSearch({ productIdentifier: value });
+    },
+
+    handleTypeChange(value){
+      this.onSearch({ status: value });
+    },
+
+    // 页面搜索
+    onSearch(value) {
+      index(value).then(response => {
         console.log(response);
         this.data = response.data.data;
         const pager = { ...this.pagination };
@@ -123,13 +183,13 @@ export default {
       });
     },
 
-    getPagination(){
+    getPagination() {
       return {
         pageSize: this.pagination.pageSize,
         page: this.pagination.current,
         sortField: this.pagination.sortField,
-        sortOrder: this.pagination.sortOrder,
-      }
+        sortOrder: this.pagination.sortOrder
+      };
     },
 
     onAdd() {

@@ -1,5 +1,5 @@
 <template>
-  <a-form :form="form" @submit="handleSubmit">
+  <a-form :form="form" @submit="handleSubmit" style="min-width: 500px;">
     <a-form-item label="角色名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 8 }">
       <a-input
         placeholder="请输入角色名称"

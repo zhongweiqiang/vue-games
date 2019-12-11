@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-button type="primary" @click="showModal" size="small">购买人</a-button>
-    <a-modal title="购买详情" v-model="visible" @ok="handleOk" :footer="null" width="50%">
+    <a-modal title="购买详情" v-model="visible" @ok="handleOk" :footer="null" width="50%" style="min-width: 500px;">
       <buy-user-table :id="id" />
     </a-modal>
   </div>

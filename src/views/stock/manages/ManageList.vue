@@ -1,16 +1,16 @@
 <template>
   <div>
-    <a-row style="height: 58px;">
+    <a-row style="z-index: 2;">
       <a-col :span="19">
         <on-search @search="onSearch" />
       </a-col>
       <a-col :span="5">
         <!-- <a-button type="danger" size="small" @click="del">删除</a-button> -->
-        <a-row>
-          <a-col :span="20">
+        <a-row style="margin-top: 10px;">
+          <a-col :xs="24" :sm="24" :md="20" :lg="20" :xl="20">
             <migration @dist="onDist" ref="migration" :id="selectedRowKeys" />
           </a-col>
-          <a-col :span="4" style="display: flex; align-items:center; height: 58px;">
+          <a-col :xs="24" :sm="16" :md="10" :lg="4" :xl="4" style="display: flex; align-items:center; height: 58px;">
             <a-button type="primary" size="small" @click="dist">分配</a-button>
           </a-col>
         </a-row>
@@ -26,6 +26,7 @@
           :loading="loading"
           @change="handleTableChange"
           :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+          :scroll="{ x: 1000 }"
         >
           <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
           <span slot="price" slot-scope="text">{{text.price.gold}}</span>
@@ -42,7 +43,7 @@
           <!-- <span slot="action" slot-scope="text">
             <drop-down :id="text.id" @update="onUpdate" />
             <detail :text="text" />
-          </span> -->
+          </span>-->
         </a-table>
       </a-col>
     </a-row>
@@ -62,20 +63,20 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    // fixed: "left"
+    fixed: "left"
   },
   {
     title: "游戏名称",
     key: "game",
     align: "center",
-    scopedSlots: { customRender: "game" },
+    scopedSlots: { customRender: "game" }
     // fixed: "left"
   },
   {
     title: "面值名称",
     key: "price",
     align: "center",
-    scopedSlots: { customRender: "price" },
+    scopedSlots: { customRender: "price" }
     // fixed: "left"
   },
   {
@@ -115,8 +116,9 @@ const columns = [
   {
     title: "币值",
     dataIndex: "currency",
-    align: "center"
-  },
+    align: "center",
+    fixed: "right"
+  }
   // {
   //   title: "操作",
   //   key: "action",
@@ -241,7 +243,7 @@ export default {
         ...this.getPagination(),
         ...this.search
       });
-      this.selectedRowKeys = []
+      this.selectedRowKeys = [];
     }
   }
 };

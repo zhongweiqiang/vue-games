@@ -1,13 +1,13 @@
 <template>
   <div>
     <a-row>
-      <a-col :xs="24" :sm="6" :md="4" :lg="4" :style="{marginLeft: '20px'}">
+      <a-col :xs="24" :sm="24" :md="8" :lg="4" :style="{marginLeft: '30px', marginTop: '10px'}">
         <son-select @select="onSelect" />
       </a-col>
-      <a-col :xs="24" :sm="6" :md="4" :lg="4" :style="{marginLeft: '30px'}">
+      <a-col :xs="24" :sm="24" :md="8" :lg="4" :style="{marginLeft: '30px', marginTop: '10px'}">
         <status-search @sss="onStatusSelect" />
       </a-col>
-      <a-col :xs="24" :sm="6" :md="4" :lg="4" :style="{marginLeft: '30px'}">
+      <a-col :xs="24" :sm="12" :md="4" :lg="4" :style="{marginLeft: '30px', marginTop: '10px'}">
         <a-input-search
           allowClear
           v-model="device"
@@ -27,6 +27,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :scroll="{ x: 800 }"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
@@ -54,7 +55,8 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "账户名称",
@@ -80,7 +82,8 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 export default {

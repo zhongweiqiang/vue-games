@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-button size="small" type="primary" :style="{marginTop: '4px'}" @click="showModal">
+    <a-button size="small" type="primary" @click="showModal">
       <slot>
         <a-icon type="plus" />游戏
       </slot>
@@ -12,6 +12,7 @@
       :footer="null"
       @cancel="handleCancel"
       width="35%"
+      style="min-width: 400px;"
     >
       <a-form :form="form" @submit="handleSubmit">
         <a-form-item label="游戏名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
@@ -32,7 +33,7 @@
             placeholder="请输入游戏描述"
           />
         </a-form-item>
-        <a-form-item :wrapper-col="{ span: 8, offset: 18 }">
+        <a-form-item :wrapper-col="{ span: 10, offset: 14 }">
           <a-row>
             <a-col :span="8" :style="{ textAlign: 'left' }">
               <a-button size="small" @click="handleCancel">返回</a-button>

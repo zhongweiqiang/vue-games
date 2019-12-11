@@ -12,6 +12,7 @@
       :footer="null"
       @cancel="handleCancel"
       width="35%"
+      style="min-width: 450px;"
     >
       <a-form :form="form" @submit="handleSubmit">
         <a-form-item label="游戏名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">

@@ -4,7 +4,7 @@
       <a-row style="height: 60px; margin-left: 10px;">
         <a-col :span="24">
           <a-row>
-            <a-col :span="5">
+            <a-col :xs="20" :sm="16" :md="10" :lg="7" :xl="5" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
@@ -25,7 +25,7 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :span="5">
+            <a-col :xs="20" :sm="16" :md="10" :lg="7" :xl="5" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
@@ -45,17 +45,17 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :span="6">
+            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <start-time v-decorator="['start_time']" />
               </a-form-item>
             </a-col>
-            <a-col :span="6">
+            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <end-time v-decorator="['end_time']" />
               </a-form-item>
             </a-col>
-            <a-col :span="2">
+            <a-col :xs="20" :sm="16" :md="10" :lg="3" :xl="2" style="margin-top: 10px;">
               <a-form-item>
                 <a-button size="small" type="primary" html-type="submit">搜索</a-button>
               </a-form-item>
@@ -139,3 +139,19 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.ant-table-tbody > tr > td {
+  padding: 4px 8px;
+  text-align: center;
+}
+.search {
+  margin-top: 10px;
+}
+.ant-row {
+  height: 24px;
+}
+.ant-form-item-control {
+  line-height: 24px;
+}
+</style>

@@ -3,7 +3,7 @@
     style="background-color: #ececec; padding: 20px;width: 80%; margin: 50px auto; height: 100%;clear:both"
   >
     <a-row :gutter="16">
-      <a-col :span="12">
+      <a-col :xs="24" :sm="24" :md="16" :lg="12" :xl="12">
         <a-card title="一键迁移" :bordered="false">
           <a-row>
             <a-col :span="18">
@@ -16,7 +16,7 @@
           </a-row>
         </a-card>
       </a-col>
-      <a-col :span="12">
+      <a-col :xs="24" :sm="24" :md="16" :lg="12" :xl="12">
         <a-card title="凭证分配" :bordered="false">
           <a-row>
             <a-col :span="18">

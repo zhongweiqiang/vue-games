@@ -9,6 +9,7 @@
       :dataSource="data"
       :loading="loading"
       :rowKey="record => record.id"
+      :scroll="{ x: 500 }"
     >
       <span slot="action" slot-scope="text">
         <a-button size="small" type="primary" @click="edit(text.id)" icon="edit" />
@@ -28,7 +29,8 @@ const columns = [
   {
     title: "id",
     dataIndex: "id",
-    align: "center"
+    align: "center",
+    fixed: "left"
   },
   {
     title: "角色名称",
@@ -43,7 +45,8 @@ const columns = [
   {
     title: "Action",
     scopedSlots: { customRender: "action" },
-    align: "center"
+    align: "center",
+    fixed: "right"
   }
 ];
 
