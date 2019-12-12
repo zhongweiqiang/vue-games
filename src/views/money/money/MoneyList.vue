@@ -28,7 +28,7 @@
           </span>
           <span slot="user" slot-scope="text">{{text.user.name}}</span>
           <span slot="action" slot-scope="text">
-            <drop-down v-if="hasPermission('money.operation')" :id="text.id" @update="onUpdate" :status="text.status" />
+            <drop-down v-if="hasPermission('money.operation')" :id="text.id" @update="onUpdate" :status="text.status" :type="text.type" />
             <div v-else>无</div>
             <!-- <detail :text="text" /> -->
           </span>
