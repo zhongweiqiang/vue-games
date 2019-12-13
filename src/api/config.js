@@ -31,3 +31,10 @@ export function edit(data){
         data
     })
 }
+
+export function pagesize(){
+    return request({
+        url: '/v1/config/pagesize',
+        method: 'get'
+    })
+}

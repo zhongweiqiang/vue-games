@@ -80,7 +80,8 @@ const columns = [
   {
     title: "权限描述",
     dataIndex: "description",
-    align: "center"
+    align: "center",
+    width: '20%'
   },
   {
     title: "父级权限",
@@ -101,7 +102,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 10 },
+      pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
       columns,
       // checked: false,
@@ -139,7 +140,7 @@ export default {
     },
 
     onAdd() {
-      this.fetch({ pageSize: this.pagination.pageSize });
+      this.fetch(this.getPagination())
     },
 
     onEdit() {

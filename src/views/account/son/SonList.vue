@@ -80,14 +80,14 @@
         <a-button @click="search" size="small" type="primary" icon="search"></a-button>
       </a-col>
 
-      <a-col :xs="16" :sm="16" :md="16" :lg="8" :xl="8" :offset="1" :style="{marginTop: '10px'}">
-        <a-col :span="6">
+      <a-col :xs="16" :sm="16" :md="16" :lg="7" :xl="7" :offset="1" :style="{marginTop: '10px'}">
+        <a-col :span="7">
           <a-tag color="#108ee9">总用户数: {{ total }}</a-tag>
         </a-col>
-        <a-col :span="6" :offset="1">
+        <a-col :span="7" :offset="1">
           <a-tag color="#2db7f5">启用用户: {{ start }}</a-tag>
         </a-col>
-        <a-col :span="6" :offset="1">
+        <a-col :span="7" :offset="1">
           <a-tag color="#f50">禁用用户: {{ total - start }}</a-tag>
         </a-col>
       </a-col>
@@ -190,7 +190,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 10 },
+      pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
       columns,
       // checked: false,

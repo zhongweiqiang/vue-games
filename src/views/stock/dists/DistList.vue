@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 15 },
+      pagination: { pageSize: 20 },
       loading: false,
       columns,
       totalMoney: 0,

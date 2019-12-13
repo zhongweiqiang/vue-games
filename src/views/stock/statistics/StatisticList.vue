@@ -1,11 +1,11 @@
 <template>
   <div>
     <a-row style="z-index: 2;">
-      <a-col :xs="16" :sm="16" :md="16" :lg="18" :xl="18">
+      <a-col :xs="16" :sm="16" :md="16" :lg="20" :xl="20">
         <on-search @search="onSearch" />
       </a-col>
 
-      <a-col :xs="5" :sm="5" :md="5" :lg="4" :xl="4" :style="{float: 'right', marginRight: '20px', marginTop: '10px'}">
+      <a-col :xs="4" :sm="4" :md="4" :lg="3" :xl="3" :style="{float: 'right', marginRight: '10px', marginTop: '10px'}">
         <a-tag color="#108ee9">总额: {{ totalMoney }}</a-tag>
       </a-col>
     </a-row>
@@ -107,7 +107,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 15 },
+      pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
       columns,
       totalMoney: 0,

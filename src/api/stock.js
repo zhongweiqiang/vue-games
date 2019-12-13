@@ -31,3 +31,12 @@ export function del(data){
         data
     })
 }
+
+export function exportStock(data){
+    return request({
+        url: '/v1/stock/export_stock',
+        method: 'get',
+        params: data,
+        responseType: 'blob'
+    })
+}

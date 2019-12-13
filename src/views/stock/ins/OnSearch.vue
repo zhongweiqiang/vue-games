@@ -81,6 +81,11 @@
                 <a-button size="small" type="primary" html-type="submit">搜索</a-button>
               </a-form-item>
             </a-col>
+            <a-col :xs="24" :sm="22" :md="6" :lg="6" :xl="2" style="margin-top: 10px;">
+              <a-form-item v-if="hasPermission('in.export')">
+                <a-button size="small" type="primary" @click="exportInStock">导出</a-button>
+              </a-form-item>
+            </a-col>
           </a-row>
         </a-col>
       </a-row>
@@ -92,8 +97,10 @@
 import { gameSelect } from "@/api/game";
 import { priceSelect } from "@/api/price";
 import { userSelect } from "@/api/user";
+import { exportInStock } from '@/api/ins'
 import StartTime from "./StartTime";
 import EndTime from "./EndTime";
+var fileDownload = require('js-file-download')
 export default {
   components: {
     StartTime,
@@ -120,6 +127,14 @@ export default {
           console.log("Received values of form: ", values);
           this.$emit("search", values);
         }
+      });
+    },
+
+    exportInStock() {
+      exportInStock(this.form.getFieldsValue()).then(response => {
+        console.log(response);
+        let fileName = "入库列表.xlsx";
+        fileDownload(response.data, fileName);
       });
     },
 

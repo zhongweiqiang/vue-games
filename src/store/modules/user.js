@@ -1,4 +1,5 @@
 import { login, logout,  refreshToken, getElement } from '@/api/user'
+import { pagesize } from '@/api/config'
 import { getToken, setToken, removeToken, setExpireTime, getExpireTime } from '@/utils/auth'
 import { message } from 'ant-design-vue'
 import { Store } from 'vuex'
@@ -9,7 +10,8 @@ const state = {
   token: getToken(),
   expires_in: getExpireTime(),
   element: [],
-  info: {}
+  info: {},
+  pagesize: 20
 }
 
 const mutations = {
@@ -24,6 +26,9 @@ const mutations = {
   },
   SET_INFO: (state, info) => {
     state.info = info
+  },
+  SET_PAGESIZE: (state, pagesize) => {
+    state.pagesize = pagesize
   },
 }
 
@@ -54,6 +59,17 @@ const actions = {
       })
     })
   },
+
+
+  setPageSize({ commit }, data) {
+
+    pagesize().then(response => {
+      console.log('pagesize', response)
+      commit('SET_PAGESIZE', response.data)
+    })
+      // pagesize存入vuex
+  },
+  
 
   setToken({ commit }, data) {
     commit('SET_TOKEN', data.token)  // token存入vuex

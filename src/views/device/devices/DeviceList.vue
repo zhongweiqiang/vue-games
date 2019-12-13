@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row>
+    <a-row style="z-index:2;">
       <a-col :xs="24" :sm="24" :md="8" :lg="4" :style="{marginLeft: '30px', marginTop: '10px'}">
         <son-select @select="onSelect" />
       </a-col>
@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 15 },
+      pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
       columns,
       // checked: false,

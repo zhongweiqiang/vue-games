@@ -73,6 +73,7 @@
 import UserInfo from '@/components/layout/UserInfo'
 
 import { userMenu } from "@/api/menu";
+
 export default {
   components:{
     UserInfo,
@@ -87,6 +88,7 @@ export default {
     console.log("this is in layout");
     this.getMenu();
     this.getElement();
+    this.getPageSize()
     // console.log(menus);
   },
   mounted() {},
@@ -103,6 +105,9 @@ export default {
     },
     getElement() {
       this.$store.dispatch("user/getElement");
+    },
+    getPageSize(){
+      this.$store.dispatch("user/setPageSize");
     }
   }
 };

@@ -5,7 +5,13 @@
         <on-search @search="onSearch" />
       </a-col>
       <a-col :span="2" style="margin-top: 17px;">
-        <a-button v-if="hasPermission('stock.delete')" type="danger" size="small" :disabled="selectedRowKeys.length<1" @click="del">删除凭证</a-button>
+        <a-button
+          v-if="hasPermission('stock.delete')"
+          type="danger"
+          size="small"
+          :disabled="selectedRowKeys.length<1"
+          @click="del"
+        >删除凭证</a-button>
       </a-col>
     </a-row>
     <a-row>
@@ -18,7 +24,7 @@
           :loading="loading"
           @change="handleTableChange"
           :scroll="{ x: 1300 }"
-          :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+          :rowSelection="role_id == 1 ? {selectedRowKeys: selectedRowKeys, onChange: onSelectChange} : null"
         >
           <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
           <span slot="price" slot-scope="text">{{text.price.gold}}</span>
@@ -61,13 +67,13 @@ const columns = [
     title: "游戏名称",
     key: "game",
     align: "center",
-    scopedSlots: { customRender: "game" },
+    scopedSlots: { customRender: "game" }
   },
   {
     title: "面值名称",
     key: "price",
     align: "center",
-    scopedSlots: { customRender: "price" },
+    scopedSlots: { customRender: "price" }
   },
   {
     title: "面值价格",
@@ -125,13 +131,20 @@ export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
+  created() {
+    this.role_id = this.$store.getters.info.role_id;
+  },
+
+  watch: {
+  },
   data() {
     return {
       data: [],
-      pagination: { pageSize: 12 },
+      pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
       columns,
       selectedRowKeys: [],
+      role_id: 1,
 
       // 给监听器使用的
       name: "",
@@ -143,7 +156,6 @@ export default {
     // 首次加载页面获取数据
     this.fetch({ pageSize: this.pagination.pageSize });
     // this.tag_data();
-    console.log(this.config);
   },
 
   methods: {
@@ -228,7 +240,7 @@ export default {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
-    
+
     del(id) {
       const self = this;
       this.$confirm({
@@ -257,7 +269,7 @@ export default {
           self.$message.info("取消删除", 2);
         }
       });
-    },
+    }
   }
 };
 </script>

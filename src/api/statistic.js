@@ -7,3 +7,12 @@ export function index(data){
         params: data
     })
 }
+
+export function exportStatisticStock(data){
+    return request({
+        url: '/v1/stock/statistic_export',
+        method: 'get',
+        params: data,
+        responseType: 'blob'
+    })
+}

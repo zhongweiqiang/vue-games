@@ -7,3 +7,12 @@ export function index(data){
         params: data
     })
 }
+
+export function exportInStock(data){
+    return request({
+        url: '/v1/stock/in_export',
+        method: 'get',
+        params: data,
+        responseType: 'blob'
+    })
+}

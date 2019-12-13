@@ -45,6 +45,7 @@
                 </a-select>
               </a-form-item>
             </a-col>
+
             <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <start-time v-decorator="['start_time']" />
@@ -55,9 +56,51 @@
                 <end-time v-decorator="['end_time']" />
               </a-form-item>
             </a-col>
+            <a-col :xs="20" :sm="16" :md="10" :lg="7" :xl="5" style="margin-top: 10px;">
+              <a-form-item>
+                <a-select
+                  showSearch
+                  placeholder="选择账户类型"
+                  style="width: 160px"
+                  @change="handleTypeChange"
+                  allowClear
+                  size="small"
+                  v-decorator="['user_type']"
+                >
+                  <a-select-option value="son">子账户</a-select-option>
+                  <a-select-option value="user">主账户</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+
+            <a-col :xs="20" :sm="16" :md="10" :lg="7" :xl="5" style="margin-top: 10px;">
+              <a-form-item>
+                <a-select
+                  showSearch
+                  placeholder="选择用户"
+                  optionFilterProp="children"
+                  style="width: 160px"
+                  :filterOption="filterOption"
+                  allowClear
+                  size="small"
+                  v-decorator="['user_id']"
+                >
+                  <a-select-option
+                    v-for="user in users"
+                    :value="user.id"
+                    :key="user.id"
+                  >{{ user.name }}</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
             <a-col :xs="20" :sm="16" :md="10" :lg="3" :xl="2" style="margin-top: 10px;">
               <a-form-item>
                 <a-button size="small" type="primary" html-type="submit">搜索</a-button>
+              </a-form-item>
+            </a-col>
+            <a-col :xs="20" :sm="16" :md="10" :lg="3" :xl="2" style="margin-top: 10px;">
+              <a-form-item v-if="hasPermission('statistic.export')">
+                <a-button size="small" type="primary" @click="exportStatisticStock">导出</a-button>
               </a-form-item>
             </a-col>
           </a-row>
@@ -71,8 +114,10 @@
 import { gameSelect } from "@/api/game";
 import { priceSelect } from "@/api/price";
 import { userSelect } from "@/api/user";
+import { exportStatisticStock } from "@/api/statistic";
 import StartTime from "./StartTime";
 import EndTime from "./EndTime";
+var fileDownload = require("js-file-download");
 export default {
   components: {
     StartTime,
@@ -102,12 +147,25 @@ export default {
       });
     },
 
+    exportStatisticStock() {
+      exportStatisticStock(this.form.getFieldsValue()).then(response => {
+        console.log(response);
+        let fileName = "库存统计.xlsx";
+        fileDownload(response.data, fileName);
+      });
+    },
+
     handleGameChange(value) {
       console.log(`selected ${value}`);
-      if(!value){
-        this.form.setFieldsValue({price_id: undefined})
+      if (!value) {
+        this.form.setFieldsValue({ price_id: undefined });
       }
       this.getPriceList(value);
+    },
+
+    handleTypeChange(value) {
+      this.form.setFieldsValue({ user_id: undefined });
+      this.getUserList(value);
     },
 
     filterOption(input, option) {

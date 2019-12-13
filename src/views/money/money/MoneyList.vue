@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 12 },
+      pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
       columns,
       selectedRowKeys: [],

@@ -7,7 +7,7 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // baseURL: 'http://www.test.com',
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 20000 // request timeout
+  timeout: 2000000 // request timeout
 })
 
 // request interceptor
@@ -80,10 +80,18 @@ service.interceptors.response.use(
       store.dispatch('user/setToken', token)
     }
 
+    
+
+    // 文件下载
+    if(response.data.type && response.data.type.split('.')[3] == 'sheet'){
+      // console.log(response.data.type)
+      return response
+    }
+
     const res = response.data
     // console.log(response)
     // if the custom code is not 200, 201 or 204, it is judged as an error.
-    if (res.code !== 200 && res.code !== 201 && res.code !== 204) {
+    if (res.code !== 200 && res.code !== 201 && res.code !== 204 && !response.data.type) {
       /**
        * when the response.status is not allowed by web brower, e.g., 200, 201..
        * prompt error
