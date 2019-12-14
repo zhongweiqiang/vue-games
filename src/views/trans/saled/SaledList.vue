@@ -4,7 +4,7 @@
       <on-search @search="onSearch" />
     </a-row>
     <a-row>
-      <a-col style="margin-top: 20px;">
+      <a-col style="margin-top: 50px;">
         <a-table
           :columns="columns"
           :rowKey="record => record.id"
@@ -44,7 +44,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "买家昵称",
@@ -105,7 +105,7 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {

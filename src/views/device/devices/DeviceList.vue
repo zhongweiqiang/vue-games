@@ -1,17 +1,17 @@
 <template>
   <div>
     <a-row style="z-index:2;">
-      <a-col :xs="24" :sm="24" :md="8" :lg="4" :style="{marginLeft: '30px', marginTop: '10px'}">
+      <a-col :xs="24" :sm="18" :md="8" :lg="5" :style="{ marginTop: '10px'}">
         <son-select @select="onSelect" />
       </a-col>
-      <a-col :xs="24" :sm="24" :md="8" :lg="4" :style="{marginLeft: '30px', marginTop: '10px'}">
+      <a-col :xs="24" :sm="18" :md="8" :lg="5" :style="{ marginTop: '10px'}">
         <status-search @sss="onStatusSelect" />
       </a-col>
-      <a-col :xs="24" :sm="12" :md="4" :lg="4" :style="{marginLeft: '30px', marginTop: '10px'}">
+      <a-col :xs="24" :sm="18" :md="8" :lg="5" :style="{ marginTop: '10px'}">
         <a-input-search
           allowClear
           v-model="device"
-          placeholder="请输入设备编码"
+          placeholder="请输入设备信息"
           @search="onSearch"
           enterButton
           size="small"
@@ -56,7 +56,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "账户名称",
@@ -83,7 +83,7 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {

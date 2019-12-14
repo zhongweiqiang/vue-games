@@ -6,8 +6,8 @@
       @openChange="handleOpenChange1"
       @panelChange="handlePanelChange1"
       @change="onChange"
-      width="140px"
       size="small"
+      style="width: 100%;"
       placeholder="选择开始时间"
     />
     <br />
@@ -51,3 +51,4 @@ export default {
   }
 };
 </script>
+

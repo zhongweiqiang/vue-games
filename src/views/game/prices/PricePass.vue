@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-row>
-      <a-col :span="18">
+      <a-col :span="18" style="z-index: 2;">
         <pass-search @search="onSearch" />
       </a-col>
       
@@ -83,7 +83,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 2 },
+      pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
       columns,
 

@@ -14,7 +14,7 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
   return modules
 }, {})
 
-const {config, role, menu, perm, user, userinfo, son, game, price, device, stock, ins, out, statistic, dist, migration, manage, log, money, sale, notice } = modules
+const { config, role, menu, perm, user, userinfo, son, game, price, device, stock, ins, out, statistic, dist, migration, manage, log, money, sale, notice } = modules
 
 const moduleRouter = [
   user, role, menu, perm, config, userinfo, son, game, price, device, stock, ins, out, statistic, dist, migration, manage, log, money, sale, notice,
@@ -43,20 +43,21 @@ const moduleRouter = [
 
     ]
   },
-  {
-    path: '/404',
-    component: () => import('@/views/layout'),
-    redirect: "/404",
-    children: [
-      route('/404', '/public/404', '404')
-    ]
-  },
+
   {
     path: '/401',
     component: () => import('@/views/layout'),
     redirect: "/401",
     children: [
       route('/401', '/public/401', '401')
+    ]
+  },
+  {
+    path: '*',
+    component: () => import('@/views/layout'),
+    redirect: "/404",
+    children: [
+      route('/404', '/public/404', '404')
     ]
   },
 ]

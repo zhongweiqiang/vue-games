@@ -1,6 +1,6 @@
 <template>
   <div style="z-index:999;height: 100%;">
-    <a-form :form="form" @submit="handleSubmit" layout="inline">
+    <a-form :form="form" @submit="handleSubmit">
       <a-row style=" margin-left: 10px;clear:both;">
         <a-col :span="22" style="clear:both;">
           <!-- <a-row style="clear:both;"> -->
@@ -10,7 +10,6 @@
                 showSearch
                 placeholder="选择游戏"
                 optionFilterProp="children"
-                style="width: 160px"
                 @change="handleGameChange"
                 :filterOption="filterOption"
                 allowClear
@@ -30,7 +29,6 @@
               <a-select
                 showSearch
                 placeholder="选择账户类型"
-                style="width: 160px"
                 @change="handleTypeChange"
                 allowClear
                 size="small"
@@ -47,7 +45,6 @@
                 allowClear
                 placeholder="请输入库存单号"
                 size="small"
-                :style="{width: '160px'}"
                 v-decorator="['identifier']"
               ></a-input>
             </a-form-item>
@@ -66,7 +63,6 @@
                 showSearch
                 placeholder="选择面值"
                 optionFilterProp="children"
-                style="width: 160px"
                 :filterOption="filterOption"
                 allowClear
                 size="small"
@@ -86,7 +82,6 @@
                 showSearch
                 placeholder="选择用户"
                 optionFilterProp="children"
-                style="width: 160px"
                 :filterOption="filterOption"
                 allowClear
                 size="small"
@@ -106,7 +101,6 @@
                 showSearch
                 placeholder="选择库存状态"
                 optionFilterProp="children"
-                style="width: 160px"
                 allowClear
                 size="small"
                 v-decorator="['status']"
@@ -133,18 +127,17 @@
                 allowClear
                 placeholder="请输入库存id"
                 size="small"
-                :style="{width: '160px'}"
                 v-decorator="['id']"
               ></a-input>
             </a-form-item>
           </a-col>
 
-          <a-col :xs="24" :sm="24" :md="24" :lg="3" :xl="2" style="margin-top: 10px;">
+          <a-col :xs="10" :sm="10" :md="10" :lg="3" :xl="2" style="margin-top: 10px;">
             <a-form-item>
               <a-button size="small" type="primary" html-type="submit">搜索</a-button>
             </a-form-item>
           </a-col>
-          <a-col :xs="24" :sm="24" :md="24" :lg="3" :xl="2" style="margin-top: 10px;">
+          <a-col :xs="10" :sm="10" :md="10" :lg="3" :xl="2" style="margin-top: 10px;">
             <a-form-item v-if="hasPermission('stock.export')">
               <a-button size="small" type="primary" @click="exportStock">导出</a-button>
             </a-form-item>
@@ -258,5 +251,9 @@ export default {
 }
 .ant-form-item-control {
   line-height: 24px;
+}
+.ant-form-item{
+  width: 90%;
+  margin-bottom: 0px;
 }
 </style>

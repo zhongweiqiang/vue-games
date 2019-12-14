@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="z-index: 2;">
+    <a-row style="z-index: 2; margin-bottom: 60px;">
       <a-col :span="20">
         <on-search @search="onSearch" />
       </a-col>
@@ -40,7 +40,7 @@
           <span slot="parent" v-else>无</span>
           <span slot="action" slot-scope="text">
             <drop-down :id="text.id" @update="onUpdate" />
-            <detail :text="text" />
+            <detail v-if="hasPermission('stock.detail')" :text="text" />
           </span>
         </a-table>
       </a-col>
@@ -61,7 +61,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "游戏名称",
@@ -119,7 +119,7 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {
@@ -261,6 +261,7 @@ export default {
                 ...self.filters
               });
               self.destroyAll();
+              self.selectedRowKeys = []
             });
           });
         },

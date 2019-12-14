@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="z-index: 2">
+    <a-row style="z-index: 2; margin-bottom: 40px;">
       <a-col :span="22">
         <on-search @search="onSearch" :on-add="onUpdate" />
       </a-col>
@@ -50,7 +50,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "用户账户",
@@ -98,7 +98,7 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {

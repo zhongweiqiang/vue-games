@@ -19,7 +19,7 @@
                 v-decorator="['name', {
                   rules: [{ required: true, message: '请输入用户昵称' }]
                 }]"
-                placeholder="请输入用户昵称"
+                disabled
               />
             </a-form-item>
           </a-col>

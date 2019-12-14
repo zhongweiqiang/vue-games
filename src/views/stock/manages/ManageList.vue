@@ -1,13 +1,13 @@
 <template>
   <div>
     <a-row style="z-index: 2;">
-      <a-col :span="19">
+      <a-col :span="19"   :xs="16" :sm="16" :md="19" :lg="19" :xl="19">
         <on-search @search="onSearch" />
       </a-col>
-      <a-col :span="5">
+      <a-col :xs="8" :sm="8" :md="5" :lg="5" :xl="5">
         <!-- <a-button type="danger" size="small" @click="del">删除</a-button> -->
         <a-row style="margin-top: 10px;">
-          <a-col :xs="24" :sm="24" :md="20" :lg="20" :xl="20">
+          <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
             <migration @dist="onDist" ref="migration" :id="selectedRowKeys" />
           </a-col>
           <a-col :xs="24" :sm="16" :md="10" :lg="4" :xl="4" style="display: flex; align-items:center; height: 58px;">
@@ -63,7 +63,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "游戏名称",
@@ -117,7 +117,7 @@ const columns = [
     title: "币值",
     dataIndex: "currency",
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
   // {
   //   title: "操作",

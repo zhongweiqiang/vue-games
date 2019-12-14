@@ -30,7 +30,7 @@ const columns = [
     title: "id",
     dataIndex: "id",
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "角色名称",
@@ -46,7 +46,7 @@ const columns = [
     title: "Action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 

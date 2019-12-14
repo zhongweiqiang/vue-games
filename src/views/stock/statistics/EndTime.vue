@@ -6,8 +6,8 @@
       @openChange="handleOpenChange1"
       @panelChange="handlePanelChange1"
       @change="onChange"
-      width="140px"
       size="small"
+      style="width: 100%;"
       placeholder="选择截止时间"
     />
     <br />

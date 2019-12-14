@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="z-index: 2;">
+    <a-row style="z-index: 2; margin-bottom: 10px;">
       <a-col
         v-if="hasPermission('son.add')"
         :xs="24"
@@ -46,7 +46,7 @@
           allowClear
           placeholder="账户状态"
           optionFilterProp="children"
-          style="width: 140px"
+          style="width: 100%"
           size="small"
           @change="handleChange"
         >
@@ -67,7 +67,7 @@
           allowClear
           placeholder="账户类型"
           optionFilterProp="children"
-          style="width: 140px"
+          style="width: 100%"
           size="small"
           @change="handleTypeChange"
         >
@@ -101,7 +101,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 600 }"
+          :scroll="{x: 1000}"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.name}}</span>
           <span slot="parent" v-else>无</span>
@@ -148,13 +148,13 @@ var columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "子账户名称",
     dataIndex: "name",
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "主账户名称",
@@ -181,9 +181,10 @@ var columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
+// var suit = { x: 600 }
 
 export default {
   components: { SonAdd, SonEdit, Transfer, StockList },
@@ -202,13 +203,19 @@ export default {
       filters: {},
       total: 0,
       start: 0,
-      type: ""
+      type: "",
+      pixel: ''
     };
   },
   created() {},
   mounted() {
     // 首次加载页面获取数据
     this.fetch({ pageSize: this.pagination.pageSize });
+    this.pixel = document.body.clientWidth
+    
+    // if( > 1300){
+    //   this.suit = null
+    // }
   },
   watch: {
     name: function(newVal, oldVal) {

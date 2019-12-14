@@ -4,6 +4,7 @@
       <a-input
         v-decorator="['name', { rules: [{ required: true, message: '用户名必须填写' }] }]"
         placeholder="请输入用户名"
+        disabled
       />
     </a-form-item>
     <a-form-item style="height: 0px; margin: 0; padding: 0;">

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-row style="z-index: 2;">
-      <a-col :span="20">
+    <a-row style="z-index: 2; margin-bottom: 10px;">
+      <a-col :span="18">
         <on-search @search="onSearch" />
       </a-col>
 
@@ -41,7 +41,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "游戏名称",
@@ -74,7 +74,7 @@ const columns = [
     key: "totalMoney",
     align: "center",
     scopedSlots: { customRender: "totalMoney" },
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {

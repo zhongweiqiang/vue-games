@@ -6,7 +6,7 @@
       @openChange="handleOpenChange1"
       @panelChange="handlePanelChange1"
       @change="onChange"
-      width="140px"
+      style="width: 100%;"
       size="small"
       placeholder="选择开始时间"
     />

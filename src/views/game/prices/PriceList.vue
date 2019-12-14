@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="z-index:2">
+    <a-row style="z-index:2; margin-bottom: 10px;">
       <a-col :xs="16" :sm="16" :md="16" :lg="12" :xl="3" style="margin-top: 10px;">
         <price-add :on-add="onAdd" />
       </a-col>
@@ -22,7 +22,7 @@
           allowClear
           placeholder="面值状态"
           optionFilterProp="children"
-          style="width: 140px"
+          style="width: 80%"
           @change="handleTypeChange"
         >
           <a-select-option value="1">启用</a-select-option>
@@ -69,7 +69,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "游戏名称",
@@ -107,7 +107,7 @@ const columns = [
     scopedSlots: { customRender: "action" },
     align: "center",
     width: 150,
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {

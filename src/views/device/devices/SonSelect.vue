@@ -3,7 +3,7 @@
     showSearch
     placeholder="选择账户"
     optionFilterProp="children"
-    style="width: 200px"
+    style="width: 90%;"
     @focus="handleFocus"
     @blur="handleBlur"
     @change="handleChange"

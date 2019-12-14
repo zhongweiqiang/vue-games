@@ -3,7 +3,7 @@
     showSearch
     placeholder="选择游戏"
     optionFilterProp="children"
-    style="width: 200px"
+    style="width: 80%"
     @focus="handleFocus"
     @blur="handleBlur"
     @change="handleChange"

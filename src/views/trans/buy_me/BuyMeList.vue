@@ -4,7 +4,7 @@
       <on-search @search="onSearch" />
     </a-row>
     <a-row>
-      <a-col style="margin-top: 20px;">
+      <a-col style="margin-top: 0px;">
         <a-table
           :columns="columns"
           :rowKey="record => record.id"
@@ -44,7 +44,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "用户账户",
@@ -105,7 +105,7 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {
@@ -124,6 +124,7 @@ export default {
       loading: false,
       columns,
       selectedRowKeys: [],
+      suit: { x: 1000},
 
       // 给监听器使用的
       name: "",
@@ -136,6 +137,8 @@ export default {
     this.fetch({ pageSize: this.pagination.pageSize, type: "all" });
     // this.tag_data();
     console.log(this.config);
+    console.log(document.body.clientWidth)
+    this.suit = document.body.clientWidth > 1300 ? null : { x: 1000}
   },
 
   methods: {

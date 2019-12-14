@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row>
+    <a-row style="margin-bottom: 10px;">
       <a-col :span="3" :xs="24" :sm="5" :md="4" :lg="3">
         <game-add :on-add="onAdd" />
       </a-col>
@@ -28,9 +28,9 @@
       <a-col :span="8" :xs="24" :sm="10" :md="5" :lg="5" :offset="1">
         <a-select
           allowClear
-          placeholder="账户类型"
+          placeholder="游戏状态"
           optionFilterProp="children"
-          style="width: 140px"
+          style="width: 80%"
           size="small"
           @change="handleTypeChange"
         >
@@ -56,7 +56,7 @@
             <game-edit :id="text.id" :on-edit="onEdit" />
             <a-button size="small" type="danger" @click="del(text.id)" icon="delete" />
             <a-button
-              type="primary"
+              :type=" text.status == '禁用'? 'danger' : 'primary'"
               size="small"
               @click="status(text.id)"
             >{{text.status == '禁用' ? '启' : '禁'}}</a-button>
@@ -78,13 +78,13 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "游戏名称",
     dataIndex: "name",
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "游戏包名",
@@ -116,7 +116,7 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {

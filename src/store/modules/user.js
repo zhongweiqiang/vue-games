@@ -39,8 +39,10 @@ const actions = {
     console.log('this is login')
     return new Promise((resolve, reject) => {
       login({ name: username.trim(), password: password }).then(response => {
+
         const { data } = response
         this.dispatch('user/setToken', data)
+        // this.$message.info(response.message)
         resolve()
       }).catch(error => {
         reject(error)
@@ -65,7 +67,7 @@ const actions = {
 
     pagesize().then(response => {
       console.log('pagesize', response)
-      commit('SET_PAGESIZE', response.data)
+      commit('SET_PAGESIZE', Number(response.data))
     })
       // pagesize存入vuex
   },

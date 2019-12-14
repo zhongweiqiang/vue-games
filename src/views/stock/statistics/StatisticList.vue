@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-row style="z-index: 2;">
-      <a-col :xs="16" :sm="16" :md="16" :lg="20" :xl="20">
+    <a-row style="z-index: 2; margin-bottom: 10px;">
+      <a-col :xs="16" :sm="16" :md="16" :lg="20" :xl="18">
         <on-search @search="onSearch" />
       </a-col>
 
@@ -46,7 +46,7 @@ const columns = [
     title: "游戏名称",
     dataIndex: "game_name",
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "面值名称",
@@ -99,7 +99,7 @@ const columns = [
     title: "总数",
     dataIndex: "total",
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {

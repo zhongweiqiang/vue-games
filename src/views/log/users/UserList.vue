@@ -37,7 +37,7 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
     {
     title: "所属用户",
@@ -59,7 +59,7 @@ const columns = [
     title: "登录时间",
     dataIndex: "created_at",
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   },
 
 ];

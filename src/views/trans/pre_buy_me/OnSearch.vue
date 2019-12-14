@@ -2,17 +2,16 @@
   <div>
     <a-row>
       <a-col :span="20">
-        <a-form :form="form" @submit="handleSubmit" layout="inline">
+        <a-form :form="form" @submit="handleSubmit">
           <a-row style="height: 30px; margin-left: 10px;">
             <a-col :span="14">
               <a-row>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
+                <a-col :xs="24" :sm="24" :md="18" :lg="12" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
                       placeholder="选择游戏"
                       optionFilterProp="children"
-                      style="width: 160px"
                       @change="handleGameChange"
                       :filterOption="filterOption"
                       allowClear
@@ -27,12 +26,11 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
+                <a-col :xs="24" :sm="24" :md="18" :lg="12" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
                       placeholder="订单状态"
-                      style="width: 160px"
                       allowClear
                       size="small"
                       v-decorator="['status']"
@@ -44,20 +42,19 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
+                <a-col :xs="24" :sm="24" :md="18" :lg="12" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <start-time v-decorator="['start_time']" />
                   </a-form-item>
                 </a-col>
               </a-row>
               <a-row :style="{marginTop: '10px'}">
-                <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
+                <a-col :xs="24" :sm="24" :md="18" :lg="12" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <a-select
                       showSearch
                       placeholder="选择面值"
                       optionFilterProp="children"
-                      style="width: 160px"
                       :filterOption="filterOption"
                       allowClear
                       size="small"
@@ -71,18 +68,17 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
+                <a-col :xs="24" :sm="24" :md="18" :lg="12" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <a-input
                       placeholder="请输入定单号"
                       size="small"
-                      :style="{width: '160px'}"
                       v-decorator="['order_num']"
                       allowClear
                     ></a-input>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
+                <a-col :xs="24" :sm="24" :md="18" :lg="12" :xl="8" style="margin-top: 10px;">
                   <a-form-item>
                     <end-time v-decorator="['end_time']" />
                   </a-form-item>
@@ -92,7 +88,7 @@
             <a-col
                :xs="20" :sm="16" :md="10" :lg="1" :xl="1"
               :offset="1"
-              :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', marginTop: '10px'}"
+              :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', marginTop: '24px'}"
             >
               <a-form-item>
                 <a-button size="small" type="primary" html-type="submit">搜索</a-button>
@@ -208,5 +204,9 @@ export default {
 }
 .ant-form-item-control {
   line-height: 24px;
+}
+.ant-form-item{
+  width: 90%;
+  margin-bottom: 0px;
 }
 </style>

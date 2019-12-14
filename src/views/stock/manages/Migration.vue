@@ -5,7 +5,6 @@
         <a-select
           showSearch
           placeholder="选择账户类型"
-          style="width: 160px;"
           @change="handleTypeChange"
           allowClear
           size="small"
@@ -22,7 +21,6 @@
           showSearch
           placeholder="选择用户"
           optionFilterProp="children"
-          style="width: 160px"
           :filterOption="filterOption"
           allowClear
           size="small"
@@ -96,3 +94,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.ant-form-item{
+  width: 90%;
+  margin-bottom: 0px;
+}
+</style>

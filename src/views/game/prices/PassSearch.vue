@@ -1,16 +1,15 @@
 <template>
   <div style="z-index:999;height: 100%;">
-    <a-form :form="form" @submit="handleSubmit" layout="inline">
+    <a-form :form="form" @submit="handleSubmit">
       <a-row style=" margin-left: 10px;clear:both;">
-        <a-col :span="20" style="clear:both;">
+        <a-col :span="18" style="clear:both;">
           <a-row style="clear:both;">
-            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="18" :lg="12" :xl="8" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
                   placeholder="选择游戏"
                   optionFilterProp="children"
-                  style="width: 200px"
                   @change="handleGameChange"
                   :filterOption="filterOption"
                   allowClear
@@ -25,13 +24,12 @@
               </a-form-item>
             </a-col>
 
-            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="18" :lg="12" :xl="8" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
                   placeholder="选择面值"
                   optionFilterProp="children"
-                  style="width: 200px"
                   :filterOption="filterOption"
                   allowClear
                   v-decorator="['price_id']"
@@ -45,7 +43,7 @@
               </a-form-item>
             </a-col>
 
-            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="8" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="18" :lg="12" :xl="8" style="margin-top: 10px;">
               <a-form-item>
                 <a-input allowClear placeholder="面值标识" :style="{width: '200px'}" v-decorator="['title']"></a-input>
               </a-form-item>
@@ -58,7 +56,7 @@
           :md="24"
           :lg="2"
           :xl="2"
-          :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', height: '58px'}"
+          :style="{marginTop: '14px'}"
         >
           <a-form-item>
             <a-button size="small" type="primary" html-type="submit">搜索</a-button>
@@ -149,5 +147,8 @@ export default {
 }
 .ant-form-item-control {
   line-height: 24px;
+}
+.ant-form-item{
+  width: 90%;
 }
 </style>

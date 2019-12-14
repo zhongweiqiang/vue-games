@@ -1,6 +1,6 @@
 <template>
   <div style="z-index:999;">
-    <a-form :form="form" @submit="handleSubmit" layout="inline">
+    <a-form :form="form" @submit="handleSubmit">
       <a-row style="height: 60px; margin-left: 10px;">
         <a-col :span="24">
           <a-row>
@@ -10,7 +10,6 @@
                   showSearch
                   placeholder="选择游戏"
                   optionFilterProp="children"
-                  style="width: 160px"
                   @change="handleGameChange"
                   :filterOption="filterOption"
                   allowClear
@@ -32,7 +31,6 @@
                   showSearch
                   placeholder="选择面值"
                   optionFilterProp="children"
-                  style="width: 160px"
                   :filterOption="filterOption"
                   allowClear
                   size="small"
@@ -46,13 +44,12 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="5" style="margin-top: 10px;">
+            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
                   placeholder="选择用户"
                   optionFilterProp="children"
-                  style="width: 160px"
                   :filterOption="filterOption"
                   allowClear
                   size="small"
@@ -172,5 +169,9 @@ export default {
 }
 .ant-form-item-control {
   line-height: 24px;
+}
+.ant-form-item{
+  width: 90%;
+  margin-bottom: 0px;
 }
 </style>

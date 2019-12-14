@@ -1,57 +1,57 @@
 <template>
   <div style="z-index:999;">
-    <a-form :form="form" @submit="handleSubmit" layout="inline">
+    <a-form :form="form" @submit="handleSubmit">
       <a-row style="height: 60px; margin-left: 10px;">
         <a-col :span="24">
           <a-row>
-            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="5" style="margin-top: 10px;">
-              <a-form-item>
-                <a-select
-                  showSearch
-                  placeholder="选择账户类型"
-                  optionFilterProp="children"
-                  style="width: 160px"
-                  @change="handleTypeChange"
-                  allowClear
-                  size="small"
-                  v-decorator="['user_type']"
-                >
-                  <a-select-option value="user">主账户</a-select-option>
-                  <a-select-option value="son">子账户</a-select-option>
-                </a-select>
-              </a-form-item>
+            <a-col :span="22">
+              <a-col :xs="24" :sm="18" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
+                <a-form-item>
+                  <a-select
+                    showSearch
+                    placeholder="选择账户类型"
+                    optionFilterProp="children"
+                    @change="handleTypeChange"
+                    allowClear
+                    size="small"
+                    v-decorator="['user_type']"
+                  >
+                    <a-select-option value="user">主账户</a-select-option>
+                    <a-select-option value="son">子账户</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :xs="24" :sm="18" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
+                <a-form-item>
+                  <a-select
+                    showSearch
+                    placeholder="选择用户"
+                    optionFilterProp="children"
+                    :filterOption="filterOption"
+                    allowClear
+                    size="small"
+                    v-decorator="['user_id']"
+                  >
+                    <a-select-option
+                      v-for="user in users"
+                      :value="user.id"
+                      :key="user.id"
+                    >{{ user.name }}</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :xs="24" :sm="18" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
+                <a-form-item>
+                  <start-time v-decorator="['start_time']" />
+                </a-form-item>
+              </a-col>
+              <a-col :xs="24" :sm="18" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
+                <a-form-item>
+                  <end-time v-decorator="['end_time']" />
+                </a-form-item>
+              </a-col>
             </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="5" style="margin-top: 10px;">
-              <a-form-item>
-                <a-select
-                  showSearch
-                  placeholder="选择用户"
-                  optionFilterProp="children"
-                  style="width: 160px"
-                  :filterOption="filterOption"
-                  allowClear
-                  size="small"
-                  v-decorator="['user_id']"
-                >
-                  <a-select-option
-                    v-for="user in users"
-                    :value="user.id"
-                    :key="user.id"
-                  >{{ user.name }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="6" style="margin-top: 10px;">
-              <a-form-item>
-                <start-time v-decorator="['start_time']" />
-              </a-form-item>
-            </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="8" :xl="6" style="margin-top: 10px;">
-              <a-form-item>
-                <end-time v-decorator="['end_time']" />
-              </a-form-item>
-            </a-col>
-            <a-col :xs="20" :sm="2" :md="2" :lg="2" :xl="2" style="margin-top: 10px;">
+            <a-col :span="2" style="margin-top: 10px;">
               <a-form-item>
                 <a-button size="small" type="primary" html-type="submit">搜索</a-button>
               </a-form-item>
@@ -83,8 +83,8 @@ export default {
   created() {
     // this.getUserList("son");
   },
-  mounted(){
-    this.form.setFieldsValue({user_type: 'son'})
+  mounted() {
+    this.form.setFieldsValue({ user_type: "son" });
   },
   methods: {
     handleSubmit(e) {
@@ -135,5 +135,9 @@ export default {
 }
 .ant-form-item-control {
   line-height: 24px;
+}
+.ant-form-item {
+  width: 90%;
+  margin-bottom: 0px;
 }
 </style>

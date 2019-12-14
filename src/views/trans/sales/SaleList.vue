@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="z-index: 2;">
+    <a-row style="z-index: 2; margin-bottom: 10px;">
       <a-col :span="22">
         <on-search @search="onSearch" :on-add="onUpdate" />
       </a-col>
@@ -8,8 +8,7 @@
         <!-- <a-button v-if="hasPermission('stock.delete')" type="danger" size="small" @click="del">删除</a-button> -->
       </a-col>
     </a-row>
-    <a-row>
-      <a-col style="margin-top: 20px;">
+    <a-row style="padding-top: 20px;">
         <a-table
           :columns="columns"
           :rowKey="record => record.id"
@@ -31,7 +30,6 @@
             <drop-down :id="text.id" :info="text" :on-buy="buy" @update="onUpdate" :status="text.status" />
           </span>
         </a-table>
-      </a-col>
     </a-row>
     <a-divider></a-divider>
   </div>
@@ -48,14 +46,14 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "用户账户",
     key: "user",
     align: "center",
     scopedSlots: { customRender: "user" },
-    fixed: "left"
+    // fixed: "left"
   },
   {
     title: "游戏名称",
@@ -105,7 +103,7 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
+    // fixed: "right"
   }
 ];
 export default {

@@ -1,11 +1,11 @@
 <template>
   <a-row>
     <a-col
-      :xs="20"
-      :sm="16"
-      :md="10"
-      :lg="3"
-      :xl="3"
+      :xs="24"
+      :sm="18"
+      :md="12"
+      :lg="8"
+      :xl="6"
       v-if="hasPermission('sale.add')"
       style="height: 58px; margin-left: 10px;"
     >
@@ -19,17 +19,16 @@
       </a-row>
     </a-col>
     <a-col :span="20">
-      <a-form :form="form" @submit="handleSubmit" layout="inline">
+      <a-form :form="form" @submit="handleSubmit">
         <a-row style="height: 30px; margin-left: 10px;">
           <a-col :span="22">
-            <a-row>
-              <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+
+              <a-col :xs="24" :sm="18" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
                 <a-form-item>
                   <a-select
                     showSearch
                     placeholder="选择游戏"
                     optionFilterProp="children"
-                    style="width: 160px"
                     @change="handleGameChange"
                     :filterOption="filterOption"
                     allowClear
@@ -44,12 +43,11 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+              <a-col :xs="24" :sm="18" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
                 <a-form-item>
                   <a-select
                     showSearch
                     placeholder="订单状态"
-                    style="width: 160px"
                     allowClear
                     size="small"
                     v-decorator="['status']"
@@ -59,15 +57,14 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-            </a-row>
-            <a-row :style="{marginTop: '10px'}">
-              <a-col :span="5" :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+
+
+              <a-col :xs="24" :sm="18" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
                 <a-form-item>
                   <a-select
                     showSearch
                     placeholder="选择面值"
                     optionFilterProp="children"
-                    style="width: 160px"
                     :filterOption="filterOption"
                     allowClear
                     size="small"
@@ -81,13 +78,12 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :span="6" :xs="20" :sm="16" :md="10" :lg="6" :xl="5" style="margin-top: 10px;">
+              <a-col :xs="24" :sm="18" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
                 <a-form-item>
                   <a-select
                     showSearch
                     placeholder="选择用户"
                     optionFilterProp="children"
-                    style="width: 160px"
                     :filterOption="filterOption"
                     allowClear
                     size="small"
@@ -101,7 +97,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-            </a-row>
+ 
           </a-col>
           <a-col
             :span="6"
@@ -112,7 +108,7 @@
             :xl="1"
             style="margin-top: 10px;"
             :offset="1"
-            :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', height: '58px'}"
+            
           >
             <a-form-item>
               <a-button size="small" type="primary" html-type="submit">搜索</a-button>
@@ -226,5 +222,9 @@ export default {
 }
 .ant-form-item-control {
   line-height: 24px;
+}
+.ant-form-item {
+  width: 90%;
+  margin-bottom: 0px;
 }
 </style>

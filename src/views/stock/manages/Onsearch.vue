@@ -1,16 +1,15 @@
 <template>
   <div style="z-index:999;">
-    <a-form :form="form" @submit="handleSubmit" layout="inline">
+    <a-form :form="form" @submit="handleSubmit">
       <a-row style="height: 60px; margin-left: 10px;">
-        <a-col :span="21">
+        <a-col  :xs="14" :sm="18" :md="18" :lg="20" :xl="21">
           <a-row>
-            <a-col :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
                   placeholder="选择游戏"
                   optionFilterProp="children"
-                  style="width: 160px"
                   @change="handleGameChange"
                   :filterOption="filterOption"
                   allowClear
@@ -25,12 +24,11 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
                   placeholder="选择账户类型"
-                  style="width: 160px"
                   @change="handleTypeChange"
                   allowClear
                   size="small"
@@ -41,30 +39,28 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <a-input
                   placeholder="请输入库存单号"
                   size="small"
-                  :style="{width: '160px'}"
                   v-decorator="['identifier']"
                 ></a-input>
               </a-form-item>
             </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <start-time v-decorator="['start_time']" />
               </a-form-item>
             </a-col>
           </a-row>
           <a-row :style="{marginTop: '10px'}">
-            <a-col :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
                   placeholder="选择面值"
                   optionFilterProp="children"
-                  style="width: 160px"
                   :filterOption="filterOption"
                   allowClear
                   size="small"
@@ -78,13 +74,12 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
                   placeholder="选择用户"
                   optionFilterProp="children"
-                  style="width: 160px"
                   :filterOption="filterOption"
                   allowClear
                   size="small"
@@ -98,13 +93,12 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <a-select
                   showSearch
                   placeholder="选择库存状态"
                   optionFilterProp="children"
-                  style="width: 160px"
                   allowClear
                   size="small"
                   v-decorator="['status']"
@@ -119,7 +113,7 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :xs="20" :sm="16" :md="10" :lg="6" :xl="6" style="margin-top: 10px;">
+            <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
               <a-form-item>
                 <end-time v-decorator="['end_time']" />
               </a-form-item>
@@ -219,5 +213,9 @@ export default {
 }
 .ant-form-item-control {
   line-height: 24px;
+}
+.ant-form-item{
+  width: 90%;
+  margin-bottom: 0px;
 }
 </style>

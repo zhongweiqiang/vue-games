@@ -15,6 +15,7 @@
 </template>
 <script>
 import ConfirmForm from "./ConfirmForm";
+import { son_to_user } from '@/api/dist'
 export default {
   components: { ConfirmForm },
   props: {
@@ -41,10 +42,19 @@ export default {
         cancelText: "取消",
         okText: "转移",
         onOk() {
+
           // return new Promise((resolve, reject) => {
           //   setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
           // }).catch(() => console.log("Oops errors!"));
-          self.visible = true;
+          
+          son_to_user({ son_id: self.id }).then(response => {
+              console.log(response)
+
+              self.$emit('dist')
+              self.$message.success(response.message)
+              self.form.resetFields()
+          })
+          // self.visible = true;
         },
         onCancel() {}
       });

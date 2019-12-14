@@ -3,7 +3,7 @@
     allowClear
     placeholder="设备状态"
     optionFilterProp="children"
-    style="width: 200px"
+    style="width: 90%;"
     @focus="handleFocus"
     @blur="handleBlur"
     @change="handleChange"

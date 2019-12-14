@@ -61,7 +61,8 @@
   </div>
 </template>
 <script>
-import { add, select } from "@/api/price";
+import { add } from "@/api/price";
+import { select } from "@/api/game"
 export default {
   props: {
     okText: {
