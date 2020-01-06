@@ -29,6 +29,20 @@
           </a-row>
         </a-card>
       </a-col>
+
+      <a-col :xs="24" :sm="24" :md="16" :lg="12" :xl="12">
+        <a-card title="凭证导入" :bordered="false">
+          <a-row>
+            <a-col :span="18">
+              <p>账户导入，在配置列表中找到key为receipt_postion的列数, 从0开始数, 比如凭证在第五列, 那么位置为4</p>
+            </a-col>
+            <a-col :span="5" :offset="1">
+              <!-- <a-button type="primary">迁移</a-button> -->
+              <upload-file />
+            </a-col>
+          </a-row>
+        </a-card>
+      </a-col>
       <!-- <a-col :span="8">
         <a-card title="Card title" :bordered="false">
           <p>card content</p>
@@ -41,10 +55,12 @@
 <script>
 import MigrationModal from "./MigrationModal";
 import DistModal from "./DistModal";
+import UploadFile from './UploadFile'
 export default {
   components: {
     MigrationModal,
-    DistModal
+    DistModal,
+    UploadFile
   }
 };
 </script>

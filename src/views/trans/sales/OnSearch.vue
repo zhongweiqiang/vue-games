@@ -3,9 +3,9 @@
     <a-col
       :xs="24"
       :sm="18"
-      :md="12"
-      :lg="8"
-      :xl="6"
+      :md="2"
+      :lg="2"
+      :xl="2"
       v-if="hasPermission('sale.add')"
       style="height: 58px; margin-left: 10px;"
     >

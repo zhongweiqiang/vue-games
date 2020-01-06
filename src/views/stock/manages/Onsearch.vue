@@ -120,7 +120,7 @@
             </a-col>
           </a-row>
         </a-col>
-        <a-col :xs="20" :sm="16" :md="10" :lg="2" :xl="2" :offset="1" :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', height: '58px'}">
+        <a-col :xs="20" :sm="16" :md="10" :lg="2" :xl="2" :style="{display: 'flex', justifyItems: 'center', alignItems: 'center', height: '58px'}">
           <a-form-item>
             <a-button size="small" type="primary" html-type="submit">搜索</a-button>
           </a-form-item>

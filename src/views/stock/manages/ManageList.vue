@@ -1,16 +1,16 @@
 <template>
   <div>
     <a-row style="z-index: 2;">
-      <a-col :span="19"   :xs="16" :sm="16" :md="19" :lg="19" :xl="19">
+      <a-col :span="19"   :xs="16" :sm="16" :md="18" :lg="18" :xl="18">
         <on-search @search="onSearch" />
       </a-col>
-      <a-col :xs="8" :sm="8" :md="5" :lg="5" :xl="5">
+      <a-col :xs="8" :sm="8" :md="6" :lg="6" :xl="6">
         <!-- <a-button type="danger" size="small" @click="del">删除</a-button> -->
         <a-row style="margin-top: 10px;">
-          <a-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+          <a-col :xs="24" :sm="24" :md="24" :lg="20" :xl="20">
             <migration @dist="onDist" ref="migration" :id="selectedRowKeys" />
           </a-col>
-          <a-col :xs="24" :sm="16" :md="10" :lg="4" :xl="4" style="display: flex; align-items:center; height: 58px;">
+          <a-col :xs="24" :sm="24" :md="24" :lg="4" :xl="4" style="display: flex; align-items:center; height: 58px;">
             <a-button type="primary" size="small" @click="dist">分配</a-button>
           </a-col>
         </a-row>

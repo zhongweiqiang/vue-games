@@ -55,3 +55,11 @@ export function reset_nickname(data){
         data
     })
 }
+
+export function member(data){
+    return request({
+        url: '/v1/info/member',
+        method: 'post',
+        data
+    })
+}

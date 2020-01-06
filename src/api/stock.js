@@ -40,3 +40,14 @@ export function exportStock(data){
         responseType: 'blob'
     })
 }
+
+
+
+export function exportCompatStock(data){
+    return request({
+        url: '/v1/stock/export_compat_stock',
+        method: 'get',
+        params: data,
+        responseType: 'blob'
+    })
+}

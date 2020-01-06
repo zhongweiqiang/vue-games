@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display: inline-block;">
     <a-dropdown>
       <a class="ant-dropdown-link" href="#">
         <a-avatar shape="square" icon="user" />

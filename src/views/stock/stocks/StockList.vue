@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="z-index: 2; margin-bottom: 60px;">
+    <a-row style="z-index: 2;">
       <a-col :span="20">
         <on-search @search="onSearch" />
       </a-col>
@@ -122,6 +122,69 @@ const columns = [
     // fixed: "right"
   }
 ];
+
+const normalColumns = [
+  {
+    title: "id",
+    dataIndex: "id",
+    sorter: true,
+    align: "center",
+    // fixed: "left"
+  },
+  {
+    title: "游戏名称",
+    key: "game",
+    align: "center",
+    scopedSlots: { customRender: "game" }
+  },
+  {
+    title: "面值名称",
+    key: "price",
+    align: "center",
+    scopedSlots: { customRender: "price" }
+  },
+  {
+    title: "面值价格",
+    key: "money",
+    align: "center",
+    scopedSlots: { customRender: "money" }
+  },
+  {
+    title: "库存单号",
+    dataIndex: "identifier",
+    align: "center"
+  },
+  {
+    title: "所属用户",
+    key: "owner_user_id",
+    align: "center",
+    scopedSlots: { customRender: "owner_user_id" }
+  },
+  {
+    title: "状态",
+    dataIndex: "status",
+    align: "center"
+  },
+  {
+    title: "入库时间",
+    dataIndex: "created_at",
+    align: "center"
+  },
+
+  {
+    title: "使用时间",
+    dataIndex: "use_time",
+    align: "center",
+    scopedSlots: { customRender: "use_time" }
+  },
+  {
+    title: "操作",
+    key: "action",
+    scopedSlots: { customRender: "action" },
+    align: "center",
+    // fixed: "right"
+  }
+];
 export default {
   components: {
     DropDown,
@@ -142,7 +205,7 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : normalColumns,
       selectedRowKeys: [],
       role_id: 1,
 

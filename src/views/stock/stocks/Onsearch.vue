@@ -41,12 +41,7 @@
           </a-col>
           <a-col :xs="20" :sm="16" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
             <a-form-item>
-              <a-input
-                allowClear
-                placeholder="请输入库存单号"
-                size="small"
-                v-decorator="['identifier']"
-              ></a-input>
+              <a-input allowClear placeholder="请输入库存单号" size="small" v-decorator="['identifier']"></a-input>
             </a-form-item>
           </a-col>
 
@@ -123,12 +118,7 @@
 
           <a-col :xs="20" :sm="16" :md="12" :lg="8" :xl="6" style="margin-top: 10px;">
             <a-form-item>
-              <a-input
-                allowClear
-                placeholder="请输入库存id"
-                size="small"
-                v-decorator="['id']"
-              ></a-input>
+              <a-input allowClear placeholder="请输入库存id" size="small" v-decorator="['id']"></a-input>
             </a-form-item>
           </a-col>
 
@@ -142,6 +132,17 @@
               <a-button size="small" type="primary" @click="exportStock">导出</a-button>
             </a-form-item>
           </a-col>
+          <a-col :xs="10" :sm="10" :md="10" :lg="3" :xl="2" style="margin-top: 10px;">
+            <a-form-item v-if="hasPermission('stock.export')">
+              <a-button size="small" type="primary" @click="exportStockCompat">兼容导出</a-button>
+            </a-form-item>
+          </a-col>
+
+          <!-- <a-col :xs="10" :sm="10" :md="10" :lg="3" :xl="2" style="margin-top: 10px;">
+            <a-form-item v-if="hasPermission('stock.export')">
+              <a-button size="small" type="primary" @click="importStock">导入</a-button>
+            </a-form-item>
+          </a-col>-->
 
           <!-- </a-row> -->
         </a-col>
@@ -154,7 +155,7 @@
 import { gameSelect } from "@/api/game";
 import { priceSelect } from "@/api/price";
 import { userSelect } from "@/api/user";
-import { exportStock } from "@/api/stock";
+import { exportStock, exportCompatStock } from "@/api/stock";
 import StartTime from "./StartTime";
 import EndTime from "./EndTime";
 var fileDownload = require("js-file-download");
@@ -200,6 +201,26 @@ export default {
         let fileName = "库存列表.xlsx";
         fileDownload(response.data, fileName);
       });
+    },
+
+    exportStockCompat() {
+      console.log(this.form.getFieldsValue());
+      exportCompatStock(this.form.getFieldsValue()).then(response => {
+        console.log(response);
+        // let blob = new Blob([response.data], {
+        //   type: "application/vnd.ms-excel"
+        // });
+        // let objectUrl = URL.createObjectURL(blob);
+
+        // window.location.href = objectUrl;
+
+        let fileName = "库存列表.xlsx";
+        fileDownload(response.data, fileName);
+      });
+    },
+
+    importStock() {
+      console.log("import");
     },
 
     handleGameChange(value) {
@@ -252,7 +273,7 @@ export default {
 .ant-form-item-control {
   line-height: 24px;
 }
-.ant-form-item{
+.ant-form-item {
   width: 90%;
   margin-bottom: 0px;
 }

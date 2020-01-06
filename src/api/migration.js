@@ -16,3 +16,11 @@ export function distribution(data){
         data
     })
 }
+
+export function importStock(data){
+    return request({
+        url: '/v1/stock/import_stock',
+        method: 'post',
+        data
+    })
+}

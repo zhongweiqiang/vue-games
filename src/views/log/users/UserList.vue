@@ -63,6 +63,34 @@ const columns = [
   },
 
 ];
+
+const normaCcolumns = [
+  {
+    title: "id",
+    dataIndex: "id",
+    sorter: true,
+    align: "center",
+    // fixed: "left"
+  },
+    {
+    title: "所属用户",
+    key: "user",
+    align: "center",
+    scopedSlots: { customRender: "user" }
+  },
+  {
+    title: "描述",
+    dataIndex: "description",
+    align: "center",
+  },
+  {
+    title: "登录时间",
+    dataIndex: "created_at",
+    align: "center",
+    // fixed: "right"
+  },
+
+];
 export default {
   components: { OnSearch },
   data() {
@@ -70,7 +98,7 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : normaCcolumns,
       totalMoney: 0,
       // checked: false,
 

@@ -19,9 +19,16 @@
           @change="handleTableChange"
           :scroll="{ x: 800 }"
         >
-          <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
-          <span slot="price" slot-scope="text">{{text.price.gold}}</span>
-          <span slot="money" slot-scope="text">{{text.price.money}}</span>
+          <!-- <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
+          <span slot="price" slot-scope="text">{{text.price.gold}}</span> -->
+          <span slot="money" slot-scope="text">
+            <span v-if="text.type=='充值'" style="color: red">
+              {{text.money}}
+            </span>
+            <span v-else>
+              {{text.money}}
+            </span>
+            </span>
           <span slot="owner_user_id" slot-scope="text">
             <div v-if="text.son">{{ text.son.name }}</div>
             <div v-else>{{ text.user.name }}</div>
@@ -65,8 +72,10 @@ const columns = [
   },
   {
     title: "操作金额",
-    dataIndex: "money",
+    // dataIndex: "money",
+    key: 'money',
     align: "center",
+    scopedSlots: { customRender: "money" },
   },
   {
     title: "申请类型",

@@ -134,3 +134,11 @@ export function pay_update_password(data){
   })
 }
 
+export function start_member_description(data){
+  return request({
+    url: '/v1/user/start_member_description',
+    method: 'get',
+    params: data
+  })
+}
+

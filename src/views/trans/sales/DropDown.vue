@@ -5,7 +5,7 @@
         <a-menu-item key="1" v-if="user_id != info.user_id">
           <buy-modal ref="buy" :info="info" :on-buy="onBuy" />
         </a-menu-item>
-        <a-menu-item key="2" v-if="user_id == info.user_id">
+        <a-menu-item key="2" v-if="user_id == info.user_id || role_id == 1">
           <div>
               <a-icon type="money" />下架
           </div>
@@ -16,6 +16,7 @@
       </a-menu>
       <a-button size="small" type="primary" style="margin-left: 8px">
         操作
+        
         <a-icon type="down" />
       </a-button>
     </a-dropdown>
@@ -50,7 +51,8 @@ export default {
   mounted() {},
   data() {
     return {
-      user_id: this.$store.getters.info.id
+      user_id: this.$store.getters.info.id,
+      role_id: this.$store.getters.info.role_id
     };
   },
   methods: {
