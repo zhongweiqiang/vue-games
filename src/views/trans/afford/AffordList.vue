@@ -1,7 +1,10 @@
 <template>
   <div>
+    <a-row style="margin-left: 10px;">
+      <a-button type="primary" size="small" @click="buyList">求购列表</a-button>
+    </a-row>
     <a-row>
-      <a-col style="margin-top: 20px;">
+      <a-col style="margin-top: 10px;">
         <a-table
           :columns="columns"
           :rowKey="record => record.id"
@@ -9,7 +12,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1100 }"
+     
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
           <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
@@ -25,7 +28,6 @@
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
   </div>
 </template>
 
@@ -97,6 +99,72 @@ const columns = [
     // fixed: "right"
   }
 ];
+
+const userColumns = [
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center",
+  //   // fixed: "left"
+  // },
+  // {
+  //   title: "供货账户",
+  //   key: "user",
+  //   align: "center",
+  //   scopedSlots: { customRender: "user" }
+  // },
+  {
+    title: "游戏名称",
+    key: "game",
+    align: "center",
+    scopedSlots: { customRender: "game" }
+  },
+  {
+    title: "面值名称",
+    key: "price",
+    align: "center",
+    scopedSlots: { customRender: "price" }
+  },
+  {
+    title: "供货总量",
+    dataIndex: "default_unit",
+    align: "center"
+  },
+    {
+    title: "供货数量",
+    dataIndex: "unit",
+    align: "center"
+  },
+  {
+    title: "订单单价",
+    dataIndex: "unit_price",
+    align: "center"
+  },
+  {
+    title: "订单总价",
+    key: "total_money",
+    align: "center",
+    scopedSlots: { customRender: "total_money" }
+  },
+  {
+    title: "状态",
+    dataIndex: "status",
+    align: "center"
+  },
+  {
+    title: "发布时间",
+    dataIndex: "created_at",
+    align: "center"
+  },
+  {
+    title: "操作",
+    key: "action",
+    scopedSlots: { customRender: "action" },
+    align: "center",
+    // fixed: "right"
+  }
+];
 export default {
   components: {
     // OnSearch,
@@ -110,7 +178,7 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : userColumns,
       selectedRowKeys: [],
 
       // 给监听器使用的
@@ -127,8 +195,15 @@ export default {
   },
 
   methods: {
+    buyList(){
+      this.$router.push('/buy/list')
+    },
     onSearch(value) {
       this.search = value;
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ ...value, pageSize: this.pagination.pageSize });
     },
 

@@ -4,7 +4,7 @@
       <on-search @search="onSearch" />
     </a-row>
     <a-row>
-      <a-col style="margin-top: 0px;">
+      <a-col style="margin-top: 50px;">
         <a-table
           :columns="columns"
           :rowKey="record => record.id"
@@ -12,7 +12,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1100 }"
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
           <span slot="game" slot-scope="text">{{text.game.name}}</span>
@@ -28,7 +27,7 @@
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
@@ -43,7 +42,7 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
@@ -104,14 +103,86 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
+    align: "center"
+    // fixed: "right"
+  }
+];
+
+const userColumns = [
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center"
+  //   // fixed: "left"
+  // },
+  // {
+  //   title: "用户账户",
+  //   key: "user",
+  //   align: "center",
+  //   scopedSlots: { customRender: "user" }
+  // },
+    {
+    title: "订单号",
+    dataIndex: "order_num",
+    align: "center"
+  },
+  {
+    title: "游戏名称",
+    key: "game",
     align: "center",
+    scopedSlots: { customRender: "game" }
+  },
+  {
+    title: "面值名称",
+    key: "price",
+    align: "center",
+    scopedSlots: { customRender: "price" }
+  },
+  {
+    title: "发布数量",
+    dataIndex: "default_unit",
+    align: "center"
+  },
+  {
+    title: "剩余数量",
+    dataIndex: "unit",
+    align: "center"
+  },
+  {
+    title: "订单单价",
+    dataIndex: "unit_price",
+    align: "center"
+  },
+  // {
+  //   title: "订单总价",
+  //   key: "total_money",
+  //   align: "center",
+  //   scopedSlots: { customRender: "total_money" }
+  // },
+
+  {
+    title: "状态",
+    dataIndex: "status",
+    align: "center"
+  },
+  {
+    title: "发布时间",
+    dataIndex: "created_at",
+    align: "center"
+  },
+  {
+    title: "操作",
+    key: "action",
+    scopedSlots: { customRender: "action" },
+    align: "center"
     // fixed: "right"
   }
 ];
 export default {
   components: {
     AffordUserModal,
-    OnSearch,
+    OnSearch
     // DropDown
   },
   beforeCreate() {
@@ -122,9 +193,9 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : userColumns,
       selectedRowKeys: [],
-      suit: { x: 1000},
+      suit: { x: 1000 },
 
       // 给监听器使用的
       name: "",
@@ -137,14 +208,18 @@ export default {
     this.fetch({ pageSize: this.pagination.pageSize, type: "all" });
     // this.tag_data();
     console.log(this.config);
-    console.log(document.body.clientWidth)
-    this.suit = document.body.clientWidth > 1300 ? null : { x: 1000}
+    console.log(document.body.clientWidth);
+    this.suit = document.body.clientWidth > 1300 ? null : { x: 1000 };
   },
 
   methods: {
     onSearch(value) {
       this.search = value;
-      this.fetch({ ...value, pageSize: this.pagination.pageSize, type: 'all' });
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
+      this.fetch({ ...value, pageSize: this.pagination.pageSize, type: "all" });
     },
 
     onUpdate() {

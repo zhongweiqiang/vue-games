@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 64px;">
     <div @click="showModal" style="display: inline-block;" class="member">开通会员</div>
     <a-modal
       title="开通会员"
@@ -36,6 +36,7 @@
         </a-col>
       </a-row>
     </a-modal>
+    <a-divider></a-divider>
   </div>
 </template>
 <script>

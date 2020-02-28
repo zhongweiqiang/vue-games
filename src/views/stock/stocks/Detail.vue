@@ -5,11 +5,11 @@
       <p :style="[pStyle, pStyle2]" style="text-align: center">凭证详情</p>
       <a-row>
         <a-col :span="12">
-          <description-item title="入库人：" :content="text.input.name" />
+          <description-item title="入库人：" :content="text.input ? text.input.name : '该账户已被删除'" />
         </a-col>
         <a-col :span="12">
-          <description-item title="所有者：" v-if="text.son" :content="text.son.name" />
-          <description-item title="所有者：" v-else :content="text.user.name" />
+          <description-item title="所有者：" v-if="text.son" :content="text.son ? text.son.name : '未匹配'" />
+          <description-item title="所有者：" v-else :content="text.user ? text.user.name : '未匹配'" />
         </a-col>
       </a-row>
       <a-row>
@@ -46,6 +46,13 @@
         <a-collapse @change="changeActivekey">
           <a-collapse-panel :style="{textAlign: 'center'}" header="凭证内容" key="1" :showArrow="false">
             <p>{{ apple.receipt }}</p>
+          </a-collapse-panel>
+        </a-collapse>
+      </a-row>
+      <a-row>
+        <a-collapse @change="changeActivekey">
+          <a-collapse-panel :style="{textAlign: 'center'}" header="备用凭证" key="2" :showArrow="false">
+            <p>{{ apple.new_receipt }}</p>
           </a-collapse-panel>
         </a-collapse>
       </a-row>

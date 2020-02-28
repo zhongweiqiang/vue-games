@@ -71,3 +71,11 @@ export function buyMe(data){
         params: data
     })
 }
+
+export function downSale(data){
+    return request({
+        url: '/v1/sale/remove_all',
+        method: 'post',
+        data
+    })
+}

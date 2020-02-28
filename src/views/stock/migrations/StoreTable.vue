@@ -1,23 +1,7 @@
 <template>
   <div>
-    <a-row style="z-index: 2;">
-      <a-col :span="19"   :xs="16" :sm="16" :md="18" :lg="18" :xl="18">
-        <on-search @search="onSearch" />
-      </a-col>
-      <a-col :xs="8" :sm="8" :md="6" :lg="6" :xl="6">
-        <!-- <a-button type="danger" size="small" @click="del">删除</a-button> -->
-        <a-row style="margin-top: 10px;">
-          <a-col :xs="24" :sm="24" :md="24" :lg="20" :xl="20">
-            <migration @dist="onDist" ref="migration" :id="selectedRowKeys" />
-          </a-col>
-          <a-col :xs="24" :sm="24" :md="24" :lg="4" :xl="4" style="display: flex; align-items:center; height: 58px;">
-            <a-button type="primary" size="small" @click="dist">分配</a-button>
-          </a-col>
-        </a-row>
-      </a-col>
-    </a-row>
-    <a-row>
-      <a-col style="margin-top: 20px;">
+    <a-row style="background: #fff;clear:both;">
+      <a-col>
         <a-table
           :columns="columns"
           :rowKey="record => record.id"
@@ -25,43 +9,40 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+           style="background: #fff"
         >
           <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
           <span slot="price" slot-scope="text">{{text.price.gold}}</span>
           <span slot="money" slot-scope="text">{{text.price.money}}</span>
-          <span slot="owner_user_id" slot-scope="text">
+          <!-- <span slot="owner_user_id" slot-scope="text">
             <div v-if="text.son">{{ text.son ? text.son.name : '已删除' }}</div>
             <div v-else>{{ text.user ? text.user.name : '已删除' }}</div>
-          </span>
+          </span> -->
           <span slot="use_time" v-if="text" slot-scope="text">{{text}}</span>
           <span slot="use_time" v-else>未使用</span>
 
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
-          <!-- <span slot="action" slot-scope="text">
-            <drop-down :id="text.id" @update="onUpdate" />
-            <detail :text="text" />
-          </span>-->
+
         </a-table>
       </a-col>
     </a-row>
-    <!-- <a-divider></a-divider> -->
+    <a-divider></a-divider>
+    <div style="clear:both;"></div>
   </div>
 </template>
 
 <script>
-import { index, del } from "@/api/stock";
-import DropDown from "./DropDown";
-import Detail from "./Detail";
-import Migration from "./Migration";
-import OnSearch from "./Onsearch";
+import { index, del, status } from "@/api/stock";
+import { ownerLessStock } from '@/api/migration'
+
+// import OnSearch from "./Onsearch";
 const columns = [
   {
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
@@ -69,14 +50,12 @@ const columns = [
     key: "game",
     align: "center",
     scopedSlots: { customRender: "game" }
-    // fixed: "left"
   },
   {
     title: "面值名称",
     key: "price",
     align: "center",
     scopedSlots: { customRender: "price" }
-    // fixed: "left"
   },
   {
     title: "面值价格",
@@ -88,12 +67,6 @@ const columns = [
     title: "库存单号",
     dataIndex: "identifier",
     align: "center"
-  },
-  {
-    title: "所属用户",
-    key: "owner_user_id",
-    align: "center",
-    scopedSlots: { customRender: "owner_user_id" }
   },
   {
     title: "状态",
@@ -112,37 +85,30 @@ const columns = [
     align: "center",
     scopedSlots: { customRender: "use_time" }
   },
-  {
-    title: "币值",
-    dataIndex: "currency",
-    align: "center",
-    // fixed: "right"
-  }
-  // {
-  //   title: "操作",
-  //   key: "action",
-  //   scopedSlots: { customRender: "action" },
-  //   align: "center",
-  //   fixed: "right"
-  // }
 ];
+
 export default {
   components: {
-    DropDown,
-    Detail,
-    OnSearch,
-    Migration
+    // DropDown,
+    // Detail,
+    // OnSearch
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
+  created() {
+    this.role_id = this.$store.getters.info.role_id;
+  },
+
+  watch: {},
   data() {
     return {
       data: [],
-      pagination: { pageSize: this.$store.getters.pagesize },
+      pagination: { pageSize: 10 },
       loading: false,
-      columns,
+      columns: columns,
       selectedRowKeys: [],
+      role_id: 1,
 
       // 给监听器使用的
       name: "",
@@ -154,18 +120,10 @@ export default {
     // 首次加载页面获取数据
     this.fetch({ pageSize: this.pagination.pageSize });
     // this.tag_data();
-    console.log(this.config);
   },
 
   methods: {
-    onSearch(value) {
-      this.search = value;
-      const pager = { ...this.pagination };
-      // 将必要参数都放入pagination
-      pager.current = 1;
-      this.pagination = pager;
-      this.fetch({ ...value, pageSize: this.pagination.pageSize });
-    },
+
 
     onUpdate() {
       this.fetch({
@@ -183,13 +141,7 @@ export default {
       };
     },
 
-    // 点击状态修改时
-    status(id) {
-      status({ id }).then(response => {
-        // console.log(response);
-        this.fetch(this.getPagination());
-      });
-    },
+
 
     // 表格参数改变时
     handleTableChange(pagination, filters, sorter) {
@@ -215,7 +167,7 @@ export default {
     fetch(params = {}) {
       // console.log("params:", params);
       this.loading = true;
-      index(params).then(response => {
+      ownerLessStock(params).then(response => {
         console.log(response.data);
         const pagination = { ...this.pagination };
         let data = response.data;
@@ -232,28 +184,12 @@ export default {
       this.$destroyAll();
     },
 
-    onSelectChange(selectedRowKeys) {
-      console.log("selectedRowKeys changed: ", selectedRowKeys);
-      this.selectedRowKeys = selectedRowKeys;
-    },
-    dist() {
-      console.log(this.selectedRowKeys);
-      // return 
-      this.$refs.migration.handleSubmit();
-    },
 
-    onDist() {
-      this.fetch({
-        ...this.getPagination(),
-        ...this.search
-      });
-      this.selectedRowKeys = [];
-    }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .ant-table-tbody > tr > td {
   padding: 4px 8px;
   text-align: center;
@@ -261,9 +197,9 @@ export default {
 .search {
   margin-top: 10px;
 }
-/* .ant-row {
+.ant-row {
   height: 24px;
-} */
+}
 .ant-form-item-control {
   line-height: 24px;
 }

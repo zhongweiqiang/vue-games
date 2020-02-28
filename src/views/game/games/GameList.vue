@@ -5,24 +5,10 @@
         <game-add :on-add="onAdd" />
       </a-col>
       <a-col :span="8" :xs="24" :sm="10" :md="4" :lg="4">
-        <a-input-search
-          allowClear
-          v-model="name"
-          placeholder="请输入游戏名称"
-          size="small"
-          @search="onGameSearch"
-          enterButton
-        />
+        <a-input allowClear v-model="name" placeholder="请输入游戏名称" size="small" />
       </a-col>
       <a-col :span="8" :xs="24" :sm="10" :md="5" :lg="5" :offset="1">
-        <a-input-search
-          allowClear
-          v-model="productIdentifier"
-          placeholder="请输入游戏包名"
-          size="small"
-          @search="onProductSearch"
-          enterButton
-        />
+        <a-input allowClear v-model="productIdentifier" placeholder="请输入游戏包名" size="small" />
       </a-col>
 
       <a-col :span="8" :xs="24" :sm="10" :md="5" :lg="5" :offset="1">
@@ -38,6 +24,9 @@
           <a-select-option value="2">禁用</a-select-option>
         </a-select>
       </a-col>
+      <a-col>
+        <a-button type="primary" size="small" @click="search">搜索</a-button>
+      </a-col>
     </a-row>
     <a-row>
       <a-col>
@@ -48,7 +37,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 900 }"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
@@ -77,13 +65,13 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
     title: "游戏名称",
     dataIndex: "name",
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
@@ -115,7 +103,7 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center",
+    align: "center"
     // fixed: "right"
   }
 ];
@@ -132,7 +120,8 @@ export default {
       // 给监听器使用的
       name: "",
       filters: {},
-      productIdentifier: ""
+      productIdentifier: "",
+      type: 1
     };
   },
   mounted() {
@@ -142,34 +131,35 @@ export default {
     console.log(this.config);
   },
   watch: {
-    name: function(newVal, oldVal) {
-      if (newVal == "") {
-        this.fetch({ pageSize: this.pagination.pageSize });
-      }
-    },
-    productIdentifier: function(newVal, oldVal) {
-      if (newVal == "") {
-        this.fetch({ pageSize: this.pagination.pageSize });
-      }
-    },
+    // name: function(newVal, oldVal) {
+    //   if (newVal == "") {
+    //     this.fetch({ pageSize: this.pagination.pageSize });
+    //   }
+    // },
+    // productIdentifier: function(newVal, oldVal) {
+    //   if (newVal == "") {
+    //     this.fetch({ pageSize: this.pagination.pageSize });
+    //   }
+    // },
   },
   methods: {
-    onGameSearch(value) {
-      if (value == "") {
-        return false;
-      }
-      this.onSearch({ name: value });
-    },
+    // onGameSearch(value) {
+    //   if (value == "") {
+    //     return false;
+    //   }
+    //   this.onSearch({ name: value });
+    // },
 
-    onProductSearch(value) {
-      if (value == "") {
-        return false;
-      }
-      this.onSearch({ productIdentifier: value });
-    },
+    // onProductSearch(value) {
+    //   if (value == "") {
+    //     return false;
+    //   }
+    //   this.onSearch({ productIdentifier: value });
+    // },
 
-    handleTypeChange(value){
-      this.onSearch({ status: value });
+    handleTypeChange(value) {
+      // this.onSearch({ status: value });
+      this.type = value;
     },
 
     // 页面搜索
@@ -188,8 +178,24 @@ export default {
         pageSize: this.pagination.pageSize,
         page: this.pagination.current,
         sortField: this.pagination.sortField,
-        sortOrder: this.pagination.sortOrder
+        sortOrder: this.pagination.sortOrder,
+        name: this.name,
+        productIdentifier: this.productIdentifier,
+        status: this.type
       };
+    },
+
+    // 点击搜索按钮
+    search() {
+      // 点击搜索从第一页开始显示
+      const pager = { ...this.pagination };
+      pager.current = 1;
+      this.pagination = pager;
+      this.fetch({
+        name: this.name,
+        productIdentifier: this.productIdentifier,
+        status: this.type
+      });
     },
 
     onAdd() {
@@ -197,6 +203,7 @@ export default {
     },
 
     onEdit() {
+      // 修改后获取各参数及当前页数据
       this.fetch(this.getPagination());
     },
 
@@ -223,7 +230,8 @@ export default {
         page: pagination.current,
         sortField: sorter.field,
         sortOrder: sorter.order,
-        ...filters // 此处放搜索字段
+        ...filters, // 此处放搜索字段
+        status: this.type
       });
     },
 
@@ -254,16 +262,22 @@ export default {
         onOk() {
           return new Promise((resolve, reject) => {
             del({ id }).then(response => {
-              self.$message.success("删除成功");
+              console.log(response.message);
+              self.$message.success(response.message);
               self.fetch({
                 pageSize: self.pagination.pageSize,
                 page: self.pagination.current,
                 sortField: self.pagination.sortField,
                 sortOrder: self.pagination.sortOrder,
-                ...self.filters
+                ...self.filters,
+                name: self.name,
+                productIdentifier: self.productIdentifier,
+                status: self.type
               });
               self.destroyAll();
             });
+          }).then(err => {
+            console.log(err);
           });
         },
         onCancel() {

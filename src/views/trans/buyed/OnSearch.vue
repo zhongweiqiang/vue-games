@@ -74,9 +74,10 @@
                 </a-col>
               </a-row>
             </a-col>
-            <a-col :style="{marginTop: '24px'}" :xs="20" :sm="16" :md="10" :lg="1" :xl="1" :offset="1">
+            <a-col :style="{marginTop: '10px'}" :xs="20" :sm="16" :md="10" :lg="1" :xl="1">
               <a-form-item>
                 <a-button size="small" type="primary" html-type="submit">搜索</a-button>
+                <a-button type="primary" size="small" style="margin-top: 10px;" @click="saleList">出售列表</a-button>
               </a-form-item>
             </a-col>
           </a-row>
@@ -122,6 +123,9 @@ export default {
     this.getGameList();
   },
   methods: {
+    saleList(){
+      this.$router.push('/sale/list')
+    },
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {

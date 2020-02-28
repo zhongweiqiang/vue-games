@@ -1,6 +1,22 @@
 <template>
   <div :style="{display: 'inline'}">
-    <a-dropdown placement="bottomRight">
+    <a-row>
+      <a-col style="display: inline;" v-if="user_id != info.user_id">
+        <buy-modal ref="buy" :info="info" :on-buy="onBuy" />
+      </a-col>
+      <a-col style="display: inline;" v-if="user_id == info.user_id">
+        <a-button @click="downSale" type="primary" size="small" >下架</a-button>
+      </a-col>
+      <a-col style="display: inline;" v-if="user_id == info.user_id">
+        <buy-edit ref="edit" :info="info" :on-update="onBuy" />
+      </a-col>
+      <a-col v-if="user_id != info.user_id" style="display: inline;">
+        <pre-afford ref="afford" :info="info" :on-buy="onBuy" />
+      </a-col>
+    </a-row>
+
+
+     <!-- <a-dropdown placement="bottomRight">
       <a-menu slot="overlay" @click="handleMenuClick">
         <a-menu-item key="1" v-if="user_id != info.user_id">
           <buy-modal ref="buy" :info="info" :on-buy="onBuy" />
@@ -21,7 +37,7 @@
         操作
         <a-icon type="down" />
       </a-button>
-    </a-dropdown>
+    </a-dropdown>  -->
   </div>
 </template>
 
@@ -59,6 +75,9 @@ export default {
     };
   },
   methods: {
+    downSale(){
+      this.down(this.id)
+    },
     handleButtonClick(e) {
       console.log("click left button", e);
     },

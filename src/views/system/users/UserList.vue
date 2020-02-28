@@ -35,7 +35,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1000 }"
+       
         >
           <span slot="role" slot-scope="text">{{text.name}}</span>
           <span slot="status" slot-scope="text, record">
@@ -141,6 +141,10 @@ export default {
   methods: {
     // 页面搜索
     onSearch(value) {
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       console.log(value);
       if (!value.trim()) {
         return false;

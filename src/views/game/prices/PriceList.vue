@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="z-index:2; margin-bottom: 10px;">
+    <a-row style="margin-bottom: 10px;">
       <a-col :xs="16" :sm="16" :md="16" :lg="12" :xl="3" style="margin-top: 10px;">
         <price-add :on-add="onAdd" />
       </a-col>
@@ -19,6 +19,7 @@
 
       <a-col :xs="16" :sm="16" :md="16" :lg="5" :xl="5" :offset="1" style="margin-top: 10px;">
         <a-select
+        v-model="type"
           allowClear
           placeholder="面值状态"
           optionFilterProp="children"
@@ -39,7 +40,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1000 }"
         >
           <span slot="action" slot-scope="text">
             <price-edit :id="text.id" :on-edit="onEdit" />
@@ -74,7 +74,8 @@ const columns = [
   {
     title: "游戏名称",
     dataIndex: "name",
-    align: "center"
+    align: "center",
+    width: '150px'
   },
   {
     title: "面值名称",
@@ -84,7 +85,8 @@ const columns = [
   {
     title: "面值标识",
     dataIndex: "title",
-    align: "center"
+    align: "center",
+    width: '220px'
   },
   {
     title: "面值价格",
@@ -99,7 +101,8 @@ const columns = [
   {
     title: "状态",
     dataIndex: "status",
-    align: "center"
+    align: "center",
+    width: '80px'
   },
   {
     title: "操作",
@@ -120,11 +123,12 @@ export default {
       columns,
 
       // 给监听器使用的
+
       gold: "",
       filters: {},
       search: {},
       game_id: "",
-      type: "", // 面值状态
+      type: undefined, // 面值状态
     };
   },
   mounted() {
@@ -144,6 +148,7 @@ export default {
     }
   },
   methods: {
+
 
     onPriceSearch(value){
       if (value.trim() == "") {
@@ -171,7 +176,9 @@ export default {
         pageSize: this.pagination.pageSize,
         page: this.pagination.current,
         sortField: this.pagination.sortField,
-        sortOrder: this.pagination.sortOrder
+        sortOrder: this.pagination.sortOrder,
+        game_id: this.game_id,
+        status: this.type
       };
     },
 
@@ -180,17 +187,18 @@ export default {
     },
 
     onEdit() {
-      this.fetch(this.getPagination());
+      // this.fetch(this.getPagination());
+      this.onSearch()
     },
 
     onSelect(game_id) {
+      console.log(this.type)
+      
       this.game_id = game_id;
       this.fetch({ ...this.pagination, game_id });
     },
 
     handleTypeChange(value) {
-      this.type = value
-      // this.
       this.onSearch()
     },
 
@@ -241,7 +249,8 @@ export default {
         sortOrder: sorter.order,
         ...filters, // 此处放搜索字段
         gold: this.gold,
-        game_id: this.game_id
+        game_id: this.game_id,
+        status: this.type
       });
     },
 

@@ -27,14 +27,14 @@
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
 <script>
 import { index } from "@/api/dist";
 import OnSearch from "./OnSearch";
-import Dist from './DistComponent'
+import Dist from "./DistComponent";
 const columns = [
   // {
   //   title: "id",
@@ -67,7 +67,7 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center",
+    align: "center"
   }
 ];
 export default {
@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 20 },
+      pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
       columns,
       totalMoney: 0,
@@ -96,7 +96,11 @@ export default {
   methods: {
     // 页面搜索
     onSearch(value) {
-      this.search = value
+      this.search = value;
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ pageSize: this.pagination.pageSize, ...value });
     },
 
@@ -109,10 +113,9 @@ export default {
       };
     },
 
-    onDist(){
-      this.fetch({...this.getPagination(), ...this.search})
+    onDist() {
+      this.fetch({ ...this.getPagination(), ...this.search });
     },
-
 
     // 表格参数改变时
     handleTableChange(pagination, filters, sorter) {

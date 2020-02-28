@@ -17,7 +17,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 800 }"
         >
           <!-- <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
           <span slot="price" slot-scope="text">{{text.price.gold}}</span> -->
@@ -42,7 +41,7 @@
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
@@ -110,6 +109,66 @@ const columns = [
     // fixed: "right"
   }
 ];
+
+const normalColumns = [
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center",
+  //   // fixed: "left"
+  // },
+  {
+    title: "用户账户",
+    key: "user",
+    align: "center",
+    scopedSlots: { customRender: "user" },
+  },
+  {
+    title: "真实姓名",
+    dataIndex: "real_name",
+    align: "center",
+  },
+  {
+    title: "操作金额",
+    // dataIndex: "money",
+    key: 'money',
+    align: "center",
+    scopedSlots: { customRender: "money" },
+  },
+  {
+    title: "申请类型",
+    dataIndex: "type",
+    align: "center"
+  },
+    {
+    title: "账户类型",
+    dataIndex: "account_type",
+    align: "center"
+  },
+  {
+    title: "打款账户",
+    dataIndex: "account",
+    align: "center",
+  },
+    {
+    title: "状态",
+    dataIndex: "status",
+    align: "center"
+  },
+    {
+    title: "创建时间",
+    dataIndex: "created_at",
+    align: "center",
+  },
+  {
+    title: "操作",
+    key: "action",
+    scopedSlots: { customRender: "action" },
+    align: "center",
+    // fixed: "right"
+  }
+];
 export default {
   components: {
    OnSearch,
@@ -123,7 +182,7 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : normalColumns,
       selectedRowKeys: [],
 
       // 给监听器使用的
@@ -142,6 +201,10 @@ export default {
   methods: {
     onSearch(value) {
       this.search = value;
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ ...value, pageSize: this.pagination.pageSize });
     },
 

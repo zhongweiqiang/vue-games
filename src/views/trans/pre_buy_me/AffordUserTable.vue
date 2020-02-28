@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-row>
-      <a-col style="margin-top: 20px;">
+    <!-- <a-row>
+      <a-col> -->
         <a-table
           :columns="columns"
           :rowKey="record => record.id"
@@ -9,7 +9,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 800 }"
+         
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
           <!-- <span slot="game" slot-scope="text">{{text.game.name}}</span>
@@ -31,8 +31,8 @@
 
           </span>
         </a-table>
-      </a-col>
-    </a-row>
+      <!-- </a-col>
+    </a-row> -->
     <a-divider></a-divider>
   </div>
 </template>
@@ -54,7 +54,7 @@ const columns = [
     key: "user",
     align: "center",
     scopedSlots: { customRender: "user" },
-    fixed: "left"
+    // fixed: "left"
   },
   // {
   //   title: "游戏名称",
@@ -134,7 +134,7 @@ export default {
   data() {
     return {
       data: [],
-      pagination: { pageSize: 12 },
+      pagination: { pageSize: 15 },
       loading: false,
       columns,
       selectedRowKeys: [],

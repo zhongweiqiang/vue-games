@@ -23,7 +23,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 700 }"
+        
         >
           <span slot="key" slot-scope="text">
             <a-tag color="purple">{{text}}</a-tag>
@@ -110,6 +110,10 @@ export default {
       if (value.trim() == "") {
         return false;
       }
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       index({ key: value }).then(response => {
         console.log(response);
         this.data = response.data.data;

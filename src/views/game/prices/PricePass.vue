@@ -15,7 +15,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1000 }"
         >
           <span slot="action" slot-scope="text">
             <a-button size="small" type="primary" @click="pass(text.id)">恢</a-button>
@@ -38,7 +37,6 @@ const columns = [
     dataIndex: "id",
     sorter: true,
     align: "center",
-    fixed: "left"
   },
   {
     title: "游戏名称",
@@ -75,7 +73,6 @@ const columns = [
     key: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
-    fixed: "right"
   }
 ];
 export default {

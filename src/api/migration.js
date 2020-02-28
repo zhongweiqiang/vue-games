@@ -24,3 +24,11 @@ export function importStock(data){
         data
     })
 }
+
+export function ownerLessStock(data){
+    return request({
+        url: '/v1/stock/owner_less_stock',
+        method: 'get',
+        params: data
+    })
+}

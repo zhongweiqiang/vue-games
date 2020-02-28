@@ -12,7 +12,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1100 }"
+      
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
           <span slot="game" slot-scope="text">{{text.game.name}}</span>
@@ -28,7 +28,7 @@
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
@@ -133,6 +133,10 @@ export default {
   methods: {
     onSearch(value) {
       this.search = value;
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ ...value, pageSize: this.pagination.pageSize, type: 'all' });
     },
 

@@ -34,7 +34,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 900 }"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.name}}</span>
           <span slot="parent" v-else>无</span>
@@ -59,7 +58,7 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
@@ -81,7 +80,7 @@ const columns = [
     title: "权限描述",
     dataIndex: "description",
     align: "center",
-    width: '20%'
+    width: "20%"
   },
   {
     title: "父级权限",
@@ -93,7 +92,7 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center",
+    align: "center"
     // fixed: "right"
   }
 ];
@@ -110,7 +109,7 @@ export default {
       // 给监听器使用的
       name: "",
       filters: {},
-      description: '',
+      description: ""
     };
   },
   mounted() {
@@ -127,30 +126,34 @@ export default {
       if (newVal == "") {
         this.fetch({ pageSize: this.pagination.pageSize });
       }
-    },
+    }
   },
   methods: {
-    getPagination(){
+    getPagination() {
       return {
         pageSize: this.pagination.pageSize,
         page: this.pagination.current,
         sortField: this.pagination.sortField,
-        sortOrder: this.pagination.sortOrder,
-      }
+        sortOrder: this.pagination.sortOrder
+      };
     },
 
     onAdd() {
-      this.fetch(this.getPagination())
+      this.fetch(this.getPagination());
     },
 
     onEdit() {
-      this.fetch(this.getPagination())
+      this.fetch(this.getPagination());
     },
     // 页面搜索
     onSearch(value) {
       if (value.trim() == "") {
         return false;
       }
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       index({ name: value }).then(response => {
         console.log(response);
         this.data = response.data.data;
@@ -160,11 +163,15 @@ export default {
       });
     },
 
-        // 页面搜索
+    // 页面搜索
     onDescriptionSearch(value) {
       if (value.trim() == "") {
         return false;
       }
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       index({ description: value }).then(response => {
         console.log(response);
         this.data = response.data.data;

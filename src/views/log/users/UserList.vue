@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-row>
-      <a-col :span="18">
+      <a-col :span="18" style="z-index: 2;">
         <on-search @search="onSearch" />
       </a-col>
     </a-row>
@@ -14,7 +14,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 600 }"
+       
         >
           <span slot="user" v-if="text.user" slot-scope="text">{{text.user.name}}</span>
           <span slot="user" v-else-if="text.son" slot-scope="text">{{text.son.name}}</span>
@@ -24,7 +24,7 @@
         </a-table>
       </a-col>
     <!-- </a-row> -->
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
@@ -66,10 +66,7 @@ const columns = [
 
 const normaCcolumns = [
   {
-    title: "id",
-    dataIndex: "id",
-    sorter: true,
-    align: "center",
+
     // fixed: "left"
   },
     {
@@ -125,6 +122,10 @@ export default {
     // 页面搜索
     onSearch(value) {
       this.search = value
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ pageSize: this.pagination.pageSize, ...value });
     },
 

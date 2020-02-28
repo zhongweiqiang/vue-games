@@ -34,7 +34,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1100 }"
+      
         >
           <span slot="id" slot-scope="text">{{ text.user.id ? text.user.id: '' }}</span>
           <span slot="status" slot-scope="text">{{ text ? '启用' : '禁用' }}</span>
@@ -161,6 +161,10 @@ export default {
       if (value.trim() == "") {
         return false;
       }
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       index({ name: this.name.trim(), nickname: this.nickname.trim() }).then(
         response => {
           console.log(response);

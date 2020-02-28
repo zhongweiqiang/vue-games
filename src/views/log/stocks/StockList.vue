@@ -14,7 +14,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 600 }"
+      
         >
           <span slot="son" slot-scope="text">{{text.son.name}}</span>
           <span slot="game" slot-scope="text">{{text.store.price.game.name}}</span>
@@ -23,7 +23,7 @@
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
@@ -68,6 +68,38 @@ const columns = [
     // fixed: "right"
   }
 ];
+
+const userColumns = [
+    {
+    title: "所属用户",
+    key: "son",
+    align: "center",
+    scopedSlots: { customRender: "son" }
+  },
+  {
+    title: "游戏名称",
+    key: "game",
+    align: "center",
+    scopedSlots: { customRender: "game" }
+  },
+  {
+    title: "面值名称",
+    key: "gold",
+    align: "center",
+    scopedSlots: { customRender: "gold" }
+  },
+  {
+    title: "操作备注",
+    dataIndex: "description",
+    align: "center"
+  },
+  {
+    title: "操作时间",
+    dataIndex: "created_at",
+    align: "center",
+    // fixed: "right"
+  }
+];
 export default {
   components: { OnSearch },
   data() {
@@ -75,7 +107,7 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : userColumns,
       totalMoney: 0,
       // checked: false,
 
@@ -102,6 +134,10 @@ export default {
     // 页面搜索
     onSearch(value) {
       this.search = value
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ pageSize: this.pagination.pageSize, ...value });
     },
 

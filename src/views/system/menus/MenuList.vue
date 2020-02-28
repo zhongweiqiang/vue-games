@@ -2,7 +2,7 @@
   <div>
     <a-row>
       <a-col :span="3" :xs="24" :sm="5" :md="4" :lg="3">
-        <menu-add :on-add="onAdd"  />
+        <menu-add :on-add="onAdd" />
       </a-col>
       <a-col :span="8" :xs="24" :sm="10" :md="9" :lg="8">
         <a-input-search
@@ -23,7 +23,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 900 }"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
@@ -40,14 +39,14 @@
 
 <script>
 import { index, del } from "@/api/menu";
-import MenuAdd from './MenuAdd'
-import MenuEdit from './MenuEdit'
+import MenuAdd from "./MenuAdd";
+import MenuEdit from "./MenuEdit";
 const columns = [
   {
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
@@ -85,7 +84,7 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center",
+    align: "center"
     // fixed: "right"
   }
 ];
@@ -123,6 +122,10 @@ export default {
       if (value.trim() == "") {
         return false;
       }
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       index({ title: value }).then(response => {
         console.log(response);
         this.data = response.data.data;
@@ -132,24 +135,22 @@ export default {
       });
     },
 
-    getPagination(){
+    getPagination() {
       return {
         pageSize: this.pagination.pageSize,
         page: this.pagination.current,
         sortField: this.pagination.sortField,
-        sortOrder: this.pagination.sortOrder,
-      }
+        sortOrder: this.pagination.sortOrder
+      };
     },
 
-    onAdd(){
-      this.fetch({ pageSize: this.pagination.pageSize })
+    onAdd() {
+      this.fetch({ pageSize: this.pagination.pageSize });
     },
 
-    onEdit(){
-      this.fetch(this.getPagination())
+    onEdit() {
+      this.fetch(this.getPagination());
     },
-
-
 
     // 表格参数改变时
     handleTableChange(pagination, filters, sorter) {

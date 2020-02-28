@@ -1,6 +1,21 @@
 <template>
   <div :style="{display: 'inline'}">
-    <a-dropdown placement="bottomRight">
+
+    <a-row>
+      <a-col style="display: inline;" v-if="user_id != info.user_id">
+        <buy-modal ref="buy" :info="info" :on-buy="onBuy" />
+      </a-col>
+      <a-col style="display: inline;" v-if="user_id == info.user_id || role_id == 1">
+        <a-button size="small" type="primary" @click="operation">下架</a-button>
+      </a-col>
+      <a-col style="display: inline;" v-if="user_id == info.user_id">
+        <sale-edit ref="edit" :info="info" :on-update="onBuy" />
+      </a-col>
+    </a-row>
+
+
+
+    <!-- <a-dropdown placement="bottomRight">
       <a-menu slot="overlay" @click="handleMenuClick">
         <a-menu-item key="1" v-if="user_id != info.user_id">
           <buy-modal ref="buy" :info="info" :on-buy="onBuy" />
@@ -19,7 +34,9 @@
         
         <a-icon type="down" />
       </a-button>
-    </a-dropdown>
+    </a-dropdown> -->
+
+
   </div>
 </template>
 
@@ -56,8 +73,14 @@ export default {
     };
   },
   methods: {
-    handleButtonClick(e) {
-      console.log("click left button", e);
+    // handleButtonClick(e) {
+    //   console.log("click left button", e);
+    // },
+
+// 下架订单
+    operation(){
+      console.log('dddd')
+      this.down(this.id);
     },
     handleMenuClick(e) {
       console.log("click", e.key);
@@ -89,7 +112,9 @@ export default {
         },
         onCancel() {
           self.$message.info("取消下架");
-        }
+        },
+        onText: '确定',
+        cancelText: '取消'
       });
     },
     buy_store() {

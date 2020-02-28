@@ -14,7 +14,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 900 }"
+      
         >
           <span slot="user" v-if="text.user" slot-scope="text">{{text.user.name}}</span>
           <span slot="user" v-else-if="text.son" slot-scope="text">{{text.son.name}}</span>
@@ -24,7 +24,7 @@
         </a-table>
       </a-col>
     <!-- </a-row> -->
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
@@ -68,6 +68,44 @@ const columns = [
   },
 
 ];
+
+const normalColumns = [
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center",
+  //   // fixed: "left"
+  // },
+    {
+    title: "所属用户",
+    key: "user",
+    align: "center",
+    scopedSlots: { customRender: "user" }
+  },
+  {
+    title: "手续费金额",
+    dataIndex: "money",
+    align: "center",
+  },
+    {
+    title: "订单号",
+    dataIndex: "order_num",
+    align: "center",
+  },
+  {
+    title: "描述",
+    dataIndex: "description",
+    align: "center",
+  },
+  {
+    title: "处理时间",
+    dataIndex: "created_at",
+    align: "center",
+    // fixed: "right"
+  },
+
+];
 export default {
   components: { OnSearch },
   data() {
@@ -75,7 +113,7 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : normalColumns,
       totalMoney: 0,
       // checked: false,
 
@@ -102,6 +140,10 @@ export default {
     // 页面搜索
     onSearch(value) {
       this.search = value
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ pageSize: this.pagination.pageSize, ...value });
     },
 

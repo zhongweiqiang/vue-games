@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <a-row>
+  <div style="background: #ECECEC; padding: 30px; padding-top: 0px;">
+    <a-row style="background: #fff;">
       <a-col>
         <a-table
           :columns="columns"
@@ -29,7 +29,7 @@ import { index, del } from "@/api/notice";
 import Detail from './Detail'
 const columns = [
   {
-    title: "公告标题",
+    title: "公告",
     dataIndex: "title",
     align: "center"
   },
@@ -40,7 +40,7 @@ const columns = [
 //     align: "center"
 //   },
     {
-    title: "发布时间",
+    title: "日期",
     dataIndex: "created_at",
     align: "center"
   },

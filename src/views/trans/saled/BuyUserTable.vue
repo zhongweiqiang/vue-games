@@ -10,7 +10,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 500 }"
+        
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
           <!-- <span slot="game" slot-scope="text">{{text.game.name}}</span>

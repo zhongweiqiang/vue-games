@@ -18,7 +18,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 900 }"
+          
         >
           <span slot="money" slot-scope="text">{{text.money}}元</span>
           <span
@@ -28,7 +28,7 @@
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
@@ -136,6 +136,10 @@ export default {
     // 页面搜索
     onSearch(value) {
       this.search = value
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ pageSize: this.pagination.pageSize, ...value });
     },
 

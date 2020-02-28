@@ -19,9 +19,9 @@
         </a-col>
       </a-row>
       <a-row>
-        <a-col>
+        <!-- <a-col>
           <description-item title="登陆ip" :content="info.last_login_ip" />
-        </a-col>
+        </a-col> -->
         <a-col>
           <description-item title="收费模式" v-if="info.userinfo" :content="info.userinfo.charge_status" />
         </a-col>

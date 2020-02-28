@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-row style="z-index: 2;">
+    <a-row style="z-index: 2; margin-bottom: 70px;">
       <a-col :span="20">
         <on-search @search="onSearch" />
       </a-col>
@@ -23,15 +23,15 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1300 }"
           :rowSelection="role_id == 1 ? {selectedRowKeys: selectedRowKeys, onChange: onSelectChange} : null"
+          style="min-width: 1100px;"
         >
           <span slot="game" slot-scope="text">{{text.price.game.name}}</span>
           <span slot="price" slot-scope="text">{{text.price.gold}}</span>
           <span slot="money" slot-scope="text">{{text.price.money}}</span>
           <span slot="owner_user_id" slot-scope="text">
-            <div v-if="text.son">{{ text.son.name }}</div>
-            <div v-else>{{ text.user.name }}</div>
+            <div v-if="text.son">{{ text.son ? text.son.name : '已删除' }}</div>
+            <div v-else>{{ text.user ? text.user.name : '已删除' }}</div>
           </span>
           <span slot="use_time" v-if="text" slot-scope="text">{{text}}</span>
           <span slot="use_time" v-else>未使用</span>
@@ -39,18 +39,30 @@
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
           <span slot="action" slot-scope="text">
-            <drop-down :id="text.id" @update="onUpdate" />
+            <drop-down v-if="hasPermission('stock.forbidden')" :id="text.id" @update="onUpdate" />
+            <a-button style="margin-top: 2px;"
+              v-if="!hasPermission('stock.forbidden')"
+              type="primary"
+              size="small"
+              @click="restore(5, text.id)"
+            >恢复</a-button>
+            <a-button style="margin-top: 2px;"
+              v-if="!hasPermission('stock.forbidden')"
+              type="primary"
+              size="small"
+              @click="restore(2, text.id)"
+            >已用</a-button>
             <detail v-if="hasPermission('stock.detail')" :text="text" />
           </span>
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
 <script>
-import { index, del } from "@/api/stock";
+import { index, del, status } from "@/api/stock";
 import DropDown from "./DropDown";
 import Detail from "./Detail";
 
@@ -60,7 +72,7 @@ const columns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
@@ -118,7 +130,7 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center",
+    align: "center"
     // fixed: "right"
   }
 ];
@@ -128,7 +140,7 @@ const normalColumns = [
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
@@ -181,7 +193,7 @@ const normalColumns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center",
+    align: "center"
     // fixed: "right"
   }
 ];
@@ -198,8 +210,7 @@ export default {
     this.role_id = this.$store.getters.info.role_id;
   },
 
-  watch: {
-  },
+  watch: {},
   data() {
     return {
       data: [],
@@ -223,6 +234,10 @@ export default {
 
   methods: {
     onSearch(value) {
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.search = value;
       this.fetch({ ...value, pageSize: this.pagination.pageSize });
     },
@@ -243,13 +258,43 @@ export default {
       };
     },
 
-    // 点击状态修改时
-    status(id) {
-      status({ id }).then(response => {
-        // console.log(response);
-        this.fetch(this.getPagination());
+    // 用户恢复凭证
+    restore(stats, id) {
+      console.log(status + "-++" + id);
+      const self = this;
+      let cnt = null;
+      if (stats == 5) {
+        cnt = "恢复";
+      } else if (stats == 2) {
+        cnt = "已使用";
+      }
+      this.$confirm({
+        content: "确认" + cnt + "操作？",
+        cancelText: "取消",
+        okText: "确定",
+        onOk() {
+          return new Promise((resolve, reject) => {
+            status({ id, status: stats }).then(response => {
+              self.$message.success(response.message);
+              self.onUpdate()
+            });
+            self.destroyAll();
+          });
+        },
+        onCancel() {
+          self.destroyAll();
+          self.$message.info("取消" + cnt + "操作", 2);
+        }
       });
     },
+
+    // // 点击状态修改时
+    // status(id) {
+    //   status({ id }).then(response => {
+    //     // console.log(response);
+    //     this.fetch(this.getPagination());
+    //   });
+    // },
 
     // 表格参数改变时
     handleTableChange(pagination, filters, sorter) {
@@ -324,7 +369,7 @@ export default {
                 ...self.filters
               });
               self.destroyAll();
-              self.selectedRowKeys = []
+              self.selectedRowKeys = [];
             });
           });
         },

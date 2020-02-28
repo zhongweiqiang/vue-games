@@ -58,6 +58,13 @@ export default {
         if (!err) {
           console.log("Received values of form: ", values);
           console.log('ids', self.id)
+          if(values.user_type == undefined){
+            this.$message.warning('请选择账户类型')
+            return
+          } else if(values.user_id == undefined){
+            this.$message.warning('请选择用户')
+            return
+          }
           values.id = self.id
           distribution(values).then(response => {
             //   console.log(response)

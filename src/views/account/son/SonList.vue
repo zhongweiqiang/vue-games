@@ -21,7 +21,8 @@
         :xl="3"
         :style="{marginTop: '10px', marginLeft: '20px'}"
       >
-        <a-input allowClear v-model="name" placeholder="请输入主账户名称" @search="search" size="small" />
+        <a-input allowClear v-model="name" placeholder="请输入主账户名称"  size="small" />
+
       </a-col>
       <a-col
         :xs="16"
@@ -101,7 +102,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{x: 1000}"
+          
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.name}}</span>
           <span slot="parent" v-else>无</span>
@@ -142,7 +143,7 @@ import SonAdd from "./SonAdd";
 import SonEdit from "./SonEdit";
 import Transfer from "./Transfer";
 import StockList from "./StockList";
-var columns = [
+const columns = [
   {
     title: "id",
     dataIndex: "id",
@@ -184,7 +185,38 @@ var columns = [
     // fixed: "right"
   }
 ];
-// var suit = { x: 600 }
+
+const sonColumns = [
+
+  {
+    title: "子账户名称",
+    dataIndex: "name",
+    align: "center",
+    // fixed: "left"
+  },
+  {
+    title: "账户类型",
+    dataIndex: "type",
+    align: "center"
+  },
+  {
+    title: "状态",
+    dataIndex: "status",
+    align: "center"
+  },
+  {
+    title: "创建时间",
+    dataIndex: "created_at",
+    align: "center"
+  },
+  {
+    title: "操作",
+    key: "action",
+    scopedSlots: { customRender: "action" },
+    align: "center",
+    // fixed: "right"
+  }
+];
 
 export default {
   components: { SonAdd, SonEdit, Transfer, StockList },
@@ -193,7 +225,7 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : sonColumns,
       // checked: false,
 
       // 给监听器使用的
@@ -248,6 +280,10 @@ export default {
     },
 
     search() {
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       index({
         name: this.name,
         son: this.son,

@@ -9,7 +9,7 @@
       :dataSource="data"
       :loading="loading"
       :rowKey="record => record.id"
-      :scroll="{ x: 500 }"
+    
     >
       <span slot="action" slot-scope="text">
         <a-button size="small" type="primary" @click="edit(text.id)" icon="edit" />

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-button size="small" type="primary" :style="{marginTop: '2px'}" @click="showModal">
-        出售商品
+    <a-button size="small" type="primary"  @click="showModal">
+        发布
     </a-button>
     <a-modal
       title="发布商品"

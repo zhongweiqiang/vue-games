@@ -27,7 +27,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 800 }"
         >
           <span slot="parent" v-if="text" slot-scope="text">{{text.title}}</span>
           <span slot="parent" v-else>无</span>
@@ -42,20 +41,20 @@
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
 <script>
 import { index, del, status } from "@/api/device";
 import SonSelect from "./SonSelect";
-import StatusSearch from './StatusSearch'
+import StatusSearch from "./StatusSearch";
 const columns = [
   {
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
@@ -82,7 +81,7 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
-    align: "center",
+    align: "center"
     // fixed: "right"
   }
 ];
@@ -120,10 +119,12 @@ export default {
       if (value.trim() == "") {
         return false;
       }
+
       index({ device: value }).then(response => {
         console.log(response);
         this.data = response.data.data;
         const pager = { ...this.pagination };
+        pager.current = 1;
         pager.total = response.data.total;
         this.pagination = pager;
       });
@@ -138,12 +139,20 @@ export default {
       };
     },
 
-    onStatusSelect(status){
-      this.fetch({ status })
+    onStatusSelect(status) {
+      this.fetch({ status });
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
     },
 
     onSelect(son_id) {
       this.fetch({ son_id });
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
     },
 
     // 点击状态修改时
@@ -190,7 +199,7 @@ export default {
       // this.tag_data();
     },
 
-        // 删除用户
+    // 删除用户
     del(id) {
       const self = this;
       this.$confirm({

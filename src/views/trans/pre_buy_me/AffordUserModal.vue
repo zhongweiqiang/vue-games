@@ -34,3 +34,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.ant-modal-body{
+  padding-top: 0px;
+}
+</style>

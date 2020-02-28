@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <a-icon type="money" @click="showModal" />供货
+  <div style="display: inline;">
+    <!-- <a-icon type="money" @click="showModal" />供货 -->
+    <a-button type="primary" size="small" @click="showModal">供货</a-button>
     <a-modal
       title="供货"
       :visible="visible"

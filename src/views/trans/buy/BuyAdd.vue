@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <a-button size="small" type="primary" :style="{marginTop: '2px'}" @click="showModal">
+  <div style="display: inline-block;">
+    <a-button size="small" type="primary" @click="showModal">
         发布预购
     </a-button>
     <a-modal

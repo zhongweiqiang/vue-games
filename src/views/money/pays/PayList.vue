@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #ececec; padding: 20px; margin-top: 5%;">
+  <div style=" padding: 20px; margin-top: 5%;">
     <a-row :gutter="16">
       <a-col :xs="20" :sm="20" :md="20" :lg="4" :xl="4" style="min-width: 150px;">
         <a-card title="微信" :bordered="false">

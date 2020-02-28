@@ -23,7 +23,7 @@
         </a-table>
       </a-col>
     <!-- </a-row> -->
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 

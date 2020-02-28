@@ -1,7 +1,7 @@
 <template>
   <div>
       <dash-card :data="data" />
-      <table-list :data="table" />
+      <!-- <table-list :data="table" /> -->
       <notice-list />
       <notice-modal />
   </div>

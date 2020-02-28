@@ -9,7 +9,7 @@
         <a-tag color="#108ee9">总额: {{ totalMoney }}</a-tag>
       </a-col>
     </a-row>
-    <a-row>
+    <a-row style="margin-top: 70x;">
       <a-col>
         <a-table
           :columns="columns"
@@ -18,7 +18,7 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1000 }"
+          
         >
           <span slot="money" slot-scope="text">{{text.money}}元</span>
           <span
@@ -28,7 +28,7 @@
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
@@ -77,6 +77,49 @@ const columns = [
     // fixed: "right"
   }
 ];
+
+const userColumns = [
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center",
+  //   // fixed: "left"
+  // },
+  {
+    title: "游戏名称",
+    dataIndex: "game_name",
+    align: "center"
+  },
+  {
+    title: "面值名称",
+    dataIndex: "gold",
+    align: "center"
+  },
+  {
+    title: "面值价格",
+    key: "money",
+    align: "center",
+    scopedSlots: { customRender: "money" }
+  },
+  // {
+  //   title: "用户名称",
+  //   dataIndex: "son_name",
+  //   align: "center"
+  // },
+  {
+    title: "总数",
+    dataIndex: "total",
+    align: "center"
+  },
+  // {
+  //   title: "总额",
+  //   key: "totalMoney",
+  //   align: "center",
+  //   scopedSlots: { customRender: "totalMoney" },
+  //   // fixed: "right"
+  // }
+];
 export default {
   components: { OnSearch },
   data() {
@@ -84,7 +127,7 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : userColumns,
       totalMoney: 0,
       // checked: false,
 
@@ -111,6 +154,10 @@ export default {
     // 页面搜索
     onSearch(value) {
       this.search = value
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ pageSize: this.pagination.pageSize, ...value})
     },
 

@@ -1,14 +1,14 @@
 <template>
   <div>
     <a-row style="z-index: 2;">
-      <a-col :span="22">
+      <a-col>
         <on-search @search="onSearch" :on-add="onUpdate" />
       </a-col>
-      <a-col :span="2" style="margin-top: 17px;">
-        <!-- <a-button v-if="hasPermission('stock.delete')" type="danger" size="small" @click="del">删除</a-button> -->
-      </a-col>
+      <!-- <a-col :span="2" style="margin-top: 17px;">
+        <a-button v-if="hasPermission('stock.delete')" type="danger" size="small" @click="del">删除</a-button>
+      </a-col> -->
     </a-row>
-    <a-row style="margin-top: 50px;">
+    <a-row style="margin-top: 20px; overflow: auto; height: 100%; width: 100%; min-width: 1000px;">
       <a-col>
         <a-table
           :columns="columns"
@@ -17,7 +17,6 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          :scroll="{ x: 1100 }"
         >
           <span slot="user" slot-scope="text">{{text.user.nickname}}</span>
           <span slot="game" slot-scope="text">{{text.game.name}}</span>
@@ -28,33 +27,39 @@
             <div v-else>{{ text.user.name }}</div>
           </span>
           <span slot="action" slot-scope="text">
-            <drop-down :id="text.id" :info="text" :on-buy="buy" @update="onUpdate" :status="text.status" />
+            <drop-down
+              :id="text.id"
+              :info="text"
+              :on-buy="buy"
+              @update="onUpdate"
+              :status="text.status"
+            />
           </span>
         </a-table>
       </a-col>
     </a-row>
-    <a-divider></a-divider>
+    <!-- <a-divider></a-divider> -->
   </div>
 </template>
 
 <script>
 import { index } from "@/api/buy";
 import OnSearch from "./OnSearch";
-import DropDown from './DropDown'
+import DropDown from "./DropDown";
 
 const columns = [
   {
     title: "id",
     dataIndex: "id",
     sorter: true,
-    align: "center",
+    align: "center"
     // fixed: "left"
   },
   {
     title: "用户账户",
     key: "user",
     align: "center",
-    scopedSlots: { customRender: "user" },
+    scopedSlots: { customRender: "user" }
     // fixed: "left"
   },
   {
@@ -85,7 +90,7 @@ const columns = [
     align: "center",
     scopedSlots: { customRender: "total_money" }
   },
-    {
+  {
     title: "订单号",
     dataIndex: "order_num",
     align: "center"
@@ -104,7 +109,75 @@ const columns = [
     title: "操作",
     key: "action",
     scopedSlots: { customRender: "action" },
+    align: "center"
+    // fixed: "right"
+  }
+];
+
+const userColumns = [
+  // {
+  //   title: "id",
+  //   dataIndex: "id",
+  //   sorter: true,
+  //   align: "center",
+  //   // fixed: "left"
+  // },
+  // {
+  //   title: "用户账户",
+  //   key: "user",
+  //   align: "center",
+  //   scopedSlots: { customRender: "user" },
+  //   // fixed: "left"
+  // },
+  {
+    title: "订单号",
+    dataIndex: "order_num",
+    align: "center"
+  },
+  {
+    title: "游戏名称",
+    key: "game",
     align: "center",
+    scopedSlots: { customRender: "game" }
+  },
+  {
+    title: "面值名称",
+    key: "price",
+    align: "center",
+    scopedSlots: { customRender: "price" }
+  },
+  {
+    title: "发布数量",
+    dataIndex: "unit",
+    align: "center"
+  },
+  {
+    title: "订单单价",
+    dataIndex: "unit_price",
+    align: "center"
+  },
+  {
+    title: "订单总价",
+    key: "total_money",
+    align: "center",
+    scopedSlots: { customRender: "total_money" }
+  },
+
+  {
+    title: "状态",
+    dataIndex: "status",
+    align: "center"
+  },
+  {
+    title: "发布时间",
+    dataIndex: "created_at",
+    align: "center"
+  },
+  {
+    title: "操作",
+    key: "action",
+    scopedSlots: { customRender: "action" },
+    align: "center"
     // fixed: "right"
   }
 ];
@@ -121,7 +194,7 @@ export default {
       data: [],
       pagination: { pageSize: this.$store.getters.pagesize },
       loading: false,
-      columns,
+      columns: this.$store.getters.info.role_id == 1 ? columns : userColumns,
       selectedRowKeys: [],
 
       // 给监听器使用的
@@ -140,6 +213,10 @@ export default {
   methods: {
     onSearch(value) {
       this.search = value;
+      const pager = { ...this.pagination };
+      // 将必要参数都放入pagination
+      pager.current = 1;
+      this.pagination = pager;
       this.fetch({ ...value, pageSize: this.pagination.pageSize });
     },
 
@@ -150,8 +227,8 @@ export default {
       });
     },
 
-    buy(){
-        this.onUpdate()
+    buy() {
+      this.onUpdate();
     },
 
     getPagination() {
